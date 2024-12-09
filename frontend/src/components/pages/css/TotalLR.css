@@ -1,0 +1,216 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f6f9;
+    margin: 0;
+    padding: 0;
+    
+}
+
+.lorry-receipt {
+    width: 100%;
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Header Section */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+}
+
+header .logo {
+    max-height: 80px;
+}
+
+.company-info h2 {
+    font-size: 24px;
+    color: #2c3e50;
+    margin: 0;
+    padding: 0;
+}
+
+.company-info address {
+    font-size: 14px;
+    color: #7f8c8d;
+    margin: 5px 0;
+}
+
+.company-info p {
+    font-size: 14px;
+    color: #7f8c8d;
+}
+
+/* Container */
+.container {
+    max-width: 1500px;
+    height: 100%;
+    padding: 20px;
+}
+
+button.export {
+    background-color: #3498db;
+    color: #fff;
+    font-size: 16px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 10px;
+    transition: background-color 0.3s ease;
+}
+
+button.export:hover {
+    background-color: #2980b9;
+}
+
+table.lorry-receipt-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 14px;
+    color: #333;
+}
+
+table.lorry-receipt-table {
+    width: 100%; /* Ensure the table takes the full width */
+    border-collapse: collapse; /* Remove space between borders */
+    table-layout: fixed; /* Use fixed layout to prevent overlapping */
+}
+
+table.lorry-receipt-table th {
+    background-color: #3498db; /* Header background color */
+    color: #fff; /* Header text color */
+    font-weight: bold; /* Bold header text */
+    text-align: center; /* Align text to the center */
+    justify-content: center; /* Align horizontally */
+    align-items: center; /* Align vertically */
+    padding: 16px; /* Correct padding syntax */
+    border: 1px solid #ddd; /* Border for table cells */
+}
+
+/* Other existing CSS code */
+
+table.lorry-receipt-table td {
+    height: 50px; /* Increased height */
+    color: #333; /* Header text color */
+    font-weight: bold; /* Bold header text */
+    text-align: center; /* Align text to the center */
+    justify-content: center; /* Align horizontally */
+    align-items: center; /* Align vertically */
+    padding: 0px; /* Correct padding syntax */
+    border: 1px solid #ddd; /* Border for table cells */
+}
+
+
+ 
+
+
+table.lorry-receipt-table th {
+    background-color: #3498db; /* Header background color */
+    color: #fff; /* Header text color */
+    font-weight: bold; /* Bold header text */
+}
+
+table.lorry-receipt-table tbody tr:nth-child(even) {
+    background-color: #f2f2f2; /* Alternate row background color */
+}
+
+table.lorry-receipt-table tbody tr:hover {
+    background-color: #e6f2ff; /* Hover effect for rows */
+}
+/* Actions */
+.actions {
+    display: flex;
+    margin-top: 0px;
+    justify-content: space-evenly;
+    align-items: center;
+
+}
+
+button.edit, button.download, button.share {
+    background-color: #2ecc71;
+    color: #fff;
+    font-size: 10px;
+    padding: 8px, 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin: 0 5px;
+}
+
+button.edit:hover {
+    background-color: #27ae60;
+}
+
+button.download {
+    background-color: #e74c3c;
+}
+
+button.download:hover {
+    background-color: #c0392b;
+}
+
+button.share {
+    background-color: #f39c12;
+}
+
+button.share:hover {
+    background-color: #e67e22;
+}
+
+button i {
+    margin-right: 5px;
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .company-info h2 {
+        font-size: 22px;
+    }
+
+    .company-info address, .company-info p {
+        font-size: 12px;
+    }
+
+    table.lorry-receipt-table th, table.lorry-receipt-table td {
+        padding: 10px;
+    }
+
+    button.export {
+        width: 100%;
+        margin: 10px 0;
+    }
+
+    .actions {
+        flex-direction: column;
+    }
+
+    button.edit, button.download, button.share {
+        width: 100%;
+        margin: 5px 0;
+    }
+}
+
+/* Table Footer (Optional) */
+table.lorry-receipt-table tfoot {
+    background-color: #ecf0f1;
+    font-weight: bold;
+}
+
+table.lorry-receipt-table tfoot td {
+    padding: 10px 15px;
+}

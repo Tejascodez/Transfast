@@ -1,12 +1,21 @@
-// routes/lrRoutes.js
 const express = require('express');
 const router = express.Router();
-const { createLR, getLRs, getLR, updateLR, deleteLR } = require('../controllers/lrController');
+const {
+    createLorryReceipt,
+    getAllLorryReceipts,
+    getLorryReceipt,
+    updateLorryReceipt,
+    deleteLorryReceipt
+} = require('../controllers/lrController');
 
-router.post('/', createLR);
-router.get('/', getLRs);
-router.get('/:id', getLR);
-router.put('/:id', updateLR);
-router.delete('/:id', deleteLR);
+router.post('/', createLorryReceipt);
+router.get('/', getAllLorryReceipts);
+router.get('/:id', getLorryReceipt);
+router.put('/:id', updateLorryReceipt);
+router.delete('/:id', (req, res, next) => {
+    console.log('ID to delete:', req.params.id); // Log the ID to see if it's coming in correctly
+    next();
+}, deleteLorryReceipt);
+
 
 module.exports = router;

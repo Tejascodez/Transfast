@@ -1,19 +1,21 @@
 /* Navbar container */
-body{
-  overflow: auto;
-}
+
 .navbar {
-    display: flex;
-    flex-direction: column;
+    /* display: flex; */
+
+    flex-direction: column; 
+    
     align-items: center;
     font-family: 'Arial', sans-serif;
     position: relative;
+    position: fixed;
   }
   
   /* Navbar header (top bar) */
   .navbar-header {
     display: flex;
     justify-content: space-between;
+    padding-left: -10px;
     gap: 30px;
     align-items: center;
     background: linear-gradient(to right, #6a11cb, #2575fc); /* Attractive gradient */

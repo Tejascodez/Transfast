@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const authRoutes = require('./routes/auth');
 const bcrypt = require('bcrypt');
 const cors = require('cors');
-
+const lrRoutes = require('./routes/lrRoutes');
 
 const app = express();
 app.use(cors());
@@ -26,6 +26,8 @@ app.use(bodyParser.json());
 
 // Register routes
 app.use('/api/auth', authRoutes);
+
+app.use('/api/lorryReceipts', lrRoutes);
 
 // Start the server
 const port = PORT || 5000; // Fallback to port 5000 if PORT is not defined

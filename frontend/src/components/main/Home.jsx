@@ -1,44 +1,87 @@
-import React from 'react';
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom
-import { FaFile, FaTruck, FaListAlt, FaCar, FaBox, FaClipboardList, FaToolbox } from 'react-icons/fa'; // Import specific icons
-import Navbar from './Navbar'; // Import the Navbar component
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { FaFile, FaTruck, FaListAlt, FaCar, FaBox, FaClipboardList } from 'react-icons/fa';
+import Navbar from './Navbar';
+import CreateLR from '../pages/CreateLR';
+import Modal from 'react-modal';
+import './Home.css';
 
-import './Home.css'; // Optional: Create a CSS file for Home component styles
+// Set the app element for accessibility
+Modal.setAppElement('#root');
 
 const Home = () => {
-  
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  const handleOpenModal = (e) => {
+    e.preventDefault();
+    setModalIsOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalIsOpen(false);
+  };
+
   return (
-    <div className='container'>
+    <div className="container">
       <Navbar />
       <div className="content">
-        <h1>TransFast Corparation</h1>
+        <h1>TransFast Corporation</h1>
         <div className="grid-container">
-          <Link to='/createlr' className="grid-item">
+          <div className="grid-item" onClick={handleOpenModal}>
             <FaFile /> Create LR
-          </Link>
-          <Link to='/createchallan' className="grid-item">
+          </div>
+          <Link to="/createchallan" className="grid-item">
             <FaClipboardList /> Create Challan
           </Link>
-          <Link to='/expiring' className="grid-item">
+          <Link to="/expiring" className="grid-item">
             <FaListAlt /> Expiring Lorry Bills
           </Link>
-          <Link to='/pending' className="grid-item">
+          <Link to="/pending" className="grid-item">
             <FaListAlt /> Pending LR
           </Link>
-          <Link to='/total' className="grid-item">
+          <Link to="/totallrs" className="grid-item">
             <FaFile /> Total LR
           </Link>
-          <Link to='/rt' className="grid-item">
+          <Link to="/rt" className="grid-item">
             <FaTruck /> Rahul Transport
           </Link>
-          <Link to='/pallate' className="grid-item">
+          <Link to="/pallate" className="grid-item">
             <FaBox /> Pallate
           </Link>
-          <Link to='/vechicle' className="grid-item">
+          <Link to="/vechicle" className="grid-item">
             <FaCar /> Vehicles Docs
           </Link>
         </div>
       </div>
+
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={handleCloseModal}
+        style={{
+          content: {
+            width: '80%',
+            borderRadius: '20px',
+            height: '80%',
+            margin: 'auto',
+            padding: '20px',
+            
+            screenX: 'hidden',
+
+           // Ensures that the content is scrollable
+          },
+          overlay: {
+            backgroundColor: 'rgba(0, 0, 0, 0.75)'
+          }
+        }}
+      >
+        <div className="modal-header">
+          <h2>Create LR</h2>
+          <button className="close-button" onClick={handleCloseModal}>X</button>
+        </div>
+        <div className="modal-content">
+          <CreateLR />
+        </div>
+      </Modal>
     </div>
   );
 };
