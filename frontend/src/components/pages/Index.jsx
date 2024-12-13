@@ -6,7 +6,7 @@ import Pallate from './Pallate';
 import Pending from './Pending';
 import RahulTransport from './RahulTransport';
 import TotalLR from './TotalLR';
-import VehiclesDocs from './VehiclesDocs';
+
 
 const Index = () => {
   return (
@@ -26,5 +26,5 @@ export {
   Pending,
   RahulTransport,
   TotalLR,
-  VehiclesDocs
+
 };

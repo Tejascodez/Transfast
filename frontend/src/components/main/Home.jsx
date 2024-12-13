@@ -25,10 +25,10 @@ const Home = () => {
     <div className="container">
       <Navbar />
       <div className="content">
-        <h1>TransFast Corporation</h1>
+        {/* <h1>TransFast Corporation</h1> */}
         <div className="grid-container">
           <div className="grid-item" onClick={handleOpenModal}>
-            <FaFile /> Create LR
+            <FaFile /> Create  LR
           </div>
           <Link to="/createchallan" className="grid-item">
             <FaClipboardList /> Create Challan
@@ -36,7 +36,7 @@ const Home = () => {
           <Link to="/expiring" className="grid-item">
             <FaListAlt /> Expiring Lorry Bills
           </Link>
-          <Link to="/pending" className="grid-item">
+          <Link to="/pendinglrs" className="grid-item">
             <FaListAlt /> Pending LR
           </Link>
           <Link to="/totallrs" className="grid-item">
@@ -48,7 +48,7 @@ const Home = () => {
           <Link to="/pallate" className="grid-item">
             <FaBox /> Pallate
           </Link>
-          <Link to="/vechicle" className="grid-item">
+          <Link to="/vehicle" className="grid-item">
             <FaCar /> Vehicles Docs
           </Link>
         </div>
@@ -74,11 +74,11 @@ const Home = () => {
           }
         }}
       >
-        <div className="modal-header">
+        <div className="modal-header-lr">
           <h2>Create LR</h2>
           <button className="close-button" onClick={handleCloseModal}>X</button>
         </div>
-        <div className="modal-content">
+        <div className="modal-content-lr">
           <CreateLR />
         </div>
       </Modal>

@@ -1,15 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect} from 'react';
 import './css/lrstyle.css';
+import axios     from 'axios'
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Import the FontAwesomeIcon component
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'; // Import the specific icon
-
+import ReactSearchBox from  'react-search-box';
 const CreateLR = () => {
+    const [receipts, setReceipts] = useState([]);
+    const [searchQuery,setSearchQuery] = useState('');
+    const [increment,setIncrement] = useState('');
     const [formData, setFormData] = useState({
+        lrNumber: `TC${new Date().getFullYear()} ${String(1).padStart(3, '0')}`,    
         lrDate: '',
         from: '',
         to: '',
+        vehicleNumber:'',
         lorryNumber: '',
+        driversName:'',
         driversContact: '',
         loadType: 'Full',
         consignor: '',
@@ -25,6 +32,7 @@ const CreateLR = () => {
         invoiceNumber: '',
         quantity: '',
         unit: 'Nos',
+        EwayNum:'',
         rate: '',
         actualWeight: '',
         chargeableWeight: '',
@@ -57,10 +65,13 @@ const CreateLR = () => {
 
     const handleClear = () => {
         setFormData({
+            lrNumber:`TC${new Date().getFullYear()} ${String(lastestIncrement).padStart(3,'0')}`,
             lrDate: '',
             from: '',
             to: '',
+            vehicleNumber:'',
             lorryNumber: '',
+            driversName:'',
             driversContact: '',
             loadType: 'Full',
             consignor: '',
@@ -76,6 +87,7 @@ const CreateLR = () => {
             invoiceNumber: '',
             quantity: '',
             unit: 'Nos',
+            EwayNum:'',
             rate: '',
             actualWeight: '',
             chargeableWeight: '',
@@ -97,9 +109,45 @@ const CreateLR = () => {
         window.print();
     };
 
+    const handleSearch = (value)=>{
+        setSearchQuery(value);
+    };
+
+    useEffect(()=>{
+        const fetchlatestIncrement = async()=>{
+            try{
+                const response = await axios.get('http://localhost:5000/api/lorryReceipts/latest');
+                const latestIncrement = response.data.increment || 1;
+                setIncrement(latestIncrement);
+                setFormData(prevData=>({
+                    ...prevData,
+                    lrNumber:`TC${new Date().getFullYear()} ${String(lastestIncrement).padStart(3,'0')}`, 
+                }));
+
+            }catch(error){
+                console.error("Error fetching the latest increment", error);
+
+            }
+        };
+        fetchlatestIncrement();
+
+    },[]);
+
+    const filteredReceipts = receipts.filter(receipt=> Object.values(receipt).some(value=> value && value.toString.toLowerCase().includes(setSearchQuery.toLowerCase())
+)
+    );  
     return (
-        <div className="lorry-receipt">
-            <input type="search" placeholder='Search'/>
+        <div className="lorry-receipt-container">
+         <ReactSearchBox
+            placeholder="Search by any field"
+            value={searchQuery}
+            onChange={handleSearch}
+            data={receipts.map(receipt => ({
+              key: receipt.lrNumber,
+              value: receipt.consignor
+            }))}
+          />
+
                 <FontAwesomeIcon icon={faMagnifyingGlass} />
             <h2 className='l'>Lorry Receipt</h2>
             <form className='receipt-items'onSubmit={handleSubmit}>
@@ -109,7 +157,7 @@ const CreateLR = () => {
                 <label htmlFor="lrds">LR DETAILS</label><br />
                 {/* <h4 className='h4'>LR DETAILS</h4> */}
                 <label htmlFor="lrno">LR NUMBER :</label>
-                <input type="number" id="lrno" name="lrno"  placeholder="LR Number" value={formData.to} onChange={handleChange} required />
+                <input type="text" id="lrno" name="lrno"  placeholder="LR Number" value={formData.lrNumber} onChange={handleChange} required />
                 <label htmlFor="lrDate">LR DATE :</label>
                 <input type="date" id="lrDate" name="lrDate" value={formData.lrDate} onChange={handleChange} required />
 
@@ -119,21 +167,21 @@ const CreateLR = () => {
                 <input type="text" id="to" name="to" placeholder="Enter Destination" value={formData.to} onChange={handleChange} required/><br />
             </div>
              
-             <div className="Vehicle-details">
-                <label htmlFor="lorry-details"> VEHICLE DETAILS </label><br />
-                <label htmlFor="lorryNumber">VEHICLE NUMBER :</label>
-                <input type="text" id="lorryNumber" name="lorryNumber" placeholder="Enter Vehicle Number" value={formData.lorryNumber} onChange={handleChange} required/><br />
-                <label htmlFor="driversName">DRIVERS NAME :</label>
-                <input type="text" id="driversName" name="driversName" placeholder="Enter Drivers Name" value={formData.driversContact} onChange={handleChange} /><br />
-                <label htmlFor="driversContact">DRIVERS CONTACT :</label>
-                <input type="tel" id="driversContact" name="driversContact" placeholder="Enter Drivers Mobile No." value={formData.driversContact} onChange={handleChange} required/><br />
-                <label htmlFor="loadType">LOAD TYPE :</label>
-                <select id="loadType" name="loadType" value={formData.loadType} onChange={handleChange}>
-                    <option value="Full">Full Load</option>
-                    <option value="Part">Part Load</option>
-                    <option value="Special Vehicle">Special Vehicle</option>
-                </select><br />
-             </div>
+            <div className="Vehicle-details">
+    <label htmlFor="lorry-details"> VEHICLE DETAILS </label><br />
+    <label htmlFor="vehicleNumber">VEHICLE NUMBER :</label>
+    <input type="text" id="vehicleNumber" name="vehicleNumber" placeholder="Enter Vehicle Number" value={formData.vehicleNumber} onChange={handleChange} required/><br />
+    <label htmlFor="driversName">DRIVER'S NAME :</label>
+    <input type="text" id="driversName" name="driversName" placeholder="Enter Driver's Name" value={formData.driversName} onChange={handleChange} /><br />
+    <label htmlFor="driversContact">DRIVER'S CONTACT :</label>
+    <input type="tel" id="driversContact" name="driversContact" placeholder="Enter Driver's Mobile No." value={formData.driversContact} onChange={handleChange} required/><br />
+    <label htmlFor="loadType">LOAD TYPE :</label>
+    <select id="loadType" name="loadType" value={formData.loadType} onChange={handleChange}>
+        <option value="Full">Full Load</option>
+        <option value="Part">Part Load</option>
+        <option value="Special Vehicle">Special Vehicle</option>
+    </select><br />
+</div>
 
              <div className="freight-details">
                 <label htmlFor="freight-details">FREIGHT DETAILS </label><br />
@@ -200,7 +248,7 @@ const CreateLR = () => {
                     <option value="KGS">KGS</option>
                 </select><br />
                 <label htmlFor="ewaybillno">EWAYBILL NUMBER :</label>
-                <input type="number" id="ewayNum" name="ewayNum" placeholder='Enter EWAYBILL Number' value={formData.ewayNum} onChange={handleChange} required/><br />
+                <input type="number" id="EwayNum" name="EwayNum" placeholder='Enter EWAYBILL Number' value={formData.EwayNum} onChange={handleChange} required/><br />
                 <label htmlFor="expdate">DATE OF EXPIRATION OF EWAYBILL :</label>
                 <input type="date" id="expdate" name="expdate" value={formData.expdate} onChange={handleChange} /><br />
                 <label htmlFor="rate">RATE :</label>
@@ -285,6 +333,20 @@ const CreateLR = () => {
 
                 </div>
             </form>
+            <div className="receipt-list">
+                <h2>Search Results</h2>
+                {filteredReceipts.length > 0 ? (
+                    <ul>
+                        {filteredReceipts.map(receipt => (
+                            <li key={receipt.lrNumber}>
+                                <p>{receipt.consignor} - {receipt.consignee} - {receipt.lorryNumber}</p>
+                            </li>
+                        ))}
+                    </ul>
+                ) : (
+                    <p>No matching receipts found.</p>
+                )}
+            </div>
         </div>
     );
 };

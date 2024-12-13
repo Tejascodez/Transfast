@@ -1,0 +1,104 @@
+/* Container for the entire form */
+.customer-box {
+    width: 60%;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Header styling */
+  .customer, .parts-header {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  /* Form container */
+  .customer-form, .parts-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  /* Customer details form group */
+  .customer {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .customer-details label, .form-group label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #555;
+  }
+  
+  .customer-details input, .form-group input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    margin-bottom: 10px;
+    transition: border-color 0.3s;
+  }
+  
+  .customer-details input:focus, .form-group input:focus {
+    border-color: #007BFF;
+    outline: none;
+  }
+  
+  /* Button styles */
+  button {
+    padding: 10px 15px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  button:hover {
+    background-color: #45a049;
+  }
+  
+  /* Specific button styles */
+  .add-part-button {
+    background-color: #FFC107;
+    align-self: flex-start;
+  }
+  
+  .add-part-button:hover {
+    background-color: #e0a800;
+  }
+  
+  .submit-button {
+    background-color: #007BFF;
+    margin-top: 20px;
+    width: 100%;
+  }
+  
+  .submit-button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Added parts list */
+  .added-parts {
+    margin-top: 30px;
+  }
+  
+  .added-parts ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .added-parts li {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    font-size: 16px;
+  }
+  

@@ -1,25 +1,13 @@
 
-.lorry-receipt {
+.lorry-receipt-container {
     max-width: 1200px;
     margin: 20px auto;
     padding: 20px;
+    background: linear-gradient(135deg, #8ed2c3, rgb(218, 125, 125), rgb(197, 148, 73));
     border-radius: 10px;
 }
 
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    /* background: linear-gradient(100deg, #fae0e3, #efb6bed0, #ced5ef, #9fc7eb); */
-    background-size: 400% 400%;
-    animation: gradientBG 15s ease infinite;
-}
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #8ed2c3, rgb(218, 125, 125), rgb(197, 148, 73));
-    background-color: #a0e2e0; /* Light Grayish Blue */
-    animation: gradientBG 15s ease infinite; /* Remove this line if gradient animation is not needed */
-}
+
 
 
 /* Optional Animation */

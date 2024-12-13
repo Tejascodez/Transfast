@@ -5,6 +5,8 @@ import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import logo from '../../assets/Logo1.png';
 import './css/TotalLR.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit, faFilePdf, faShareAlt } from '@fortawesome/free-solid-svg-icons';
 
 const TotalLR = () => {
     const [receipts, setReceipts] = useState([]);
@@ -36,7 +38,7 @@ const TotalLR = () => {
             body: receipts.map((receipt, index) => [
                 index + 1,
                 receipt.lrNumber,
-                receipt.date,
+                receipt.lrDate,
                 receipt.from,
                 receipt.to,
                 receipt.freightPayableCompany,
@@ -96,7 +98,7 @@ const TotalLR = () => {
                             <tr key={index}>
                                 <td>{index + 1}</td>
                                 <td>{receipt.lrNumber}</td>
-                                <td>{receipt.date}</td>
+                                <td>{receipt.lrDate}</td>
                                 <td>{receipt.from}</td>
                                 <td>{receipt.to}</td>
                                 <td>{receipt.freightPayableCompany}</td>
@@ -110,13 +112,13 @@ const TotalLR = () => {
                                 <td>{receipt.driverNo}</td>
                                 <td className="actions">
                                     <button className='edit' onClick={() => editReceipt(receipt.lrNumber)}>
-                                        <i className="fas fa-edit"></i>
+                                        <FontAwesomeIcon icon={faEdit} />
                                     </button>
                                     <button className='download' onClick={() => downloadPDF(receipt.lrNumber)}>
-                                        <i className="fas fa-file-pdf"></i>
+                                         <FontAwesomeIcon icon={faFilePdf} />
                                     </button>
                                     <button className='share' onClick={() => shareReceipt(receipt.lrNumber)}>
-                                        <i className="fas fa-share-alt"></i>
+                                          <FontAwesomeIcon icon={faShareAlt} />
                                     </button>
                                 </td>
                             </tr>

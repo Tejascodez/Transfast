@@ -1,0 +1,92 @@
+/* Pending.css */
+
+/* General styles for the lorry receipt page */
+.lorry-receipt {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+  }
+  
+  header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  header .logo {
+    width: 100px;
+    height: auto;
+    margin-right: 20px;
+  }
+  
+  header .company-info {
+    flex: 1;
+  }
+  
+  header .company-info h2 {
+    margin: 0;
+    font-size: 24px;
+    color: #333;
+  }
+  
+  header .company-info address,
+  header .company-info p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #555;
+  }
+  
+  
+  .search-container {
+    
+    align-items: center;
+  }
+  
+  .search-box-container {
+    position: relative; /* Set position to relative for absolute positioning of the icon */
+    width: 100%; /* Adjust width as needed */
+  }
+  
+
+  
+  .search-box-container img {
+    z-index: 1;
+        position: absolute; /* Position the icon absolutely */
+        right: 10px; /* Adjust the right position as needed */
+        top: 50%; /* Center vertically */
+        transform: translateY(-50%); /* Adjust for perfect vertical centering */
+        cursor: pointer; /* Change cursor to pointer for better UX */
+        pointer-events: auto; /* Allow the icon to capture click events */
+        background-color: #333; /* Optional: background color for the icon */
+        height: 2rem; /* Set height for the icon */
+        width: 2rem; /* Set width for the icon */
+        display: flex; /* Use flex to center the icon */
+        align-items: center; /* Center vertically */
+        justify-content: center; /* Center horizontally */
+    /* Hide the image if you are using the icon */
+  }
+
+  .search-icon{
+    color:#333;
+    background-color: #333;
+  }
+.react-search-box {
+  padding-right: 30px; /* Add padding to the right to prevent text overlap with the icon */
+}
+  .react-search-box input {
+    width: 100%;
+    padding: 10px 15px; /* Adjust padding for better appearance */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  
+  .search-icon {
+    position: absolute;
+    right: 15px; /* Adjusted position */
+    top: 50%;
+    transform: translateY(-50%);
+    color: #ccc;
+    font-size: 16px;
+  }
+  
+  
