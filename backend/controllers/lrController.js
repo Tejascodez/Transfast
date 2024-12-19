@@ -1,68 +1,80 @@
-const LorryReceipt = require('../models/LorryReceipt');
+const { LorryReceipt, Item } = require('../models/LorryReceipt');
 
-// Create a new lorry receipt
-const createLorryReceipt = async (req, res) => {
-    try {
-        const newLorryReceipt = new LorryReceipt(req.body);
-        await newLorryReceipt.save();
-        res.status(201).json(newLorryReceipt);
-    } catch (error) {
-        res.status(400).json({ message: error.message });
-    }
+// Controller to handle adding a new lorry receipt
+const addLorryReceipt = async (req, res) => {
+  try {
+    const newLorryReceipt = new LorryReceipt(req.body);
+    await newLorryReceipt.save();
+    res.status(201).json(newLorryReceipt);
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to add lorry receipt', error });
+  }
 };
 
-// Get all lorry receipts
-const getAllLorryReceipts = async (req, res) => {
-    try {
-        const lorryReceipts = await LorryReceipt.find();
-        res.status(200).json(lorryReceipts);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
+// Controller to handle fetching all lorry receipts
+const getLorryReceipts = async (req, res) => {
+  try {
+    const lorryReceipts = await LorryReceipt.find();
+    res.status(200).json(lorryReceipts);
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to fetch lorry receipts', error });
+  }
 };
 
-// Get a single lorry receipt by ID
-const getLorryReceipt = async (req, res) => {
-    try {
-        const lorryReceipt = await LorryReceipt.findById(req.params.id);
-        if (!lorryReceipt) return res.status(404).json({ message: 'Lorry Receipt not found' });
-        res.status(200).json(lorryReceipt);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
+const getLorryReceiptsById = async(req,res)=>{
+  try{
+    const {id} = req.params;
+    const lorryReceipt = await LorryReceipt.findById(id);
+
+    if(!lorryReceipt) {
+      return res.status(404).json({message: 'Lorry receipt not found'});
     }
+    res.status(200).json(lorryReceipt);
+  } catch (error){
+    res.status(500).json({message: 'failed to fetch lorry receipt', error});
+  }
 };
 
-// Update an existing lorry receipt
-const updateLorryReceipt = async (req, res) => {
-    try {
-        const lorryReceipt = await LorryReceipt.findByIdAndUpdate(req.params.id, req.body, { new: true });
-        if (!lorryReceipt) return res.status(404).json({ message: 'Lorry Receipt not found' });
-        res.status(200).json(lorryReceipt);
-    } catch (error) {
-        res.status(400).json({ message: error.message });
-    }
+// Controller to handle adding a new item
+const addItem = async (req, res) => {
+  try {
+    const newItem = new Item(req.body);
+    await newItem.save();
+    res.status(201).json(newItem);
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to add item', error });
+  }
 };
 
-// Delete a lorry receipt
-const deleteLorryReceipt = async (req, res) => {
+// Controller to handle fetching all items
+const getItems = async (req, res) => {
+  try {
+    const items = await Item.find();
+    res.status(200).json(items);
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to fetch items', error });
+  }
+};
+
+const addMultipleItems = async(req,res)=>{
     try{
-        const receipt = await LorryReceipt.findByIdAndDelete(req.params.id);
-        if(!receipt){
-            return res.status(404).send('receipt not found');
-        }
-        res.status(200).send('receipt deleted');
+        const items = req.body.items;
+        const itemDocs = items.map(item=> new Item(item));
+        await Item.insertMany(itemDocs);
+        res.status(201).json({message: 'Items added sucessfully', items: itemDocs});
 
-    }catch (error){
-        res.status(500).send('Error deleting receipt');
+
+
+    } catch (error){
+        res.status(500).json({message: 'failed to add items', error});
     }
-}
+};
 
-
-
-module.exports = { 
-    createLorryReceipt, 
-    getAllLorryReceipts, 
-    getLorryReceipt, 
-    updateLorryReceipt, 
-    deleteLorryReceipt 
+module.exports = {
+  addLorryReceipt,
+  getLorryReceipts,
+  getLorryReceiptsById,
+  addItem,
+  getItems,
+  addMultipleItems,
 };

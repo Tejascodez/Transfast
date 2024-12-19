@@ -4,12 +4,14 @@ import * as XLSX from 'xlsx';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import logo from '../../assets/Logo1.png';
-import './css/TotalLR.css'
+import './css/TotalLR.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faFilePdf, faShareAlt } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faEye, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 const TotalLR = () => {
     const [receipts, setReceipts] = useState([]);
+    const [editRowIndex, setEditRowIndex] = useState(null);
+    const [editedReceipt, setEditedReceipt] = useState({});
 
     useEffect(() => {
         const fetchReceipts = async () => {
@@ -23,6 +25,33 @@ const TotalLR = () => {
         fetchReceipts();
     }, []);
 
+    const handleInputChange = (e, field) => {
+        const { value } = e.target;
+        setEditedReceipt({
+            ...editedReceipt,
+            [field]: value
+        });
+    };
+
+    const editReceipt = (index) => {
+        setEditRowIndex(index);
+        setEditedReceipt({ ...receipts[index] });
+    };
+
+    const saveReceipt = async (lrNumber) => {
+        try {
+            await axios.put(`http://localhost:5000/api/LorryReceipts/${lrNumber}`, editedReceipt);
+            setReceipts(receipts.map(r => r.lrNumber === lrNumber ? editedReceipt : r));
+            setEditRowIndex(null); // Exit edit mode
+        } catch (error) {
+            console.error("Error updating receipt", error);
+        }
+    };
+
+    const cancelEdit = () => {
+        setEditRowIndex(null);
+    };
+
     const exportToExcel = () => {
         const worksheet = XLSX.utils.json_to_sheet(receipts);
         const workbook = XLSX.utils.book_new();
@@ -30,29 +59,35 @@ const TotalLR = () => {
         XLSX.writeFile(workbook, "LorryReceipts.xlsx");
     };
 
-    const exportToPDF = () => {
+    const exportToPDF = (receipt) => {
         const doc = new jsPDF();
-        doc.text("Lorry Receipts", 20, 10);
+        doc.text("Lorry Receipt", 20, 10);
         doc.autoTable({
-            head: [['Sr. No.', 'LR No.', 'Date', 'From', 'To', 'Freight Payable Company', 'Consigner', 'Consignee', 'Description', 'Invoice', 'Quantity', 'Weight', 'Vehicle No.', 'Driver No.']],
-            body: receipts.map((receipt, index) => [
-                index + 1,
-                receipt.lrNumber,
-                receipt.lrDate,
-                receipt.from,
-                receipt.to,
-                receipt.freightPayableCompany,
-                receipt.consignor,
-                receipt.consignee,
-                receipt.description,
-                receipt.invoice,
-                receipt.quantity,
-                receipt.weight,
-                receipt.vehicleNo,
-                receipt.driverNo
-            ]),
+            head: [['Field', 'Value']],
+            body: Object.entries(receipt).map(([key, value]) => [key, value]),
         });
-        doc.save("LorryReceipts.pdf");
+        doc.save(`LorryReceipt_${receipt.lrNumber}.pdf`);
+    };
+
+    const deleteReceipt = async (id) => {
+        try {
+            console.log("Deleting receipt with ID:", id);  // Log the ID to verify
+            await axios.delete(`http://localhost:5000/api/LorryReceipts/${id}`);
+            setReceipts(receipts.filter(r => r._id !== id));  // Remove the deleted receipt from state
+        } catch (error) {
+            console.error("Error deleting receipt", error);
+        }
+    };
+
+    const openNewTab = (receipt) => {
+        try {
+            const newTab = window.open(`/receipt-detail/${receipt._id}`, "_blank");
+            if (newTab) {
+                newTab.location.assign(`/receipt-detail/${receipt._id}`);
+            }
+        } catch (error) {
+            console.error("Error loading the receipt", error);
+        }
     };
 
     return (
@@ -69,9 +104,8 @@ const TotalLR = () => {
                     <p>Email: transfast.corporation@gmail.com</p>
                 </section>
             </header>
-            <div className="container">
+            <div className="container-tlr">
                 <button className='export' onClick={exportToExcel}>Export to Excel</button>
-                <button className='export' onClick={exportToPDF}>Export to PDF</button>
                 <table className="lorry-receipt-table">
                     <thead>
                         <tr>
@@ -89,8 +123,9 @@ const TotalLR = () => {
                             <th>Weight</th>
                             <th>Vehicle No.</th>
                             <th>Driver No.</th>
-                            <th>Actions </th>
-
+                            <th>Bill No.</th>
+                            <th>Status</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -107,24 +142,24 @@ const TotalLR = () => {
                                 <td>{receipt.description}</td>
                                 <td>{receipt.invoice}</td>
                                 <td>{receipt.quantity}</td>
-                                <td>{receipt.weight}</td>
-                                <td>{receipt.vehicleNo}</td>
-                                <td>{receipt.driverNo}</td>
+                                <td>{receipt.actualWeight}</td>
+                                <td>{receipt.vehicleNumber}</td>
+                                <td>{receipt.driversContact}</td>
+                                <td>Pending</td>
                                 <td className="actions">
-                                    <button className='edit' onClick={() => editReceipt(receipt.lrNumber)}>
+                                    <button className='edit' onClick={() => editReceipt(index)}>
                                         <FontAwesomeIcon icon={faEdit} />
                                     </button>
-                                    <button className='download' onClick={() => downloadPDF(receipt.lrNumber)}>
-                                         <FontAwesomeIcon icon={faFilePdf} />
+                                    <button className='view' onClick={() => openNewTab(receipt)}>
+                                        <FontAwesomeIcon icon={faEye} />
                                     </button>
-                                    <button className='share' onClick={() => shareReceipt(receipt.lrNumber)}>
-                                          <FontAwesomeIcon icon={faShareAlt} />
+                                    <button className='delete' onClick={() => deleteReceipt(receipt._id)}>
+                                        <FontAwesomeIcon icon={faTrash} />
                                     </button>
                                 </td>
                             </tr>
                         ))}
                     </tbody>
-
                 </table>
             </div>
         </div>

@@ -1,21 +1,18 @@
 const express = require('express');
 const router = express.Router();
-const {
-    createLorryReceipt,
-    getAllLorryReceipts,
-    getLorryReceipt,
-    updateLorryReceipt,
-    deleteLorryReceipt
-} = require('../controllers/lrController');
+const lorryReceiptController = require('../controllers/lrController');
 
-router.post('/', createLorryReceipt);
-router.get('/', getAllLorryReceipts);
-router.get('/:id', getLorryReceipt);
-router.put('/:id', updateLorryReceipt);
-router.delete('/:id', (req, res, next) => {
-    console.log('ID to delete:', req.params.id); // Log the ID to see if it's coming in correctly
-    next();
-}, deleteLorryReceipt);
+// Routes for lorry receipts
+router.post('/lorryReceipts', lorryReceiptController.addLorryReceipt);
+router.get('/lorryReceipts', lorryReceiptController.getLorryReceipts);
+router.get('/LorryReceipts/:id', lorryReceiptController.getLorryReceiptsById);
+
+// Routes for items
+router.post('/items', lorryReceiptController.addItem);
+router.get('/items', lorryReceiptController.getItems);
+
+// Route to handle adding multiple items
+router.post('/items/multiple', lorryReceiptController.addMultipleItems);
 
 
 module.exports = router;

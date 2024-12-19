@@ -10,11 +10,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.7.1",
     "@fortawesome/fontawesome-svg-core": "^6.7.1",
     "@fortawesome/free-solid-svg-icons": "^6.7.1",
     "@fortawesome/react-fontawesome": "^0.2.2",
+    "@ionic/react": "^8.4.1",
     "axios": "^1.7.9",
     "bootstrap": "^5.3.3",
+    "ionicons": "^7.4.0",
     "jspdf": "^2.5.2",
     "jspdf-autotable": "^3.8.4",
     "mdb-react-ui-kit": "^9.0.0",
@@ -26,6 +29,8 @@
     "react-modal": "^3.16.1",
     "react-router-dom": "^7.0.2",
     "react-search-box": "^3.0.0",
+    "react-select": "^5.9.0",
+    "react-to-print": "^3.0.2",
     "xlsx": "^0.18.5"
   },
   "devDependencies": {

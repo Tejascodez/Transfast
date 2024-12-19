@@ -8,6 +8,7 @@ const cors = require('cors');
 const lrRoutes = require('./routes/lrRoutes');
 const vechicleRoutes = require('./routes/vechicleRoutes');
 const DriverRoutes = require('./routes/driver');
+
 const app = express();
 app.use(cors());
 
@@ -29,7 +30,8 @@ app.use(bodyParser.json());
 // Register routes
 app.use('/api/auth', authRoutes);
 
-app.use('/api/lorryReceipts', lrRoutes);
+app.use('/api', lrRoutes);
+
 app.use('/api', vechicleRoutes);
 app.use('/api', DriverRoutes);
 // Start the server

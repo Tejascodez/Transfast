@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaFile, FaTruck, FaListAlt, FaCar, FaBox, FaClipboardList } from 'react-icons/fa';
 import Navbar from './Navbar';
-import CreateLR from '../pages/CreateLR';
+import CreateLR from '../pages/LR/CreateLR';
 import Modal from 'react-modal';
 import './Home.css';
 
@@ -25,10 +25,9 @@ const Home = () => {
     <div className="container">
       <Navbar />
       <div className="content">
-        {/* <h1>TransFast Corporation</h1> */}
         <div className="grid-container">
           <div className="grid-item" onClick={handleOpenModal}>
-            <FaFile /> Create  LR
+            <FaFile /> Create LR
           </div>
           <Link to="/createchallan" className="grid-item">
             <FaClipboardList /> Create Challan
@@ -64,10 +63,7 @@ const Home = () => {
             height: '80%',
             margin: 'auto',
             padding: '20px',
-            
-            screenX: 'hidden',
-
-           // Ensures that the content is scrollable
+            overflow: 'auto' // Ensures that the content is scrollable
           },
           overlay: {
             backgroundColor: 'rgba(0, 0, 0, 0.75)'

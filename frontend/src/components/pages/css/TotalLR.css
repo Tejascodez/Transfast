@@ -1,190 +1,221 @@
-.lorry-receipt {
-    width: 100%;
-    max-width: 1500px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
 
-/* Header Section */
-header {
+  
+  .lorry-receipt {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
-    border-bottom: 2px solid #ddd;
-    padding-bottom: 20px;
-    margin-bottom: 20px;
-}
-
-header .logo {
-    max-height: 80px;
-}
-
-.company-info h2 {
-    font-size: 24px;
-    color: #2c3e50;
-    margin: 0;
-    padding: 0;
-}
-
-.company-info address {
-    font-size: 14px;
-    color: #7f8c8d;
-    margin: 5px 0;
-}
-
-.company-info p {
-    font-size: 14px;
-    color: #7f8c8d;
-}
-
-/* Container */
-.container {
-    max-width: 1500px;
-    height: 100%;
     padding: 20px;
-}
-
-button.export {
-    background-color: #3498db;
-    color: #fff;
+  }
+  
+  /* Header Styling */
+  header {
+    width: 100%;
+    color: black;
+    padding: 20px 0;
+    text-align: center;
+  }
+  
+  header .logo {
+    width: 120px;
+    margin-bottom: 10px;
+  }
+  
+  header .company-info {
+    margin-top: 10px;
+  }
+  
+  header h2 {
+    font-size: 24px;
+    margin-bottom: 5px;
+  }
+  
+  header address {
     font-size: 16px;
+    margin-bottom: 10px;
+  }
+  
+  header p {
+    font-size: 14px;
+    margin: 5px 0;
+  }
+  
+  /* Container and Table Styling */
+  .container-tlr {
+    width: 100%;
+    margin-top: 20px;
+    overflow-x: auto;
+  }
+  
+  .export {
+    background-color: #27ae60;
+    color: white;
     padding: 10px 20px;
+    font-size: 16px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    margin-right: 10px;
+    margin-bottom: 20px;
     transition: background-color 0.3s ease;
-}
-
-button.export:hover {
-    background-color: #2980b9;
-}
-
-table.lorry-receipt-table {
-    width: 100%; /* Ensure the table takes up full width */
-    border-collapse: collapse;
-    margin-top: 20px;
-    font-size: 14px;
-    color: #333;
-}
-
-table.lorry-receipt-table th,
-table.lorry-receipt-table td {
-    text-align: center;
-    padding: 10px;
-    border: 1px solid #ddd;
-    word-wrap: break-word;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-table.lorry-receipt-table th {
-    background-color: #3498db;
-    color: #fff;
-    font-weight: bold;
-}
-
-table.lorry-receipt-table tbody tr:nth-child(even) {
-    background-color: #f2f2f2;
-}
-
-table.lorry-receipt-table tbody tr:hover {
-    background-color: #e6f2ff;
-}
-
-/* Actions */
-.actions {
-   
-    /* padding: 10px; */
-     display: flex;
-    /* background-color: pink; */
-}
-
-button.edit,
-button.download,
-button.share {
+  }
+  
+  .export:hover {
     background-color: #2ecc71;
-    color: #fff;
-    /* font-size: 14px; Adjusted font-size */
-    /* padding: 10px; */
+  }
+  
+  .lorry-receipt-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    table-layout: fixed; /* Make table columns adjustable */
+  }
+  
+  .lorry-receipt-table th, .lorry-receipt-table td {
+    padding: 12px 15px;
+    text-align: left;
+    font-size: 14px;
+    word-wrap: break-word;
+  }
+  
+  .lorry-receipt-table th {
+    background-color: #34495e;
+    color: white;
+  }
+  
+  .lorry-receipt-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .lorry-receipt-table tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .lorry-receipt-table td {
+    color: #555;
+  }
+  
+  /* Column Resizing */
+  .lorry-receipt-table th {
+    cursor: col-resize;
+  }
+  
+  .lorry-receipt-table td {
+    position: relative;
+  }
+  
+  /* Column Resize Handle */
+  .lorry-receipt-table td::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 5px;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.1);
+    cursor: ew-resize;
+  }
+  
+  /* Actions Buttons Styling */
+  .actions button {
+    background-color: transparent;
     border: none;
-    border-radius: 4px;
+    cursor: pointer;
+    margin: 0 5px;
+    padding: 8px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .actions button:hover {
+    background-color: #ecf0f1;
+    border-radius: 5px;
+  }
+  
+  .actions .edit {
+    color: #3498db;
+  }
+  
+  .actions .view {
+    color: #8e44ad;
+  }
+  
+  .actions .delete {
+    color: #e74c3c;
+  }
+  
+  .actions .edit:hover {
+    background-color: #d0e9ff;
+  }
+  
+  .actions .view:hover {
+    background-color: #e3d7f8;
+  }
+  
+  .actions .delete:hover {
+    background-color: #fbd2d2;
+  }
+  
+  /* Status Button Styling */
+  .status {
+    padding: 6px 12px;
+    font-size: 14px;
+    border: none;
+    background-color: #27ae60;
+    color: white;
+    border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    margin: 0 5px;
-}
-
-button.edit:hover {
-    background-color: #27ae60;
-}
-
-button.download {
-    background-color: #e74c3c;
-}
-
-button.download:hover {
-    background-color: #c0392b;
-}
-
-button.share {
-    background-color: #f39c12;
-}
-
-button.share:hover {
-    background-color: #e67e22;
-}
-
-button i {
-    margin-right: 5px;
-}
-
-/* Responsiveness */
-@media (max-width: 768px) {
-    header {
-        flex-direction: column;
-        text-align: center;
+  }
+  
+  .status:hover {
+    background-color: #2ecc71;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .container-tlr {
+      padding: 10px;
     }
-
-    .company-info h2 {
-        font-size: 22px;
+  
+    .export {
+      font-size: 14px;
+      padding: 8px 15px;
     }
-
-    .company-info address,
-    .company-info p {
-        font-size: 12px;
+  
+    .lorry-receipt-table th, .lorry-receipt-table td {
+      padding: 8px 12px;
+      font-size: 12px;
     }
-
-    table.lorry-receipt-table th,
-    table.lorry-receipt-table td {
-        padding: 10px;
+  
+    .lorry-receipt-table {
+      font-size: 12px;
     }
-
-    button.export {
-        width: 100%;
-        margin: 10px 0;
+  
+    .logo {
+      width: 100px;
     }
-
-    .actions {
-        flex-direction: column;
+  }
+  
+  @media (max-width: 480px) {
+    header h2 {
+      font-size: 20px;
     }
-
-    button.edit,
-    button.download,
-    button.share {
-        width: 100%;
-        margin: 5px 0;
+  
+    header address, header p {
+      font-size: 12px;
     }
-}
-
-/* Table Footer (Optional) */
-table.lorry-receipt-table tfoot {
-    background-color: #ecf0f1;
-    font-weight: bold;
-}
-
-table.lorry-receipt-table tfoot td {
-    padding: 10px 15px;
-}
+  
+    .lorry-receipt-table th, .lorry-receipt-table td {
+      padding: 6px 8px;
+      font-size: 10px;
+    }
+  
+    .lorry-receipt-table {
+      font-size: 10px;
+    }
+  
+    .actions button {
+      padding: 6px;
+      font-size: 12px;
+    }
+  }
+  

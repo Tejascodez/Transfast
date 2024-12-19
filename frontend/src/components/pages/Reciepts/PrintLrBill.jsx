@@ -1,10 +1,18 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import './PrintLr.css'
 import logo from '../../../assets/Logo1.png';
+import { useLocation } from 'react-router-dom';
 const PrintLrBill = () => {
+  const location = useLocation();
+  const { formData , tableRows } = location.state;
+
+  // Ensure all values in formData are strings or numbers
+  const safeValue = (value) => (value !== undefined && value !== null ? value : '');
+  
   return (
+    <>
      <div className="receipt">
-            <i className="i">(Billing Copy)</i>
+            <i className="i">(Original Copy For Consignee)</i>
     
             <div className="all">
               <div className="header">
@@ -22,112 +30,170 @@ const PrintLrBill = () => {
     
               <div className="section-content">
                 <table>
-                  <tr>
-                    <td rowSpan="2">Consignor:</td>
-                    <td rowSpan="2" colSpan="5"></td>
-                    <th colSpan="2">LORRY RECEIPT</th>
-                  </tr>
-                  <tr>
-                    <td>Number</td>
-                    <td>TC202420250001</td>
-                  </tr>
-                  <tr>
-                    <td rowSpan="2">Consignee:</td>
-                    <td rowSpan="2" colSpan="5"></td>
-                    <td>Date</td>
-                    <td>12/04/2024</td>
-                  </tr>
-                  <tr>
-                    <td>From</td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td>Freight Payable Company:</td>
-                    <td colSpan="5"></td>
-                    <td>To</td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td>Invoice Value:</td>
-                    <td colSpan="2"></td>
-                    <td>Driver's Contact:</td>
-                    <td colSpan="2"></td>
-                    <td>Vehicle No.:</td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td>Pay Type:</td>
-                    <td>PAID</td>
-                    <td>Billing Branch:</td>
-                    <td>KOLHAPUR</td>
-                    <td>Collection Type:</td>
-                    <td>Door Collection</td>
-                    <td>Delivery Type:</td>
-                    <td>Door Delivery</td>
-                  </tr>
+                  <tbody>
+                    <tr>
+                      <td rowSpan="2">Consignor:</td>
+                      <td rowSpan="2" colSpan="5">{safeValue(formData.consignor)}</td>
+                      <th colSpan="2">LORRY RECEIPT</th>
+                    </tr>
+                    <tr>
+                      <td>Number</td>
+                      <td>{safeValue(formData.lrNumber)}</td>
+                    </tr>
+                    <tr>
+                      <td rowSpan="2">Consignee:</td>
+                      <td rowSpan="2" colSpan="5">{safeValue(formData.consignee)}</td>
+                      <td>Date</td>
+                      <td>{safeValue(formData.lrDate)}</td>
+                    </tr>
+                    <tr>
+                      <td>From</td>
+                      <td>{safeValue(formData.from)}</td>
+                    </tr>
+                    <tr>
+                      <td>Freight Payable Company:</td>
+                      <td colSpan="5">{safeValue(formData.freightPayableCompany)}</td>
+                      <td>To</td>
+                      <td>{safeValue(formData.to)}</td>
+                    </tr>
+                    <tr>
+                      <td>Invoice Value:</td>
+                      <td colSpan="2">{safeValue(formData.invoiceValue)}</td>
+                      <td>Driver's Contact:</td>
+                      <td colSpan="2">{safeValue(formData.driversContact)}</td>
+                      <td>Vehicle No.:</td>
+                      <td>{safeValue(formData.vehicleNumber)}</td>
+                    </tr>
+                    <tr>
+                      <td>Pay Type:</td>
+                      <td>{safeValue(formData.paymentMode)}</td>
+                      <td>Billing Branch:</td>
+                      <td>{safeValue(formData.billingBranch)}</td>
+                      <td>Collection Type:</td>
+                      <td>{safeValue(formData.collectionType)}</td>
+                      <td>Delivery Type:</td>
+                      <td>{safeValue(formData.deliveryType)}</td>
+                    </tr>
+                  </tbody>
                 </table>
               </div>
     
-              <table className='table-3'>
-                <thead>
-                  <tr>
-                    <th>Sr. No.</th>
-                    <th>Description</th>
-                    <th>Invoice No.</th>
-                    <th>Quantity</th>
-                    <th>Rate</th>
-                    <th>Actual Weight</th>
-                    <th>Chargeable Weight</th>
-                    <th>Eway Bill No.</th>
-                    <th>Expiry Date</th>
-                    <th colSpan="2">Freight</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>
-                      Freight:<br />
-                      Sur. Charges:<br />
-                      Statiscal Charges:<br />
-                      Hamali:<br />
-                      DC Charges:<br />
-                      DD Charges:<br />
-                      Holting:<br />
-                      Other:<br />
-                    </td>
-                    <td>200000000</td>
-                  </tr>
-                </tbody>
-                <tfoot>
-                  <tr>
-                    <td colSpan="2">TOTAL AMOUNT IN WORDS:</td>
-                    <td colSpan="7"></td>
-                    <td>TOTAL</td>
-                    <td>3423</td>
-                  </tr>
-                </tfoot>
+              <table className='combine'>
+                <table className='table-3'>
+                  <thead>
+                    <tr>
+                      <th>Sr. No.</th>
+                      <th>Description</th>
+                      <th>Invoice No.</th>
+                      <th>Quantity</th>
+                      <th>Rate</th>
+                      <th>Actual Weight</th>
+                      <th>Chargeable Weight</th>
+                      <th>Eway Bill No.</th>
+                      <th>Expiry Date</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {tableRows.map((row, index) => (
+                      <tr key={index}>
+                        <td>{safeValue(index + 1)}</td>
+                        <td>{safeValue(row.description)}</td>
+                        <td>{safeValue(row.invoiceNumber)}</td>
+                        <td>{safeValue(row.quantity)}</td>
+                        <td>{safeValue(row.rate)}</td>
+                        <td>{safeValue(row.actualWeight)}</td>
+                        <td>{safeValue(row.chargeableWeight)}</td>
+                        <td>{safeValue(row.EwayNum)}</td>
+                        <td>{safeValue(row.expdate)}</td>
+                        <td>{safeValue(row.totalAmount)}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <th colSpan="2">TOTAL AMOUNT IN FIGURES:</th>
+                      <td colSpan="7"></td>
+                    </tr>
+                  </tfoot>
+                </table>
+    
+                <table className='table-4'>
+                  <thead>
+                    <tr>
+                      <th colSpan={2}>FREIGHT</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                   
+                        <tr>
+                          <td>FREIGHT:</td>
+                          <td>{safeValue(formData.freight)}</td>
+                        </tr>
+                        <tr>
+                          <td>SUR CHARGES</td>
+                          <td>{safeValue(formData.surCharges)}</td>
+                        </tr>
+                        <tr>
+                          <td>STATISTICAL CHARGES</td>
+                          <td>{safeValue(formData.statiscalCharges)}</td>
+                        </tr>
+                        <tr>
+                          <td>HAMALI:</td>
+                          <td>{safeValue(formData.hamali)}</td>
+                        </tr>
+                        <tr>
+                          <td>DC CHARGES:</td>
+                          <td>{safeValue(formData.dcCharges)}</td>
+                        </tr>
+                        <tr>
+                          <td>DD CHARGES:</td>
+                          <td>{safeValue(formData.ddCharges)}</td>
+                        </tr>
+                        <tr>
+                          <td>HOLTING:</td>
+                          <td>{safeValue(formData.holting)}</td>
+                        </tr>
+                        <tr>
+                          <td>OTHER:</td>
+                          <td>{safeValue(formData.other)}</td>
+                        </tr>
+                  
+               
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <th>TOTAL</th>
+                      <td>{safeValue(formData.total)}</td>
+                    </tr>
+                  </tfoot>
+                </table>
               </table>
     
-              <div className="footer">
+              <div className="payment-details-rc">
                 <table>
-                  <tr>
-                    <td colSpan="4" rowSpan="4">Consignee's Signature & Stamp</td>
-                    <td colSpan="4" rowSpan="4">PAYMENT DETAILS</td>
-                    <td colSpan="4" rowSpan="4">TRANSFAST CORPORATION</td>
-                  </tr>
+                  <thead>
+                    <tr>
+                      <td rowSpan={3}></td>
+                      <th colSpan="" rowSpan="">PAYMENT DETAILS:-</th>
+                      <td rowSpan={3}></td>
+                    </tr>
+                    <tr>
+                      <td>A/C NO :- 331305000180, ICICI BANK, MIDC SHIROLI, KOLHAPUR.</td>
+                    </tr>
+                    <tr>
+                      <td>PHONEPAY/GPAY :- 9921296075</td>
+                    </tr>
+                    <tr>
+                      <th colSpan="" rowSpan="">Consignee's Signature & Stamp</th>
+                      <td>IFSC CODE:- ASFSAF</td>
+                      <th colSpan="" rowSpan="">TRANSFAST CORPORATION</th>
+                    </tr>
+                  </thead>
                 </table>
               </div>
             </div>
           </div>
+    </>
   )
 }
 

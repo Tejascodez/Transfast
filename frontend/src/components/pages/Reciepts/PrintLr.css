@@ -92,62 +92,91 @@ body {
     width: 100%;
     border: 1px solid black;
     border-collapse: collapse;
-    margin-top: 10px;
-  }
-
-  .table-3{
-    margin-top: -7px;
-    width: 100%;
-    border: 1px solid black;
-    border-collapse: collapse;
     margin-top: 0px;
   }
   
+.combine
+{
+  display: flex;
+}
+
+.table-3{
+
+  margin-top: -7px;
+  width: 100%;
+  border: 1px solid black;
+  border-collapse: collapse;
+  margin-top: 0px;
+  padding: 0px;
+}
+
+.table-4
+{
+  flex: 2;
+  padding: 0px;
+  margin-top: -7px;
+  width: 100%;
+  border: 1px solid black;
+  border-collapse: collapse;
+  margin-top: 0px;
+}
+
   table td,
   table th {
     border: 1px solid black;
-    text-align: center;
-    padding: 5px;
-    font-size: 12px;
+    text-align: left;
+    content: wrap;
+    padding:0px;
+    font-size: 14px;
+    justify-content: left;
   }
   
   table th {
     background-color: #f2f2f2;
   }
   
-  .footer {
-    margin-top: 0px;
+  .payment-details-rc {
+    margin-top: -1px;
     display: flex;
     justify-content: space-between;
     border: 1px solid black;
-    padding-top: 28px;
+    /* padding:-10px; */
   }
   
-  .footer p {
+  .payment-details-rc p {
     
-    margin: 5px 0;
+    margin: 0;
     font-size: 12px;
   }
   
-  /* Print-Specific Styles */
   @media print {
+    /* Ensure the payment-details-rc is included */
+    .payment-details-rc {
+        display: block !important;  /* Force payment-details-rc visibility */
+        visibility: visible !important;
+    }
+
+    /* Ensure no hidden content in the body */
     body {
-      width: 210mm;
-      height: 148mm;
-      margin: 0;
+        visibility: visible !important;
+        margin: 0;
+        padding: 10px;
     }
-    .receipt {
-      border: none;
-      box-shadow: none;
-      width: 210mm;
-      height: 148mm;
-      max-width: 100%;
-      padding: 0;
+
+    /* Fix for table and layout during print */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        page-break-inside: avoid; /* Prevent page break inside tables */
     }
-    .header,
-    .lorry-info,
-    .invoice-details,
-    .footer {
-      border: none;
+
+    th, td {
+        padding: 8px;
+        border: 1px solid #ddd;
+        text-align: left;
     }
-  }
+
+    .print-button {
+        display: none;
+    }
+}

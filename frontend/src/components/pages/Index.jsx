@@ -1,5 +1,4 @@
 import React from 'react';
-import CreateLR from './CreateLR';
 import CreateChallan from './CreateChallan';
 import ExpieryBills from './ExpieryBills';
 import Pallate from './Pallate';
@@ -19,7 +18,7 @@ const Index = () => {
 
 export default Index;
 export {
-  CreateLR,
+
   CreateChallan,
   ExpieryBills,
   Pallate,

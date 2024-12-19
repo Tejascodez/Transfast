@@ -1,92 +1,166 @@
-/* Pending.css */
 
-/* General styles for the lorry receipt page */
-.lorry-receipt {
-    font-family: Arial, sans-serif;
-    padding: 20px;
-  }
-  
-  header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  header .logo {
-    width: 100px;
-    height: auto;
-    margin-right: 20px;
-  }
-  
-  header .company-info {
-    flex: 1;
-  }
-  
-  header .company-info h2 {
-    margin: 0;
-    font-size: 24px;
-    color: #333;
-  }
-  
-  header .company-info address,
-  header .company-info p {
-    margin: 5px 0;
-    font-size: 14px;
-    color: #555;
-  }
-  
-  
-  .search-container {
-    
-    align-items: center;
-  }
-  
-  .search-box-container {
-    position: relative; /* Set position to relative for absolute positioning of the icon */
-    width: 100%; /* Adjust width as needed */
-  }
-  
 
-  
-  .search-box-container img {
-    z-index: 1;
-        position: absolute; /* Position the icon absolutely */
-        right: 10px; /* Adjust the right position as needed */
-        top: 50%; /* Center vertically */
-        transform: translateY(-50%); /* Adjust for perfect vertical centering */
-        cursor: pointer; /* Change cursor to pointer for better UX */
-        pointer-events: auto; /* Allow the icon to capture click events */
-        background-color: #333; /* Optional: background color for the icon */
-        height: 2rem; /* Set height for the icon */
-        width: 2rem; /* Set width for the icon */
-        display: flex; /* Use flex to center the icon */
-        align-items: center; /* Center vertically */
-        justify-content: center; /* Center horizontally */
-    /* Hide the image if you are using the icon */
-  }
-
-  .search-icon{
-    color:#333;
-    background-color: #333;
-  }
-.react-search-box {
-  padding-right: 30px; /* Add padding to the right to prevent text overlap with the icon */
+.lorry-receipt-pending {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
 }
-  .react-search-box input {
-    width: 100%;
-    padding: 10px 15px; /* Adjust padding for better appearance */
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
+
+/* Header Styling */
+header {
+  width: 100%;
+  color: white;
+  padding: 20px 0;
+  text-align: center;
+}
+
+header .logo {
+  width: 120px;
+  margin-bottom: 10px;
+}
+
+header .company-info {
+  margin-top: 10px;
+}
+
+header h2 {
+  font-size: 24px;
+  margin-bottom: 5px;
+}
+
+header address {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+header p {
+  font-size: 14px;
+  margin: 5px 0;
+}
+
+/* Search Box Styling */
+.search-box-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.search-box-container .search-icon {
+  width: 20px;
+  margin-right: 10px;
+}
+
+.search-box-container .react-search-box {
+  width: 100%;
+  max-width: 350px;
+  padding: 8px 15px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  outline: none;
+}
+
+/* Table Styling */
+.pending-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.lorry-receipt-table-pending {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  margin-top: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.lorry-receipt-table-pending th, .lorry-receipt-table-pending td {
+  padding: 12px 15px;
+  text-align: left;
+}
+
+.lorry-receipt-table-pending th {
+  background-color: #34495e;
+  color: white;
+  font-size: 16px;
+}
+
+.lorry-receipt-table-pending tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.lorry-receipt-table-pending tr:hover {
+  background-color: #f1f1f1;
+}
+
+.lorry-receipt-table-pending td {
+  font-size: 14px;
+  color: #555;
+}
+
+/* Status Button Styling */
+button {
+  padding: 6px 12px;
+  font-size: 14px;
+  border: none;
+  background-color: #27ae60;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #2ecc71;
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+  .lorry-receipt-pending {
+    padding: 10px;
   }
-  
-  .search-icon {
-    position: absolute;
-    right: 15px; /* Adjusted position */
-    top: 50%;
-    transform: translateY(-50%);
-    color: #ccc;
-    font-size: 16px;
+
+  .search-box-container {
+    justify-content: center;
+    margin-bottom: 15px;
   }
-  
-  
+
+  .search-box-container .react-search-box {
+    max-width: 250px;
+  }
+
+  .lorry-receipt-table-pending {
+    font-size: 12px;
+  }
+
+  .lorry-receipt-table-pending th, .lorry-receipt-table-pending td {
+    padding: 10px;
+  }
+
+  .logo {
+    width: 100px;
+  }
+}
+
+@media (max-width: 480px) {
+  header h2 {
+    font-size: 20px;
+  }
+
+  header address, header p {
+    font-size: 12px;
+  }
+
+  .lorry-receipt-table-pending th, .lorry-receipt-table-pending td {
+    font-size: 10px;
+    padding: 8px;
+  }
+
+  .search-box-container .react-search-box {
+    max-width: 200px;
+  }
+}

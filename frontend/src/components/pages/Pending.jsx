@@ -49,7 +49,7 @@ const Pending = () => {
   };
 
   return (
-    <div className="lorry-receipt">
+    <div className="lorry-receipt-pending">
       <header>
         <img className='logo' src={logo} alt="Logo" />
         <section className="company-info">
@@ -62,7 +62,7 @@ const Pending = () => {
           <p>Email: transfast.corporation@gmail.com</p>
         </section>
       </header>
-      <div className="container">
+      <div className="pending-container">
         <div className="search-box-container">
           <img src={search_icon} className="search-icon" alt="Search" />
           <ReactSearchBox
@@ -75,7 +75,7 @@ const Pending = () => {
             }))}
           />
         </div>
-        <table className="lorry-receipt-table">
+        <table className="lorry-receipt-table-pending">
           <thead>
             <tr>
               <th>Sr. No.</th>
@@ -86,7 +86,7 @@ const Pending = () => {
               <th>Consignee</th>
               <th>Vehicle No.</th>
               <th>Driver No.</th>
-              <th>Actions</th>
+              <th>Status</th>
             </tr>
           </thead>
           <tbody>
@@ -100,15 +100,9 @@ const Pending = () => {
                 <td>{receipt.consignee}</td>
                 <td>{receipt.vehicleNo}</td>
                 <td>{receipt.driverNo}</td>
-                <td className="actions">
-                  <button className='edit' onClick={() => editReceipt(receipt.lrNumber)}>
-                    <FontAwesomeIcon icon={faEdit} />
-                  </button>
-                  <button className='download' onClick={() => downloadPDF(receipt.lrNumber)}>
-                    <FontAwesomeIcon icon={faFilePdf} />
-                  </button>
-                  <button className='share' onClick={() => shareReceipt(receipt.lrNumber)}>
-                    <FontAwesomeIcon icon={faShareAlt} />
+                <td className="Status">
+                  <button>
+                    recived
                   </button>
                 </td>
               </tr>

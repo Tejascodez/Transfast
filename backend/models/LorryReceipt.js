@@ -1,42 +1,56 @@
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-const lorryReceiptSchema = new mongoose.Schema({
-    lrNumber:{type:String, unquie :true},
-    lrDate: { type: Date, required: true },
-    from: { type: String, required: true },
-    to: { type: String, required: true },
-    lorryNumber: { type: String },
-    driversContact: { type: String },
-    loadType: { type: String, default: 'Full' },
-    consignor: { type: String },
-    consignee: { type: String },
-    freightPayableCompany: { type: String },
-    invoiceValue: { type: String },
-    vehicleNo: {type:String},
-    driversNo:{type:String},
-    paymentMode: { type: String },
-    billingBranch: { type: String },
-    collectionType: { type: String },
-    deliveryType: { type: String },
-    itemType: { type: String, default: 'General' },
-    description: { type: String },
-    invoiceString: { type: String },
-    quantity: { type: String },
-    unit: { type: String },
-    rate: { type: String },
-    actualWeight: { type: String },
-    chargeableWeight: { type: String },
-    totalAmount: { type: String },
-    remarks: { type: String },
-    freight: { type: String },
-    surCharges: { type: String },
-    stasticalCharges: { type: String },
-    hamali: { type: String },
-    dcCharges: { type: String },
-    ddCharges: { type: String },
-    holting: { type: String },
-    other: { type: String },
-    total: { type: String }
-});
+// Define the Item schema
+const ItemSchema = new Schema({
+  description: { type: String },
+  invoiceNumber: { type: String },
+  quantity: { type: String },
+  unit: { type: String, default: 'Nos' },
+  EwayBillNo: { type: String },
+  expiryDate: { type: Date },
+  rate: { type: Number },
+  actualWeight: { type: Number },
+  chargeableWeight: { type: Number },
+  totalAmount: { type: Number },
+}, { _id: false });  // `_id: false` prevents Mongoose from generating an _id for each item.
 
-module.exports = mongoose.model('LorryReceipt', lorryReceiptSchema);
+// Define the LorryReceipt schema
+const LorryReceiptSchema = new Schema({
+  lrNumber: { type: String },
+  lrDate: { type: Date },
+  from: { type: String },
+  to: { type: String },
+  vehicleNumber: { type: String },
+  invoiceValue: { type: String },
+  driversName: { type: String },
+  driversContact: { type: String },
+  loadType: { type: String, default: 'Full' },
+  consignor: { type: String },
+  consignee: { type: String },
+  freightPayableCompany: { type: String },
+  paymentMode: { type: String, default: 'TBB' },
+  billingBranch: { type: String, default: 'Kolhapur' },
+  collectionType: { type: String, default: 'DC' },
+  deliveryType: { type: String, default: 'DD' },
+  itemType: { type: String, default: 'General' },
+  totalAmount: { type: Number },
+  remarks: { type: String },
+  freight: { type: Number },
+  surCharges: { type: Number },
+  stasticalCharges: { type: Number },
+  hamali: { type: Number },
+  dcCharges: { type: Number },
+  ddCharges: { type: Number },
+  holting: { type: Number },
+  other: { type: Number },
+  total: { type: Number },
+  items: [ItemSchema],  // Array of items for each lorry receipt
+}, { timestamps: true });
+
+// Create Mongoose models from the schemas
+const LorryReceipt = mongoose.model('LorryReceipt', LorryReceiptSchema);
+const Item = mongoose.model('Item', ItemSchema);  // Corrected the model name
+
+// Export both models
+module.exports = { LorryReceipt, Item };

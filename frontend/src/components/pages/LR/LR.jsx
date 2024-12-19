@@ -2,13 +2,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FaFile, FaClipboardList, FaListAlt, FaTruck, FaBox, FaCar, FaClock, FaListUl, FaLifeRing, FaProductHunt, FaUserAstronaut, FaMoneyBill } from 'react-icons/fa';
-import Navbar from '../../main/Navbar';
 import './LR.css'
 
 const LR = ( ) => {
   return (
     <>
-    <Navbar/>
+    {/* <Navbar/> */}
      <br />
      <br />
     <div className="grid-container-lr">
