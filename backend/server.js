@@ -32,7 +32,7 @@ app.use('/api/auth', authRoutes);
 
 app.use('/api', lrRoutes);
 
-app.use('/api', vechicleRoutes);
+app.use('/api/vehicles', vechicleRoutes);
 app.use('/api', DriverRoutes);
 // Start the server
 const port = PORT || 5000; // Fallback to port 5000 if PORT is not defined

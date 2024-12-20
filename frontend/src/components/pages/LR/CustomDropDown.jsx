@@ -5,11 +5,7 @@ import Creatable from "react-select/creatable";
 class CustomDropDown extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      consignors: [],
-      consignees: [],
-      freightPayableCompanies: [],
-    };
+   
   }
 
   componentDidMount() {

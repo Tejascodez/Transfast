@@ -1,30 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import '../css/lrstyle.css';
 import axios from 'axios';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; 
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'; 
-import ReactSearchBox from 'react-search-box';
 import { useNavigate } from 'react-router-dom';
-import CustomDropDown from './CustomDropDown';
-import VehicleDetailsForm from './VehiclesDetailsForm';
-import Select from 'react-select';
+import  Creatable from 'react-select/creatable'; 
+
 
 const CreateLR = () => {
-    const [receipts, setReceipts] = useState([]);
-    const [searchQuery, setSearchQuery] = useState('');
     const [increment, setIncrement] = useState('');
-    const [rows, tableRows] = useState([]);
+    const [items, setItems] = useState([]);
     const [consignors, setConsignors] = useState([]);
     const [consignees, setConsignees] = useState([]);
     const [freightCompanies, setFreightCompanies] = useState([]);
+    const [vehicleNumbers, setVehicleNumbers] = useState([]);
+    const [driversNames , setDriversNames ] = useState([]);
+    const [driversContacts , setDriversContacts] = useState([]);
+
     const navigate = useNavigate();
+
     const [formData, setFormData] = useState({
         lrNumber: '',
         lrDate: '',
         from: '',
         to: '',
         vehicleNumber: '',
-        lorryNumber: '',
         driversName: '',
         driversContact: '',
         loadType: 'Full',
@@ -58,23 +56,26 @@ const CreateLR = () => {
         total: ''
     });
 
-    const [items, setItems] = useState([]);
-
     useEffect(() => {
-        // Fetch data from the lorryReceipts endpoint
         const fetchData = async () => {
             try {
                 const response = await axios.get('http://localhost:5000/api/lorryReceipts');
                 const data = response.data;
 
-                // Assuming your data structure, extract consignors, consignees, and freight companies
+                // Extracting unique consignors, consignees, and freight companies
                 const consignors = [...new Set(data.map(item => item.consignor))];
                 const consignees = [...new Set(data.map(item => item.consignee))];
                 const freightCompanies = [...new Set(data.map(item => item.freightPayableCompany))];
+                const vehicleNumbers =  [...new Set(data.map(item => item.vehicleNumber))];
+                const driversNames =  [...new Set(data.map(item => item.driversName))];
+                const driversContacts = [...new Set(data.map(item=> item.driversContact))];
 
-                setConsignors(consignors.map(consignor => ({ label: consignor, value: consignor })));
-                setConsignees(consignees.map(consignee => ({ label: consignee, value: consignee })));
-                setFreightCompanies(freightCompanies.map(company => ({ label: company, value: company })));
+                setConsignors(consignors);
+                setConsignees(consignees);
+                setFreightCompanies(freightCompanies);
+                setVehicleNumbers(vehicleNumbers);
+                setDriversNames(driversNames);
+                setDriversContacts(driversContacts);
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -83,13 +84,12 @@ const CreateLR = () => {
         fetchData();
     }, []);
 
-
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData({
-            ...formData,
+        setFormData(prevState => ({
+            ...prevState,
             [name]: value
-        });
+        }));
     };
 
     const handleAddRow = () => {
@@ -99,17 +99,16 @@ const CreateLR = () => {
             quantity: formData.quantity,
             unit: formData.unit,
             EwayNum: formData.EwayNum,
-            expdate: formData.expdate,
             rate: formData.rate,
             actualWeight: formData.actualWeight,
             chargeableWeight: formData.chargeableWeight
         };
 
-        setItems([...items, newItem]);
+        setItems(prevItems => [...prevItems, newItem]);
 
         // Optionally reset fields after adding the row
-        setFormData({
-            ...formData,
+        setFormData(prevState => ({
+            ...prevState,
             description: '',
             invoiceNumber: '',
             quantity: '',
@@ -118,7 +117,7 @@ const CreateLR = () => {
             rate: '',
             actualWeight: '',
             chargeableWeight: ''
-        });
+        }));
     };
 
     const handleSubmit = async (e) => {
@@ -132,7 +131,7 @@ const CreateLR = () => {
             console.log("Data to Submit:", dataToSubmit);
             const postResponse = await axios.post('http://localhost:5000/api/lorryReceipts', dataToSubmit);
             if (postResponse.status === 201) {
-                console.log('Lorry Receipt data stored successfully.', dataToSubmit);
+                console.log('Lorry Receipt data stored successfully.');
                 navigate('/printlr', { state: { formData, items } });
             } else {
                 console.error('Failed to store Lorry Receipt data.');
@@ -144,89 +143,51 @@ const CreateLR = () => {
         }
     };
 
-    const handleClear = () => {
-        setFormData({
-            lrNumber: '',
-            lrDate: '',
-            from: '',
-            to: '',
-            vehicleNumber: '',
-            lorryNumber: '',
-            driversName: '',
-            driversContact: '',
-            loadType: 'Full',
-            consignor: '',
-            consignee: '',
-            freightPayableCompany: '',
-            invoiceValue: 'inv',
-            paymentMode: 'TBB',
-            billingBranch: 'Kolhapur',
-            collectionType: 'DC',
-            deliveryType: 'DD',
-            itemType: 'General',
-            description: '',
-            invoiceNumber: '',
-            quantity: '',
-            unit: 'Nos',
-            EwayNum: '',
-            rate: '',
-            actualWeight: '',
-            chargeableWeight: '',
-            totalAmount: '',
-            remarks: '',
-            freight: '',
-            surCharges: '',
-            stasticalCharges: '',
-            hamali: '',
-            dcCharges: '',
-            ddCharges: '',
-            holting: '',
-            other: '',
-            total: ''
-        });
-        setItems([]);
-    };
-
-    const handlePrint = () => {
-        window.print();
-    };
-
-    const handleSearch = (value) => {
-        setSearchQuery(value);
-    };
-
     const handleConsignorChange = (selectedOption) => {
-        setFormData({
-            ...formData,
+        setFormData(prevState => ({
+            ...prevState,
             consignor: selectedOption ? selectedOption.value : ''
-        });
+        }));
     };
 
     const handleConsigneeChange = (selectedOption) => {
-        setFormData({
-            ...formData,
+        setFormData(prevState => ({
+            ...prevState,
             consignee: selectedOption ? selectedOption.value : ''
-        });
+        }));
     };
+
+    const handleVehicleNumbers = (selecetedOption) =>{
+        setFormData(prevState =>({
+            ...prevState,
+            vehicleNumber : selecetedOption ? selecetedOption.value: ""
+        }));
+    }
+    const handleDriverNames = (selecetedOption) =>{
+        setFormData(prevState =>({
+            ...prevState,
+            driversName: selecetedOption ? selecetedOption.value: ""
+        }));
+    }
+
+    const handleDriversContact = (selecetedOption) =>{
+        setFormData(prevState =>({
+            ...prevState,
+            driversContact: selecetedOption ? selecetedOption.value: ""
+        }));
+    }
+
 
     const handleFreightPayableCompanyChange = (selectedOption) => {
-        setFormData({
-            ...formData,
+        setFormData(prevState => ({
+            ...prevState,
             freightPayableCompany: selectedOption ? selectedOption.value : ''
-        });
+        }));
     };
-
-    const filteredReceipts = receipts.filter(receipt =>
-        Object.values(receipt).some(value =>
-            value && value.toString().toLowerCase().includes(searchQuery.toLowerCase())
-        )
-    );
-
 
 
     return (
         <div className="lorry-receipt-container">
-         
             <h2 className='l'>Lorry Receipt</h2>
             <form className='receipt-items' onSubmit={handleSubmit}>
                 <div className='box1'>
@@ -241,46 +202,96 @@ const CreateLR = () => {
                         <label htmlFor="to">TO :</label>
                         <input type="text" id="to" name="to" placeholder="Enter Destination" value={formData.to} onChange={handleChange} required />
                     </div>
-                  <VehicleDetailsForm/>
+                    <div className="Vehicle-details">
+    <label htmlFor="lorry-details"> VEHICLE DETAILS </label><br />
+    <label htmlFor="vehicleNumber">VEHICLE NUMBER :</label>
+    <Creatable 
+        id="vehicleNumber"
+        name='vehicleNumber'
+        options={vehicleNumbers.map(c => ({value: c, label:c }))}
+        onChange={handleVehicleNumbers}
+        value={formData.vehicleNumber ? {value: formData.vehicleNumber, label: formData.vehicleNumber}:null}
+        placeholder="Enter vehicle Number"
+        isClearable
+        required/>
+        <br />
+    {/* <input type="text" id="vehicleNumber" name="vehicleNumber" placeholder="Enter Vehicle Number" value={formData.vehicleNumber} onChange={handleChange} required/><br /> */}
+    <label htmlFor="driversName">DRIVER'S NAME :</label>
+    <Creatable 
+        id="driversName"
+        name='driversName'
+        options={driversNames.map(c => ({value: c, label:c }))}
+        onChange={handleDriverNames}
+        value={formData.driversName ? {value: formData.driversName, label: formData.driversName}:null}
+        placeholder="Enter Driver Name"
+        isClearable
+        required/>
+        <br />
+    {/* <input type="text" id="driversName" name="driversName" placeholder="Enter Driver's Name" value={formData.driversName} onChange={handleChange} /><br /> */}
+    <label htmlFor="driversContact">DRIVER'S CONTACT :</label>
+    <Creatable 
+        id="driversContact"
+        name='driversContact'
+        options={driversContacts.map(c => ({value: c, label:c }))}
+        onChange={handleDriversContact}
+        value={formData.driversContact ? {value: formData.driversContact, label: formData.driversContact}:null}
+        placeholder="Enter Driver Name"
+        isClearable
+        required/>
+        <br />
+    {/* <input type="tel" id="driversContact" name="driversContact" placeholder="Enter Driver's Mobile No." value={formData.driversContact} onChange={handleChange} required/><br /> */}
+    <label htmlFor="loadType">LOAD TYPE :</label>
+    <select id="loadType" name="loadType" value={formData.loadType} onChange={handleChange}>
+        <option value="Full">Full Load</option>
+        <option value="Part">Part Load</option>
+        <option value="Special Vehicle">Special Vehicle</option>
+    </select><br />
+</div>
                 </div>
-                  <div className="customer-details">
-        <label htmlFor="company-details">CUSTOMER DETAILS</label><br />
-        <label htmlFor="consignor">CONSIGNOR :</label>
-                    <Select
+
+                <div className="customer-details">
+                    <label htmlFor="company-details">CUSTOMER DETAILS</label><br />
+                    
+                    {/* Creatable for Consignor */}
+                    <label htmlFor="consignor">CONSIGNOR :</label>
+                    <Creatable
                         id="consignor"
                         name="consignor"
-                        options={consignors.map(c => ({ value: c.id, label: c.name }))}
+                        options={consignors.map(c => ({ value: c, label: c }))}
                         onChange={handleConsignorChange}
-                        value={consignors.find(c => c.id === formData.consignor)}
+                        value={formData.consignor ? { value: formData.consignor, label: formData.consignor } : null}
                         placeholder="Enter Sender Company Name"
-                        required
-                    /><br />
-                    <label htmlFor="consignee">CONSIGNEE :</label>
-                    <Select
-                        id="consignee"
-                        name="consignee"
-                        options={consignees.map(c => ({ value: c.id, label: c.name }))}
-                        onChange={handleConsigneeChange}
-                        value={consignees.find(c => c.id === formData.consignee)}
-                        placeholder="Enter Receiving Company Name"
-                        required
-                    /><br />
-                    <label htmlFor="freightPayableCompany">Freight Payable Company :</label>
-                    <Select
-                        id="freightPayableCompany"
-                        name="freightPayableCompany"
-                        options={freightCompanies.map(c => ({ value: c.id, label: c.name }))}
-                        onChange={handleFreightPayableCompanyChange}
-                        value={freightCompanies.find(c => c.id === formData.freightPayableCompany)}
-                        placeholder="Enter Freight Payable Company Name"
+                        isClearable
                         required
                     /><br />
 
-      
-       
-      
-      </div>
-      
+                    {/* Creatable for Consignee */}
+                    <label htmlFor="consignee">CONSIGNEE :</label>
+                    <Creatable
+                        id="consignee"
+                        name="consignee"
+                        options={consignees.map(c => ({ value: c, label: c }))}
+                        onChange={handleConsigneeChange}
+                        value={formData.consignee ? { value: formData.consignee, label: formData.consignee } : null}
+                        placeholder="Enter Receiving Company Name"
+                        isClearable
+                        required
+                    /><br />
+
+                    {/* Creatable for Freight Payable Company */}
+                    <label htmlFor="freightPayableCompany">Freight Payable Company :</label>
+                    <Creatable
+                        id="freightPayableCompany"
+                        name="freightPayableCompany"
+                        options={freightCompanies.map(c => ({ value: c, label: c }))}
+                        onChange={handleFreightPayableCompanyChange}
+                        value={formData.freightPayableCompany ? { value: formData.freightPayableCompany, label: formData.freightPayableCompany } : null}
+                        placeholder="Enter Freight Payable Company Name"
+                        isClearable
+                        required
+                    /><br />
+                </div>
+
 
                 <div className="material-details">
                     <label htmlFor="load-details">MATERIAL DETAILS</label><br />
@@ -305,91 +316,91 @@ const CreateLR = () => {
                     <label htmlFor="chargeableWeight">CHARGEBAL WEIGHT :</label>
                     <input type="text" id="chargeableWeight" name="chargeableWeight" value={formData.chargeableWeight} onChange={handleChange} />
                     <button type="button" onClick={handleAddRow}>Add</button>
-                    
                 </div>
+
                 <div className="freight-charges">
-          <label htmlFor="freight">FREIGHT CHARGES</label><br />
-          <label htmlFor="freight">Freight:</label>
-          <input
-            type="text"
-            id="freight"
-            name="freight"
-            value={formData.freight}
-            onChange={handleChange}
-          /><br />
-          <label htmlFor="surCharges">Sur. Charges:</label>
-          <input
-            type="text"
-            id="surCharges"
-            name="surCharges"
-            value={formData.surCharges}
-            onChange={handleChange}
-          /><br />
-          <label htmlFor="stasticalCharges">Statistical Charges:</label>
-          <input
-            type="text"
-            id="stasticalCharges"
-            name="stasticalCharges"
-            value={formData.stasticalCharges}
-            onChange={handleChange}
-          /><br />
-          <label htmlFor="hamali">Hamali:</label>
-          <input
-            type="text"
-            id="hamali"
-            name="hamali"
-            value={formData.hamali}
-            onChange={handleChange}
-          /><br />
-          <label htmlFor="dcCharges">DC Charges:</label>
-          <input
-            type="text"
-            id="dcCharges"
-            name="dcCharges"
-            value={formData.dcCharges}
-            onChange={handleChange}
-          /><br />
-          <label htmlFor="ddCharges">DD Charges:</label>
-          <input
-            type="text"
-            id="ddCharges"
-            name="ddCharges"
-            value={formData.ddCharges}
-            onChange={handleChange}
-          /><br />
-          <label htmlFor="holting">Holting:</label>
-          <input
-            type="text"
-            id="holting"
-            name="holting"
-            value={formData.holting}
-            onChange={handleChange}
-          /><br />
-          <label htmlFor="other">Other:</label>
-          <input
-            type="text"
-            id="other"
-            name="other"
-            value={formData.other}
-            onChange={handleChange}
-          /><br />
-          <label htmlFor="total">Total:</label>
-          <input
-            type="text"
-            name="total"
-            value={formData.total}
-            onChange={handleChange}
-          /><br />
-          <label htmlFor="totalAmount">TOTAL AMOUNT IN FIGURES:</label>
-          <input
-            type="text"
-            id="totalAmount"
-            name="totalAmount"
-            placeholder="Enter Total Amount"
-            value={formData.totalAmount}
-            onChange={handleChange}
-          />
-        </div>
+                    <label htmlFor="freight">FREIGHT CHARGES</label><br />
+                    <label htmlFor="freight">Freight:</label>
+                    <input
+                        type="text"
+                        id="freight"
+                        name="freight"
+                        value={formData.freight}
+                        onChange={handleChange}
+                    /><br />
+                    <label htmlFor="surCharges">Sur. Charges:</label>
+                    <input
+                        type="text"
+                        id="surCharges"
+                        name="surCharges"
+                        value={formData.surCharges}
+                        onChange={handleChange}
+                    /><br />
+                    <label htmlFor="stasticalCharges">Statistical Charges:</label>
+                    <input
+                        type="text"
+                        id="stasticalCharges"
+                        name="stasticalCharges"
+                        value={formData.stasticalCharges}
+                        onChange={handleChange}
+                    /><br />
+                    <label htmlFor="hamali">Hamali:</label>
+                    <input
+                        type="text"
+                        id="hamali"
+                        name="hamali"
+                        value={formData.hamali}
+                        onChange={handleChange}
+                    /><br />
+                    <label htmlFor="dcCharges">DC Charges:</label>
+                    <input
+                        type="text"
+                        id="dcCharges"
+                        name="dcCharges"
+                        value={formData.dcCharges}
+                        onChange={handleChange}
+                    /><br />
+                    <label htmlFor="ddCharges">DD Charges:</label>
+                    <input
+                        type="text"
+                        id="ddCharges"
+                        name="ddCharges"
+                        value={formData.ddCharges}
+                        onChange={handleChange}
+                    /><br />
+                    <label htmlFor="holting">Holting:</label>
+                    <input
+                        type="text"
+                        id="holting"
+                        name="holting"
+                        value={formData.holting}
+                        onChange={handleChange}
+                    /><br />
+                    <label htmlFor="other">Other:</label>
+                    <input
+                        type="text"
+                        id="other"
+                        name="other"
+                        value={formData.other}
+                        onChange={handleChange}
+                    /><br />
+                    <label htmlFor="total">Total:</label>
+                    <input
+                        type="text"
+                        name="total"
+                        value={formData.total}
+                        onChange={handleChange}
+                    /><br />
+                    <label htmlFor="totalAmount">TOTAL AMOUNT IN FIGURES:</label>
+                    <input
+                        type="text"
+                        id="totalAmount"
+                        name="totalAmount"
+                        placeholder="Enter Total Amount"
+                        value={formData.totalAmount}
+                        onChange={handleChange}
+                    />
+                </div>
 
                 <table className="tbl">
                     <thead>
@@ -420,28 +431,12 @@ const CreateLR = () => {
                     </tbody>
                 </table>
 
-
                 <div className="actions">
-                    <input type="button" value="Clear" onClick={handleClear} />
-                    <input type="button" value="Sumbit" onClick={handleSubmit} />
+                    <input type="button" value="Clear" onClick={() => setFormData({ ...formData, ...initialState })} />
+                    <input type="button" value="Submit"  onClick={handleSubmit} />
                     <input type="button" value="Exit" />
                 </div>
             </form>
-
-            <div className="receipt-list">
-                <h2>Search Results</h2>
-                {filteredReceipts.length > 0 ? (
-                    <ul>
-                        {filteredReceipts.map(receipt => (
-                            <li key={receipt.lrNumber}>
-                                <p>{receipt.consignor} - {receipt.consignee} - {receipt.lorryNumber}</p>
-                            </li>
-                        ))}
-                    </ul>
-                ) : (
-                    <p>No matching receipts found.</p>
-                )}
-            </div>
         </div>
     );
 };
