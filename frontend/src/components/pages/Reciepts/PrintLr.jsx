@@ -31,7 +31,7 @@ const PrintLr = () => {
             <div className="address">
               <h1>TRANSFAST CORPORATION</h1>
               <p>448/B, NEAR MAHINDRA SHOWROOM, NH4 HIGHWAY, M.I.D.C., SHIROLI, KOLHAPUR, MAHARASHTRA. 416 122</p>
-              <p>CONTACT NUMBER: 9921296075 / 7385113939 / 9960909651</p>
+              <p>CONTACT NUMBER: 9923826075 / 7385113939 / 9960909651</p>
               <p>GST NUMBER: 27ANEPC0107H1Z0</p>
               <p>Email ID: transfast.corporation@gmail.com</p>
             </div>
@@ -114,14 +114,14 @@ const PrintLr = () => {
                     <td>{safeValue(_item.chargeableWeight)}</td>
                     <td>{safeValue(_item.EwayNum)}</td>
                     <td>{safeValue(_item.expdate)}</td>
-                    <td>{safeValue(_item.totalAmount)}</td>
+                   
                   </tr>
                 ))}
               </tbody>
               <tfoot>
                 <tr>
                   <th colSpan="2">TOTAL AMOUNT IN FIGURES:</th>
-                  <td colSpan="7"></td>
+                  <td colSpan="7">{formData.totalAmountInWords}</td>
                 </tr>
               </tfoot>
             </table>
@@ -144,7 +144,7 @@ const PrintLr = () => {
                     </tr>
                     <tr>
                       <td>STATISTICAL CHARGES</td>
-                      <td>{safeValue(formData.statiscalCharges)}</td>
+                      <td>{safeValue(formData.stasticalCharges)}</td>
                     </tr>
                     <tr>
                       <td>HAMALI:</td>
@@ -171,7 +171,7 @@ const PrintLr = () => {
               <tfoot>
                 <tr>
                   <th>TOTAL</th>
-                  <td>{safeValue(formData.total)}</td>
+                  <td>{safeValue(formData.totalAmount)}</td>
                 </tr>
               </tfoot>
             </table>
@@ -186,7 +186,7 @@ const PrintLr = () => {
                   <td rowSpan={3}></td>
                 </tr>
                 <tr>
-                  <td>A/C NO :- 331305000180, ICICI BANK, MIDC SHIROLI, KOLHAPUR.</td>
+                  
                 </tr>
                 <tr>
                   <td>PHONEPAY/GPAY :- 9921296075</td>

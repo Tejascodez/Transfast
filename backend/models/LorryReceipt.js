@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-
+const { toWords } = require('number-to-words')
 // Define the Item schema
 const ItemSchema = new Schema({
   description: { type: String },
@@ -12,7 +12,6 @@ const ItemSchema = new Schema({
   rate: { type: Number },
   actualWeight: { type: Number },
   chargeableWeight: { type: Number },
-  totalAmount: { type: Number },
 }, { _id: false });  // `_id: false` prevents Mongoose from generating an _id for each item.
 
 // Define the LorryReceipt schema
@@ -34,7 +33,7 @@ const LorryReceiptSchema = new Schema({
   collectionType: { type: String, default: 'DC' },
   deliveryType: { type: String, default: 'DD' },
   itemType: { type: String, default: 'General' },
-  totalAmount: { type: Number },
+  totalAmount: { type: String },
   remarks: { type: String },
   freight: { type: Number },
   surCharges: { type: Number },
@@ -44,9 +43,17 @@ const LorryReceiptSchema = new Schema({
   ddCharges: { type: Number },
   holting: { type: Number },
   other: { type: Number },
-  total: { type: Number },
+  totalAmountInWords: { type: String },
   items: [ItemSchema],  // Array of items for each lorry receipt
 }, { timestamps: true });
+
+
+LorryReceiptSchema.pre('save', function (next) {
+  if (this.totalAmount) {
+    this.totalAmountInWords = toWords(this.totalAmount); // Convert totalAmount to words
+  }
+  next();
+});
 
 // Create Mongoose models from the schemas
 const LorryReceipt = mongoose.model('LorryReceipt', LorryReceiptSchema);

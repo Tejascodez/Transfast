@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import '../css/lrstyle.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import  Creatable from 'react-select/creatable'; 
+import  Creatable from 'react-select/creatable';
+import { toWords } from 'number-to-words';
 
 
 const CreateLR = () => {
@@ -39,7 +40,8 @@ const CreateLR = () => {
         invoiceNumber: '',
         quantity: '',
         unit: 'Nos',
-        EwayNum: '',
+        EwayBillNo: '',
+        expiryDate:'',
         rate: '',
         actualWeight: '',
         chargeableWeight: '',
@@ -53,8 +55,9 @@ const CreateLR = () => {
         ddCharges: '',
         holting: '',
         other: '',
-        total: ''
+        totalAmountInWords:''
     });
+  
 
     useEffect(() => {
         const fetchData = async () => {
@@ -98,7 +101,8 @@ const CreateLR = () => {
             invoiceNumber: formData.invoiceNumber,
             quantity: formData.quantity,
             unit: formData.unit,
-            EwayNum: formData.EwayNum,
+            EwayBillNo: formData.EwayBillNo,
+            expiryDate: formData.expiryDate,
             rate: formData.rate,
             actualWeight: formData.actualWeight,
             chargeableWeight: formData.chargeableWeight
@@ -113,7 +117,8 @@ const CreateLR = () => {
             invoiceNumber: '',
             quantity: '',
             unit: 'Nos',
-            EwayNum: '',
+            EwayBillNo: '',
+            expiryDate:'',
             rate: '',
             actualWeight: '',
             chargeableWeight: ''
@@ -184,6 +189,58 @@ const CreateLR = () => {
             freightPayableCompany: selectedOption ? selectedOption.value : ''
         }));
     };
+    const capitalizeWords = (str) => {
+        return str
+            .split(' ')
+            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(' ');
+    };
+    const formatIndianCurrency = (num) => {
+        if (!num || isNaN(num)) return 'Zero Only/-';
+    
+        const crores = Math.floor(num / 10000000);
+        num %= 10000000;
+    
+        const lakhs = Math.floor(num / 100000);
+        num %= 100000;
+    
+        const thousands = Math.floor(num / 1000);
+        num %= 1000;
+    
+        const hundreds = Math.floor(num / 100);
+        num %= 100;
+    
+        const tensAndOnes = num;
+    
+        const parts = [];
+        if (crores) parts.push(`${capitalizeWords(toWords(crores))} Crore`);
+        if (lakhs) parts.push(`${capitalizeWords(toWords(lakhs))} Lakh`);
+        if (thousands) parts.push(`${capitalizeWords(toWords(thousands))} Thousand`);
+        if (hundreds) parts.push(`${capitalizeWords(toWords(hundreds))} Hundred`);
+        if (tensAndOnes) parts.push(`${capitalizeWords(toWords(tensAndOnes))}`);
+    
+        return parts.join(' ') + ' Only/-';
+    };
+
+
+    // Calculate total whenever a field changes
+    useEffect(() => {
+        const totalAmount =
+            Number(formData.freight || 0) +
+            Number(formData.surCharges || 0) +
+            Number(formData.stasticalCharges || 0) +
+            Number(formData.hamali || 0) +
+            Number(formData.dcCharges || 0) +
+            Number(formData.ddCharges || 0) +
+            Number(formData.holting || 0) +
+            Number(formData.other || 0);
+
+        setFormData((prev) => ({
+            ...prev,
+            totalAmount: Number(totalAmount).toLocaleString('en-IN', { minimumFractionDigits: 2 }), 
+            totalAmountInWords: formatIndianCurrency(Math.floor(totalAmount)), // Converts to Indian format with suffix
+        }));
+    }, [formData.freight, formData.surCharges, formData.stasticalCharges, formData.hamali, formData.dcCharges, formData.ddCharges, formData.holting, formData.other]);
 
 
     return (
@@ -247,6 +304,37 @@ const CreateLR = () => {
         <option value="Special Vehicle">Special Vehicle</option>
     </select><br />
 </div>
+<div className="freight-details">
+                <label htmlFor="freight-details">FREIGHT DETAILS </label><br />
+                <label htmlFor="invoiceValue">INVOICE VALUE :</label>
+                <select id="invoiceValue" name="invoiceValue" value={formData.invoiceValue} onChange={handleChange}>
+                    <option value="inv">As Per Invoice</option>
+                    <option value="Paid">As Per Challan</option>
+                </select>
+                {/* <input type="text" id="value" name="value" value={formData.value} onChange={handleChange} placeholder="Enter Value" /><br /> */}
+                <label htmlFor="paymentMode">PAYMENT MODE :</label>
+                <select id="paymentMode" name="paymentMode" value={formData.paymentMode} onChange={handleChange}>
+                    <option value="TBB">TBB</option>
+                    <option value="Paid">Paid</option>
+                    <option value="To Pay">To Pay</option>
+                </select><br />
+                <label htmlFor="billingBranch">BILLING BRANCH :</label>
+                <select id="billingBranch" name="billingBranch" value={formData.billingBranch} onChange={handleChange}>
+                    <option value="Kolhapur">Kolhapur</option>
+                    <option value="Pune">Pune</option>
+                    <option value="Dharwad">Dharwad</option>
+                </select><br />
+                <label htmlFor="collectionType">COLLECTION TYPE :</label>
+                <select id="collectionType" name="collectionType" value={formData.collectionType} onChange={handleChange}>
+                    <option value="DC">Direct Collection</option>
+                    <option value="VC">Vehicle Collection</option>
+                </select><br />
+                <label htmlFor="deliveryType">DELIVERY TYPE :</label>
+                <select id="deliveryType" name="deliveryType" value={formData.deliveryType} onChange={handleChange}>
+                    <option value="DD">Direct Delivery</option>
+                    <option value="VD">Vehicle Delivery</option>
+                </select><br />
+            </div>
                 </div>
 
                 <div className="customer-details">
@@ -292,9 +380,16 @@ const CreateLR = () => {
                     /><br />
                 </div>
 
-
+<div className='box3'>
                 <div className="material-details">
                     <label htmlFor="load-details">MATERIAL DETAILS</label><br />
+                   
+                <label htmlFor="itemType">ITEM TYPE :</label>
+                <select id="itemType" name="itemType" value={formData.itemType} onChange={handleChange}>
+                    <option value="General">General</option>
+                    <option value="Box">Box</option>
+                    <option value="Pallete">Pallete</option>
+                </select><br />
                     <label htmlFor="description">DESCRIPTION :</label>
                     <input type="text" id="description" name="description" placeholder="Enter Material Name" value={formData.description} onChange={handleChange} />
                     <label htmlFor="invoiceNumber">INVOICE NUMBER :</label>
@@ -307,8 +402,10 @@ const CreateLR = () => {
                         <option value="UOM">UOM</option>
                         <option value="KGS">KGS</option>
                     </select>
-                    <label htmlFor="EwayNum">EWAYBILL NUMBER :</label>
-                    <input type="text" id="EwayNum" name="EwayNum" value={formData.EwayNum} onChange={handleChange} />
+                    <label htmlFor="EwayBillNo">EWAYBILL NUMBER :</label>
+                    <input type="text" id="EwayBillNo" name="EwayBillNo" value={formData.EwayBillNo} onChange={handleChange} />
+                    <label htmlFor="expiryDate">DATE OF EXPIRATION OF EWAYBILL :</label>
+                    <input type="date" id="expiryDate" name="expiryDate" value={formData.expiryDate} onChange={handleChange} /><br />
                     <label htmlFor="rate">RATE :</label>
                     <input type="text" id="rate" name="rate" value={formData.rate} onChange={handleChange} />
                     <label htmlFor="actualWeight">ACTUAL WEIGHT :</label>
@@ -336,7 +433,7 @@ const CreateLR = () => {
                         value={formData.surCharges}
                         onChange={handleChange}
                     /><br />
-                    <label htmlFor="stasticalCharges">Statistical Charges:</label>
+                    <label htmlFor="stasticalCharges">Stastical Charges:</label>
                     <input
                         type="text"
                         id="stasticalCharges"
@@ -387,19 +484,19 @@ const CreateLR = () => {
                     <label htmlFor="total">Total:</label>
                     <input
                         type="text"
-                        name="total"
-                        value={formData.total}
-                        onChange={handleChange}
+                        name="totalAmount"
+                        value={formData.totalAmount}
+                        readOnly
                     /><br />
                     <label htmlFor="totalAmount">TOTAL AMOUNT IN FIGURES:</label>
                     <input
-                        type="text"
-                        id="totalAmount"
-                        name="totalAmount"
-                        placeholder="Enter Total Amount"
-                        value={formData.totalAmount}
-                        onChange={handleChange}
+                         type="text"
+                         id="totalAmount"
+                         name="totalAmount"
+                         value={formData.totalAmountInWords}
+                         readOnly
                     />
+                </div>
                 </div>
 
                 <table className="tbl">
@@ -410,6 +507,7 @@ const CreateLR = () => {
                             <th>QUANTITY</th>
                             <th>UNIT</th>
                             <th>EWAYBILL NUMBER</th>
+                            <th>EXP. DATE</th>
                             <th>RATE</th>
                             <th>ACTUAL WEIGHT</th>
                             <th>CHARGEBAL WEIGHT</th>
@@ -422,7 +520,8 @@ const CreateLR = () => {
                                 <td>{item.invoiceNumber}</td>
                                 <td>{item.quantity}</td>
                                 <td>{item.unit}</td>
-                                <td>{item.EwayNum}</td>
+                                <td>{item.EwayBillNo}</td>
+                                <td>{item.expiryDate}</td>
                                 <td>{item.rate}</td>
                                 <td>{item.actualWeight}</td>
                                 <td>{item.chargeableWeight}</td>
@@ -440,5 +539,6 @@ const CreateLR = () => {
         </div>
     );
 };
+
 
 export default CreateLR;

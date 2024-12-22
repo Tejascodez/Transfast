@@ -15,6 +15,7 @@ import { LrProvider } from './LrContext';
 import './App.css';
 import Receipt from './components/pages/Reciepts/Receipt'
 import ReceiptDetail from './components/pages/Reciepts/ReceiptDetail'
+import Fuels from './components/fuels/Fuels'
 
 function App() {
 
@@ -46,8 +47,9 @@ function App() {
           <Route path='/drivers' element={<Driver/>}/>
           <Route path='/receipt' element={<Receipt/>}/>
           <Route path="/receipt-detail/:id" element={<ReceiptDetail />} />
+          <Route path="/fuels" element={<Fuels />} />
 
-          {/* <Route path='/CreateChallan' element={<CreateChallan/>}/> */}
+          <Route path='/CreateChallan' element={<CreateChallan/>}/>
         </Routes> 
         
       </BrowserRouter>

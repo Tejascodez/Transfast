@@ -5,6 +5,7 @@ const lorryReceiptController = require('../controllers/lrController');
 // Routes for lorry receipts
 router.post('/lorryReceipts', lorryReceiptController.addLorryReceipt);
 router.get('/lorryReceipts', lorryReceiptController.getLorryReceipts);
+router.delete('/lorryReceipts/:id', lorryReceiptController.deleteReceipt);
 router.get('/LorryReceipts/:id', lorryReceiptController.getLorryReceiptsById);
 
 // Routes for items

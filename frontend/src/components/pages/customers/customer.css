@@ -1,104 +1,135 @@
-/* Container for the entire form */
 .customer-box {
-    width: 60%;
-    margin: 0 auto;
-    padding: 20px;
-    font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+.button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin: 5px;
+  transition: background-color 0.3s;
+}
+
+.button:hover {
+  background-color: #0056b3;
+}
+
+.close-button {
+  background-color: #ff4d4d;
+}
+
+.close-button:hover {
+  background-color: #ff1a1a;
+}
+
+.add-part-button {
+  margin-top: 10px;
+}
+
+.submit-button {
+  margin-top: 20px;
+}
+
+.tabular-information {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.tabular-information th,
+.tabular-information td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.tabular-information th {
+  background-color: #f2f2f2;
+  text-align: left;
+}
+
+.modal-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  border-radius: 10px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.parts-header {
+  margin-top: 20px;
+}
+
+.parts-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.parts {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.added-parts {
+  margin-left: 20px;
+}
+
+.added-parts ul {
+  list-style: none;
+  padding: 0;
+}
+
+/* Media Queries for Responsive Design */
+
+@media (max-width: 768px) {
+  .modal-content {
+    width: 90%;
+    max-width: none;
   }
-  
-  /* Header styling */
-  .customer, .parts-header {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #333;
-  }
-  
-  /* Form container */
-  .customer-form, .parts-container {
-    display: flex;
+
+  .parts-container {
     flex-direction: column;
-    gap: 15px;
   }
-  
-  /* Customer details form group */
-  .customer {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
-  
-  .customer-details label, .form-group label {
-    font-weight: bold;
-    margin-bottom: 5px;
-    color: #555;
-  }
-  
-  .customer-details input, .form-group input {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-    margin-bottom: 10px;
-    transition: border-color 0.3s;
-  }
-  
-  .customer-details input:focus, .form-group input:focus {
-    border-color: #007BFF;
-    outline: none;
-  }
-  
-  /* Button styles */
-  button {
-    padding: 10px 15px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  button:hover {
-    background-color: #45a049;
-  }
-  
-  /* Specific button styles */
-  .add-part-button {
-    background-color: #FFC107;
-    align-self: flex-start;
-  }
-  
-  .add-part-button:hover {
-    background-color: #e0a800;
-  }
-  
-  .submit-button {
-    background-color: #007BFF;
-    margin-top: 20px;
-    width: 100%;
-  }
-  
-  .submit-button:hover {
-    background-color: #0056b3;
-  }
-  
-  /* Added parts list */
+
   .added-parts {
-    margin-top: 30px;
+    margin-left: 0;
+    margin-top: 20px;
   }
-  
-  .added-parts ul {
-    list-style-type: none;
-    padding: 0;
+
+  .tabular-information {
+    font-size: 14px;
   }
-  
-  .added-parts li {
+
+  .button {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .tabular-information th, .tabular-information td {
+    padding: 6px;
+  }
+
+  .button {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+
+  .customer-box {
     padding: 10px;
-    border-bottom: 1px solid #ddd;
-    font-size: 16px;
   }
-  
+}

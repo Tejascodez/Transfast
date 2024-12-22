@@ -46,7 +46,7 @@ const navigate = useNavigate();
             {name:'Customers', path: '/customers'},
             {name:'Vehicle', path: '/vehicle'},
             {name:'Drivers', path: '/drivers'},
-            {name:'Cheque Printing', path: '/cp'},
+            {name:'Fuels', path: '/fuels'},
             {name:'Company Docs', path: '/cd'},
             {name: 'Quotation', path: '/quatation'},
             {name:'Settings', path: '/settings'},

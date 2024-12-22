@@ -8,10 +8,12 @@ const cors = require('cors');
 const lrRoutes = require('./routes/lrRoutes');
 const vechicleRoutes = require('./routes/vechicleRoutes');
 const DriverRoutes = require('./routes/driver');
+const path = require('path')
+const CustomerRoutes = require('./routes/CustomerRoutes');
 
 const app = express();
 app.use(cors());
-
+app.use('/uploads', express.static('uploads'));
 
 const { PORT, MONGO_URI } = process.env;
 // app.post('/api/auth/signup', signup);
@@ -34,6 +36,7 @@ app.use('/api', lrRoutes);
 
 app.use('/api/vehicles', vechicleRoutes);
 app.use('/api', DriverRoutes);
+app.use('/api/customers', CustomerRoutes);
 // Start the server
 const port = PORT || 5000; // Fallback to port 5000 if PORT is not defined
 app.listen(port, () => {

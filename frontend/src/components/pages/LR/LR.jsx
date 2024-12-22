@@ -7,7 +7,7 @@ import './LR.css'
 const LR = ( ) => {
   return (
     <>
-    {/* <Navbar/> */}
+    <Navbar/>
      <br />
      <br />
     <div className="grid-container-lr">

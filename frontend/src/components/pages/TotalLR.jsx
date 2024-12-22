@@ -117,9 +117,7 @@ const TotalLR = () => {
                             <th>Freight Payable Company</th>
                             <th>Consigner</th>
                             <th>Consignee</th>
-                            <th>Description</th>
-                            <th>Invoice</th>
-                            <th>Quantity</th>
+                           
                             <th>Weight</th>
                             <th>Vehicle No.</th>
                             <th>Driver No.</th>
@@ -139,9 +137,7 @@ const TotalLR = () => {
                                 <td>{receipt.freightPayableCompany}</td>
                                 <td>{receipt.consignor}</td>
                                 <td>{receipt.consignee}</td>
-                                <td>{receipt.description}</td>
-                                <td>{receipt.invoice}</td>
-                                <td>{receipt.quantity}</td>
+                               <td> </td>
                                 <td>{receipt.actualWeight}</td>
                                 <td>{receipt.vehicleNumber}</td>
                                 <td>{receipt.driversContact}</td>

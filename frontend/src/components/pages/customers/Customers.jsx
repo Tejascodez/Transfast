@@ -1,21 +1,38 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './customer.css';
+import Modal from 'react-modal';
+import axios from 'axios';
+
+Modal.setAppElement('#root');
 
 const Customer = () => {
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [customers, setCustomers] = useState([]);
   const [customerDetails, setCustomerDetails] = useState({
     name: '',
     address: '',
     gstin: '',
     contact: '',
     email: '',
+    agentContact: '',
+    agentEmail: '',
   });
+  const [isEdit, setIsEdit] = useState(false);
+  const [editId, setEditId] = useState(null);
 
-  const [parts, setParts] = useState([]);
-  const [partInput, setPartInput] = useState({
-    customerName: '',
-    partName: '',
-    rate: '',
-  });
+  // Fetch customers when the component mounts
+  useEffect(() => {
+    fetchCustomers();
+  }, []);
+
+  const fetchCustomers = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/api/customers');
+      setCustomers(response.data);
+    } catch (err) {
+      console.error('Error fetching customers:', err);
+    }
+  };
 
   const handleCustomerChange = (e) => {
     const { name, value } = e.target;
@@ -25,116 +42,193 @@ const Customer = () => {
     });
   };
 
-  const handlePartInputChange = (e) => {
-    const { name, value } = e.target;
-    setPartInput({
-      ...partInput,
-      [name]: value,
-    });
+  const submitCustomer = async (customerData) => {
+    try {
+      let response;
+      if (isEdit) {
+        response = await axios.put(`http://localhost:5000/api/customers/${editId}`, customerData);
+        setCustomers(customers.map(customer => customer._id === editId ? response.data : customer));
+      } else {
+        response = await axios.post('http://localhost:5000/api/customers', customerData);
+        setCustomers([...customers, response.data]);
+      }
+      console.log('Customer submitted:', response.data);
+    } catch (err) {
+      console.error('Error adding/updating customer:', err);
+    }
   };
 
-  const addPart = () => {
-    setParts([...parts, partInput]);
-    setPartInput({
-      customerName: '',
-      partName: '',
-      rate: '',
-    });
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`http://localhost:5000/api/customers/${id}`);
+      console.log("Deleted successfully");
+      setCustomers(customers.filter(customer => customer._id !== id));
+    } catch (error) {
+      console.error("Error deleting:", error);
+    }
   };
 
-  const handleSubmit = (e) => {
+  const handleEdit = (customer) => {
+    setCustomerDetails({
+      name: customer.name,
+      address: customer.address,
+      gstin: customer.gstin,
+      contact: customer.contact,
+      email: customer.email,
+      agentContact: customer.agentContact,
+      agentEmail: customer.agentEmail,
+    });
+    setEditId(customer._id);
+    setIsEdit(true);
+    setModalIsOpen(true);
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Customer Details:', customerDetails);
-    console.log('Parts:', parts);
+    await submitCustomer(customerDetails);
+    setModalIsOpen(false);
+    setIsEdit(false);
+    setCustomerDetails({
+      name: '',
+      address: '',
+      gstin: '',
+      contact: '',
+      email: '',
+      agentContact: '',
+      agentEmail: '',
+    });
+    fetchCustomers(); // Fetch the updated list of customers
+  };
+
+  const openModal = () => {
+    setModalIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+    setIsEdit(false);
+    setCustomerDetails({
+      name: '',
+      address: '',
+      gstin: '',
+      contact: '',
+      email: '',
+      agentContact: '',
+      agentEmail: '',
+    });
   };
 
   return (
     <div className="customer-box">
-      <h1 className="customer">Customer Details</h1>
-      <form onSubmit={handleSubmit} className="customer-form">
-        <div className="customer-info">
-          <label>Customer Name:</label>
-          <input
-            type="text"
-            name="name"
-            value={customerDetails.name}
-            onChange={handleCustomerChange}
-          />
+      <button onClick={openModal} className="button">Add Customer</button>
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        contentLabel="Add Customer Modal"
+        className="modal-content"
+        overlayClassName="overlay"
+      >
+        <button onClick={closeModal} className="button close-button">x</button>
+        <h1 className="customer">{isEdit ? 'Edit Customer Details' : 'Add Customer Details'}</h1>
 
-          <label>Customer Address:</label>
-          <input
-            type="text"
-            name="address"
-            value={customerDetails.address}
-            onChange={handleCustomerChange}
-          />
+        <form onSubmit={handleSubmit} className="customer-form">
+          <div className="customer-info">
+            <label>Customer Name:</label>
+            <input
+              type="text"
+              name="name"
+              placeholder="Enter company name"
+              value={customerDetails.name}
+              onChange={handleCustomerChange}
+            />
+            <label>Customer Address:</label>
+            <input
+              type="text"
+              name="address"
+              placeholder="Enter company address"
+              value={customerDetails.address}
+              onChange={handleCustomerChange}
+            />
+            <label>Customer GSTIN:</label>
+            <input
+              type="text"
+              name="gstin"
+              placeholder="Enter GSTIN"
+              value={customerDetails.gstin}
+              onChange={handleCustomerChange}
+            />
+            <label>Contact No:</label>
+            <input
+              type="text"
+              name="contact"
+              placeholder="Company Contact Number"
+              value={customerDetails.contact}
+              onChange={handleCustomerChange}
+            />
+            <label>Contact of Agent:</label>
+            <input
+              type="text"
+              name="agentContact"
+              placeholder="Agent's Contact Number"
+              value={customerDetails.agentContact}
+              onChange={handleCustomerChange}
+            />
+            <label>Email of Company:</label>
+            <input
+              type="email"
+              name="email"
+              placeholder="Enter the customer's email"
+              value={customerDetails.email}
+              onChange={handleCustomerChange}
+            />
+            <label>Email of Agent:</label>
+            <input
+              type="email"
+              name="agentEmail"
+              placeholder="Enter the contact person's email"
+              value={customerDetails.agentEmail}
+              onChange={handleCustomerChange}
+            />
 
-          <label>Customer GSTIN:</label>
-          <input
-            type="text"
-            name="gstin"
-            value={customerDetails.gstin}
-            onChange={handleCustomerChange}
-          />
+            <button type="submit" className="button submit-button">{isEdit ? 'Update' : 'Add'}</button>
+          </div>
+        </form>
+      </Modal>
 
-          <label>Contact No:</label>
-          <input
-            type="text"
-            name="contact"
-            value={customerDetails.contact}
-            onChange={handleCustomerChange}
-          />
-           <label>Email:</label>
-          <input
-            type="email"
-            name="email"
-            value={customerDetails.email}
-            onChange={handleCustomerChange}
-          />
-          <button type="submit">Submit</button>
-        </div>
-      </form>
-      <h2 className="parts-header">Parts and Rates</h2>
-      <div className="parts-container">
-        <div className="form-group">
-          <label>Customer Name:</label>
-          <input
-            type="text"
-            name="customerName"
-            value={partInput.customerName}
-            onChange={handlePartInputChange}
-          />
-          <label>Part Name:</label>
-          <input
-            type="text"
-            name="partName"
-            value={partInput.partName}
-            onChange={handlePartInputChange}
-          />
-          <label>Rate:</label>
-          <input
-            type="text"
-            name="rate"
-            value={partInput.rate}
-            onChange={handlePartInputChange}
-          />
-
-          <button onClick={addPart} className="add-part-button">Add Part</button>
-        </div>
-
-        <div className="added-parts">
-          <h3>Added Parts</h3>
-          <ul>
-            {parts.map((part, index) => (
-              <li key={index}>
-                {part.customerName} - {part.partName}: {part.rate}
-              </li>
+      <div className="data">
+        <h2>Customer Details</h2>
+        <table className="tabular-information">
+          <thead>
+            <tr>
+              <th>Srno.</th>
+              <th>Company Name</th>
+              <th>Address</th>
+              <th>GSTIN</th>
+              <th>Agent Name and Number</th>
+              <th>Agent's Email</th>
+              <th>Company's Emails</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {customers.map((customer, index) => (
+              <tr key={index}>
+                <td>{index + 1}</td>
+                <td>{customer.name}</td>
+                <td>{customer.address}</td>
+                <td>{customer.gstin}</td>
+                <td>{customer.agentContact}</td>
+                <td>{customer.agentEmail}</td>
+                <td>{customer.email}</td>
+                <td>
+                  <button onClick={() => handleEdit(customer)} className="button">Edit</button>
+                  <button onClick={() => handleDelete(customer._id)} className="button">Delete</button>
+                </td>
+              </tr>
             ))}
-          </ul>
-        </div>
+          </tbody>
+        </table>
       </div>
-
-      <button onClick={handleSubmit} className="submit-button">Submit All</button>
     </div>
   );
 };

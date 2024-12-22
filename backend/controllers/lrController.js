@@ -56,6 +56,21 @@ const getItems = async (req, res) => {
   }
 };
 
+const deleteReceipt =  async (req, res) => {
+  try {
+      const { id } = req.params; // Extract the ID from the URL params
+      const receipt = await LorryReceipt.findByIdAndDelete(id); // Correct model reference
+      if (!receipt) {
+          return res.status(404).json({ message: "Receipt not found" });
+      }
+      res.status(200).json({ message: "Receipt deleted successfully" });
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Error deleting receipt", error });
+  }
+};
+
+
 const addMultipleItems = async(req,res)=>{
     try{
         const items = req.body.items;
@@ -76,5 +91,6 @@ module.exports = {
   getLorryReceiptsById,
   addItem,
   getItems,
+  deleteReceipt,
   addMultipleItems,
 };

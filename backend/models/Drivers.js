@@ -4,7 +4,7 @@ const driverSchema = new mongoose.Schema({
   vehicleNumber: {
     type: String,
     required: true,
-    unique: true
+  
   },
   driverName: {
     type: String,

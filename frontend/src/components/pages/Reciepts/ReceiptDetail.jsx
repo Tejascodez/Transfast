@@ -9,6 +9,11 @@ const ReceiptDetail = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
+    // Function to safely return value or default if undefined/null
+    const safeValue = (value) => {
+        return value !== undefined && value !== null ? value : '-';
+    };
+
     useEffect(() => {
         const fetchReceipt = async () => {
             try {
@@ -92,7 +97,7 @@ const ReceiptDetail = () => {
                                     </tr>
                                     <tr>
                                         <td>Invoice Value:</td>
-                                        <td colSpan="2">{receipt.invoice}</td>
+                                        <td colSpan="2">{receipt.invoiceValue}</td>
                                         <td>Driver's Contact:</td>
                                         <td colSpan="2">{receipt.driversContact}</td>
                                         <td>Vehicle No.:</td>
@@ -112,50 +117,95 @@ const ReceiptDetail = () => {
                             </table>
                         </div>
 
-                        <table className='table-3'>
-                            <thead>
-                                <tr>
-                                    <th>Sr. No.</th>
-                                    <th>Description</th>
-                                    <th>Invoice No.</th>
-                                    <th>Quantity</th>
-                                    <th>Rate</th>
-                                    <th>Actual Weight</th>
-                                    <th>Chargeable Weight</th>
-                                    <th>Eway Bill No.</th>
-                                    <th>Expiry Date</th>
-                                    <th colSpan="2">Freight</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {/* If the items exist, map them */}
-                                {receipt.items && receipt.items.length > 0 ? (
-                                    receipt.items.map((item, index) => (
-                                        <tr key={index}>
-                                            <td>{index + 1}</td>
-                                            <td>{item.description}</td>
-                                            <td>{item.invoiceNumber}</td>
-                                            <td>{item.quantity}</td>
-                                            <td>{item.rate}</td>
-                                            <td>{item.actualWeight}</td>
-                                            <td>{item.chargeableWeight}</td>
-                                            <td>{item.EwayNum}</td>
-                                            <td>{item.expiryDate}</td>
-                                            <td>{item.freight}</td>
-                                        </tr>
-                                    ))
-                                ) : (
-                                    <tr><td colSpan="10">No items available</td></tr>
-                                )}
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th colSpan="2">TOTAL AMOUNT IN WORDS:</th>
-                                    <td colSpan="7">{receipt.totalAmountWords}</td>
-                                    <th>TOTAL</th>
-                                    <td>{receipt.totalAmount}</td>
-                                </tr>
-                            </tfoot>
+                        <table className='combine'>
+                            <table className='table-3'>
+                                <thead>
+                                    <tr>
+                                        <th>Sr. No.</th>
+                                        <th>Description</th>
+                                        <th>Invoice No.</th>
+                                        <th>Quantity</th>
+                                        <th>Rate</th>
+                                        <th>Actual Weight</th>
+                                        <th>Chargeable Weight</th>
+                                        <th>Eway Bill No.</th>
+                                        <th>Expiry Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {receipt.items && receipt.items.length > 0 ? (
+                                        receipt.items.map((item, index) => (
+                                            <tr key={index}>
+                                                <td>{index + 1}</td>
+                                                <td>{item.description}</td>
+                                                <td>{item.invoiceNumber}</td>
+                                                <td>{item.quantity}</td>
+                                                <td>{item.rate}</td>
+                                                <td>{item.actualWeight}</td>
+                                                <td>{item.chargeableWeight}</td>
+                                                <td>{item.EwayBillNo}</td>
+                                                <td>{item.expiryDate}</td>
+                                            </tr>
+                                        ))
+                                    ) : (
+                                        <tr><td colSpan="10">No items available</td></tr>
+                                    )}
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th colSpan="2">TOTAL AMOUNT IN FIGURES:</th>
+                                        <td colSpan="7"></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+
+                            <table className='table-4'>
+                                <thead>
+                                    <tr>
+                                        <th colSpan={2}>FREIGHT</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>FREIGHT:</td>
+                                        <td>{safeValue(receipt.freight)}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>SUR CHARGES</td>
+                                        <td>{safeValue(receipt.surCharges)}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>STATISTICAL CHARGES</td>
+                                        <td>{safeValue(receipt.stasticalCharges)}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>HAMALI:</td>
+                                        <td>{safeValue(receipt.hamali)}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>DC CHARGES:</td>
+                                        <td>{safeValue(receipt.dcCharges)}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>DD CHARGES:</td>
+                                        <td>{safeValue(receipt.ddCharges)}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>HOLTING:</td>
+                                        <td>{safeValue(receipt.holting)}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>OTHER:</td>
+                                        <td>{safeValue(receipt.other)}</td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>TOTAL</th>
+                                        <td>{safeValue(receipt.total)}</td>
+                                    </tr>
+                                </tfoot>
+                            </table>
                         </table>
 
                         <div className="payment-details-rc">
