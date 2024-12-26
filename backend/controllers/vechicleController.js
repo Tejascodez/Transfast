@@ -1,5 +1,5 @@
 // /controllers/vehicleController.js
-const Vehicle = require('../models/VechileSchema');
+const Vehicle = require('../models/VehicleSchema');
 
 // Get all vehicles
 exports.getAllVehicles = async (req, res) => {
@@ -88,31 +88,4 @@ exports.updateVehicle = async (req, res) => {
     res.status(500).json({ message: 'Error updating vehicle', error });
   }
 };
-
-// const fuels =[];
-
-// //get all all fuels
-// exports.getAllfuels = (req,res)=>{
-//   res.status(200).json({sucess : true, data: fuels});
-// }
-
-// exports.addFuel = (req,res)=>{
-//   const {
-//     vehicleNumber, driverName, from , to , oldReading, newReading
-//   } = req.body;
-
-//   if(!vehicleNumber, !driverName, !from , !to , !oldReading, !newReading){
-//     return res.status(400).json({message : 'Please fill all fields' });
-//   }
-// const newFuelEntry = {
-//   id: fuels.length+1,
-//   vehicleNumber,
-//   driverName,
-//   from, 
-//   to,
-//   oldReading, parseFloat(oldReading),
-//   newReading: parseFloat(newReading),
-//   liters: parseFloat((newReading) -parseFloat(oldReading))/to
-// }
-
-// }
+const Fuel = require('../models/VehicleSchema');

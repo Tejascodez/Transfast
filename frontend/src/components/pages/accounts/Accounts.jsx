@@ -2,18 +2,18 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FaFile, FaClipboardList, FaListAlt, FaProductHunt, FaMoneyBill, FaPenSquare, FaPagelines, FaBookReader } from 'react-icons/fa';
-// import Navbar from '../../main/Navbar';
+import Navbar from '../../main/Navbar'; 
 import './Accounts.css'
 
 const Accounts = ( ) => {
   return (
     <>
-    {/* <Navbar/> */}
+    <Navbar/>
      <br />
      <br />
     <div className="grid-container-Accounts">
       <div className="grid-item-Accounts">
-        <Link to="/CreateAccounts">
+        <Link to="/createbill">
         <FaFile />CREATE BILL
         </Link>
       </div>
@@ -23,7 +23,7 @@ const Accounts = ( ) => {
       <Link to="/expiring" className="grid-item-Accounts">
         <FaPenSquare />        PAYMENT ENTRIES
       </Link>
-      <Link to="/billdedAccountss" className="grid-item-Accounts">
+      <Link to="/pos" className="grid-item-Accounts">
         <FaListAlt /> P.O.S
       </Link>
     

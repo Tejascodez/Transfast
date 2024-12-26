@@ -4,14 +4,19 @@ import { useLocation } from 'react-router-dom';
 import logo from '../../../assets/Logo1.png';
 
 const PrintLrHead = () => {
-  const location = useLocation();
-  const { formData , tableRows } = location.state;
-
-  // Ensure all values in formData are strings or numbers
-  const safeValue = (value) => (value !== undefined && value !== null ? value : '');
+const location = useLocation();
+   const { items , formData } = location.state || {};
+ 
+   // Safe value function to prevent undefined or null rendering
+   const safeValue = (value) => (value !== undefined && value !== null ? value : 'N/A');
+ 
+   // Ensure that tableRows and formData are available
+   if (!items || !formData) {
+     return <div>No data available</div>;
+   }
   return (
- <div className="receipt">
-        <i className="i">(Original Copy For Consignee)</i>
+  <div className="receipt">
+        <i className="i">(HeadOffice Copy)</i>
 
         <div className="all">
           <div className="header">
@@ -21,7 +26,7 @@ const PrintLrHead = () => {
             <div className="address">
               <h1>TRANSFAST CORPORATION</h1>
               <p>448/B, NEAR MAHINDRA SHOWROOM, NH4 HIGHWAY, M.I.D.C., SHIROLI, KOLHAPUR, MAHARASHTRA. 416 122</p>
-              <p>CONTACT NUMBER: 9921296075 / 7385113939 / 9960909651</p>
+              <p>CONTACT NUMBER: 9923826075 / 7385113939 / 9960909651</p>
               <p>GST NUMBER: 27ANEPC0107H1Z0</p>
               <p>Email ID: transfast.corporation@gmail.com</p>
             </div>
@@ -93,25 +98,25 @@ const PrintLrHead = () => {
                 </tr>
               </thead>
               <tbody>
-                {tableRows.map((row, index) => (
+                {items.map((_item, index) => (
                   <tr key={index}>
                     <td>{safeValue(index + 1)}</td>
-                    <td>{safeValue(row.description)}</td>
-                    <td>{safeValue(row.invoiceNumber)}</td>
-                    <td>{safeValue(row.quantity)}</td>
-                    <td>{safeValue(row.rate)}</td>
-                    <td>{safeValue(row.actualWeight)}</td>
-                    <td>{safeValue(row.chargeableWeight)}</td>
-                    <td>{safeValue(row.EwayNum)}</td>
-                    <td>{safeValue(row.expdate)}</td>
-                    <td>{safeValue(row.totalAmount)}</td>
+                    <td>{safeValue(_item.description)}</td>
+                    <td>{safeValue(_item.invoiceNumber)}</td>
+                    <td>{safeValue(_item.quantity)}</td>
+                    <td>{safeValue(_item.rate)}</td>
+                    <td>{safeValue(_item.actualWeight)}</td>
+                    <td>{safeValue(_item.chargeableWeight)}</td>
+                    <td>{safeValue(_item.EwayBillNo)}</td>
+                    <td>{safeValue(_item.expiryDate)}</td>
+                   
                   </tr>
                 ))}
               </tbody>
               <tfoot>
                 <tr>
                   <th colSpan="2">TOTAL AMOUNT IN FIGURES:</th>
-                  <td colSpan="7"></td>
+                  <td colSpan="7">{formData.totalAmountInWords}</td>
                 </tr>
               </tfoot>
             </table>
@@ -123,7 +128,7 @@ const PrintLrHead = () => {
                 </tr>
               </thead>
               <tbody>
-             
+              
                     <tr>
                       <td>FREIGHT:</td>
                       <td>{safeValue(formData.freight)}</td>
@@ -134,7 +139,7 @@ const PrintLrHead = () => {
                     </tr>
                     <tr>
                       <td>STATISTICAL CHARGES</td>
-                      <td>{safeValue(formData.statiscalCharges)}</td>
+                      <td>{safeValue(formData.stasticalCharges)}</td>
                     </tr>
                     <tr>
                       <td>HAMALI:</td>
@@ -156,42 +161,41 @@ const PrintLrHead = () => {
                       <td>OTHER:</td>
                       <td>{safeValue(formData.other)}</td>
                     </tr>
-              
+             
               </tbody>
               <tfoot>
                 <tr>
                   <th>TOTAL</th>
-                  <td>{safeValue(formData.total)}</td>
+                  <td>{safeValue(formData.totalAmount)}</td>
                 </tr>
               </tfoot>
             </table>
           </table>
 
           <div className="payment-details-rc">
-            <table>
-              <thead>
-                <tr>
-                  <td rowSpan={3}></td>
-                  <th colSpan="" rowSpan="">PAYMENT DETAILS:-</th>
-                  <td rowSpan={3}></td>
-                </tr>
-                <tr>
-                  <td>A/C NO :- 331305000180, ICICI BANK, MIDC SHIROLI, KOLHAPUR.</td>
-                </tr>
-                <tr>
-                  <td>PHONEPAY/GPAY :- 9921296075</td>
-                </tr>
-                <tr>
-                  <th colSpan="" rowSpan="">Consignee's Signature & Stamp</th>
-                  <td>IFSC CODE:- ASFSAF</td>
-                  <th colSpan="" rowSpan="">TRANSFAST CORPORATION</th>
-                </tr>
-              </thead>
-            </table>
-          </div>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <td rowSpan={3}></td>
+                                        <th colSpan="" rowSpan="">PAYMENT DETAILS:-</th>
+                                        <td rowSpan={3}></td>
+                                    </tr>
+                                    <tr>
+                                        <td>A/C NO :- 331305000180, ICICI BANK, MIDC SHIROLI, KOLHAPUR.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>PHONEPAY/GPAY :- 9921296075</td>
+                                    </tr>
+                                    <tr>
+                                        <th colSpan="" rowSpan="">Consignee's Signature & Stamp</th>
+                                        <td>IFSC CODE:- ASFSAF</td>
+                                        <th colSpan="" rowSpan="">TRANSFAST CORPORATION</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
         </div>
       </div>
-   
   )
 }
 

@@ -7,6 +7,7 @@ const bcrypt = require('bcrypt');
 const cors = require('cors');
 const lrRoutes = require('./routes/lrRoutes');
 const vechicleRoutes = require('./routes/vechicleRoutes');
+const fuelRoutes = require('./routes/fuelRoutes');
 const DriverRoutes = require('./routes/driver');
 const path = require('path')
 const CustomerRoutes = require('./routes/CustomerRoutes');
@@ -14,6 +15,7 @@ const CustomerRoutes = require('./routes/CustomerRoutes');
 const app = express();
 app.use(cors());
 app.use('/uploads', express.static('uploads'));
+
 
 const { PORT, MONGO_URI } = process.env;
 // app.post('/api/auth/signup', signup);
@@ -33,8 +35,8 @@ app.use(bodyParser.json());
 app.use('/api/auth', authRoutes);
 
 app.use('/api', lrRoutes);
-
 app.use('/api/vehicles', vechicleRoutes);
+app.use('/api/fuels', fuelRoutes);
 app.use('/api', DriverRoutes);
 app.use('/api/customers', CustomerRoutes);
 // Start the server

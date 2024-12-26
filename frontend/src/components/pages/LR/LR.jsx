@@ -2,6 +2,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FaFile, FaClipboardList, FaListAlt, FaTruck, FaBox, FaCar, FaClock, FaListUl, FaLifeRing, FaProductHunt, FaUserAstronaut, FaMoneyBill } from 'react-icons/fa';
+import Navbar from '../../main/Navbar';
 import './LR.css'
 
 const LR = ( ) => {
@@ -16,10 +17,10 @@ const LR = ( ) => {
         <FaFile />Create NewLR
         </Link>
       </div>
-      <Link to="/createchallan" className="grid-item-lr">
+      <Link to="/totallrs" className="grid-item-lr">
         <FaClipboardList /> All LR's
       </Link>
-      <Link to="/expiring" className="grid-item-lr">
+      <Link to="/pendinglrs" className="grid-item-lr">
         <FaClock /> Pending LR's
       </Link>
       <Link to="/billdedlrs" className="grid-item-lr">
@@ -28,13 +29,13 @@ const LR = ( ) => {
       <Link to="/unbilled" className="grid-item-lr">
         <FaLifeRing /> Unbilled LR's
       </Link>
-      <Link to="/products" className="grid-item-lr">
-        <FaProductHunt /> Products
+      <Link to="/pos" className="grid-item-lr">
+         <FaListAlt /> POS
       </Link>
       <Link to="/customers" className="grid-item-lr">
         <FaUserAstronaut /> Customers
       </Link>
-      <Link to="/vechicle" className="grid-item-lr-v">
+      <Link to="/vehicle" className="grid-item-lr-v">
         <FaCar/> Vehicles&Drivers
       </Link>
       <Link to="/" className="grid-item-lr">

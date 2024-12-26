@@ -17,13 +17,21 @@ const TotalLR = () => {
         const fetchReceipts = async () => {
             try {
                 const response = await axios.get('http://localhost:5000/api/LorryReceipts');
-                setReceipts(response.data);
+                const formattedData = response.data.map(receipt => ({
+                    ...receipt,
+                    lrDate: new Date(receipt.lrDate).toLocaleDateString('en-GB') // 'en-GB' locale formats date as dd/mm/yyyy
+                }));
+                setReceipts(formattedData);
             } catch (error) {
                 console.error("Error fetching receipts", error);
             }
         };
         fetchReceipts();
     }, []);
+
+    const getUpdatedStatus = (status) => {
+        return status === 'Unbilled' ? 'Pending' : 'Received';
+    };
 
     const handleInputChange = (e, field) => {
         const { value } = e.target;
@@ -117,11 +125,16 @@ const TotalLR = () => {
                             <th>Freight Payable Company</th>
                             <th>Consigner</th>
                             <th>Consignee</th>
-                           
-                            <th>Weight</th>
                             <th>Vehicle No.</th>
                             <th>Driver No.</th>
-                            <th>Bill No.</th>
+                            <th>Invoice Value</th>
+                        
+                            <th>Payment Mode</th>
+                            <th>Billing Branch</th>
+                            <th>Collection Type</th>
+                            <th>Delivery Type</th>
+                            <th>Total Amount</th>
+                            <th>Acknowledement</th>
                             <th>Status</th>
                             <th>Actions</th>
                         </tr>
@@ -137,11 +150,25 @@ const TotalLR = () => {
                                 <td>{receipt.freightPayableCompany}</td>
                                 <td>{receipt.consignor}</td>
                                 <td>{receipt.consignee}</td>
-                               <td> </td>
-                                <td>{receipt.actualWeight}</td>
                                 <td>{receipt.vehicleNumber}</td>
                                 <td>{receipt.driversContact}</td>
-                                <td>Pending</td>
+                                <td>{receipt.invoiceValue}</td>
+                                
+                                <td>{receipt.paymentMode}</td>
+                                <td>{receipt.billingBranch}</td>
+                                <td>{receipt.collectionType}</td>
+                                <td>{receipt.deliveryType}</td> 
+                                <td>{receipt.totalAmount}</td>
+                                <td>{receipt.proofFilePath ? (
+                                    <a href={`http://localhost:5000/${receipt.proofFilePath}`} target="_blank" rel="noopener noreferrer">
+                                        View File
+                                    </a>
+                                ) : (
+                                    "No File"
+                                )}</td>
+                                <td><button className={receipt.proofFilePath ? getUpdatedStatus(receipt.status) === 'Pending' ? 'status-pending' : '' : 'status-pending'}>
+                                    {receipt.proofFilePath ? getUpdatedStatus(receipt.status) : 'Pending'}
+                                </button></td>
                                 <td className="actions">
                                     <button className='edit' onClick={() => editReceipt(index)}>
                                         <FontAwesomeIcon icon={faEdit} />

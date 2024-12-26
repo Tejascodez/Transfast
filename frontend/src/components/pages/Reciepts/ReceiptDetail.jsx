@@ -14,6 +14,15 @@ const ReceiptDetail = () => {
         return value !== undefined && value !== null ? value : '-';
     };
 
+    // Function to format date as dd/mm/yyyy
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const year = date.getFullYear();
+        return `${day}/${month}/${year}`;
+    };
+
     useEffect(() => {
         const fetchReceipt = async () => {
             try {
@@ -61,7 +70,7 @@ const ReceiptDetail = () => {
                             <div className="address">
                                 <h1>TRANSFAST CORPORATION</h1>
                                 <p>448/B, NEAR MAHINDRA SHOWROOM, NH4 HIGHWAY, M.I.D.C., SHIROLI, KOLHAPUR, MAHARASHTRA. 416 122</p>
-                                <p>CONTACT NUMBER: 9921296075 / 7385113939 / 9960909651</p>
+                                <p>CONTACT NUMBER: 9923826075 / 7385113939 / 9960909651</p>
                                 <p>GST NUMBER: 27ANEPC0107H1Z0</p>
                                 <p>Email ID: transfast.corporation@gmail.com</p>
                             </div>
@@ -83,7 +92,7 @@ const ReceiptDetail = () => {
                                         <td rowSpan="2">Consignee:</td>
                                         <td rowSpan="2" colSpan="5">{receipt.consignee}</td>
                                         <td>Date</td>
-                                        <td>{receipt.lrDate}</td>
+                                        <td>{formatDate(receipt.lrDate)}</td>
                                     </tr>
                                     <tr>
                                         <td>From</td>
@@ -144,7 +153,7 @@ const ReceiptDetail = () => {
                                                 <td>{item.actualWeight}</td>
                                                 <td>{item.chargeableWeight}</td>
                                                 <td>{item.EwayBillNo}</td>
-                                                <td>{item.expiryDate}</td>
+                                                <td>{formatDate(item.expiryDate)}</td>
                                             </tr>
                                         ))
                                     ) : (

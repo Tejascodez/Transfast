@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const { toWords } = require('number-to-words')
+const { toWords } = require('number-to-words');
+
 // Define the Item schema
 const ItemSchema = new Schema({
   description: { type: String },
@@ -44,9 +45,10 @@ const LorryReceiptSchema = new Schema({
   holting: { type: Number },
   other: { type: Number },
   totalAmountInWords: { type: String },
-  items: [ItemSchema],  // Array of items for each lorry receipt
+  status: { type: String, default: 'Pending' },  // Add status field
+  items: [ItemSchema], 
+  proofFilePath: { type: String },  // Array of items for each lorry receipt
 }, { timestamps: true });
-
 
 LorryReceiptSchema.pre('save', function (next) {
   if (this.totalAmount) {

@@ -112,8 +112,8 @@ const PrintLr = () => {
                     <td>{safeValue(_item.rate)}</td>
                     <td>{safeValue(_item.actualWeight)}</td>
                     <td>{safeValue(_item.chargeableWeight)}</td>
-                    <td>{safeValue(_item.EwayNum)}</td>
-                    <td>{safeValue(_item.expdate)}</td>
+                    <td>{safeValue(_item.EwayBillNo)}</td>
+                    <td>{safeValue(_item.expiryDate)}</td>
                    
                   </tr>
                 ))}
@@ -121,7 +121,7 @@ const PrintLr = () => {
               <tfoot>
                 <tr>
                   <th colSpan="2">TOTAL AMOUNT IN FIGURES:</th>
-                  <td colSpan="7">{formData.totalAmountInWords}</td>
+                  <td colSpan="7"></td>
                 </tr>
               </tfoot>
             </table>
@@ -136,75 +136,75 @@ const PrintLr = () => {
               
                     <tr>
                       <td>FREIGHT:</td>
-                      <td>{safeValue(formData.freight)}</td>
+                      <td></td>
                     </tr>
                     <tr>
                       <td>SUR CHARGES</td>
-                      <td>{safeValue(formData.surCharges)}</td>
+                      <td></td>
                     </tr>
                     <tr>
                       <td>STATISTICAL CHARGES</td>
-                      <td>{safeValue(formData.stasticalCharges)}</td>
+                      <td></td>
                     </tr>
                     <tr>
                       <td>HAMALI:</td>
-                      <td>{safeValue(formData.hamali)}</td>
+                      <td></td>
                     </tr>
                     <tr>
                       <td>DC CHARGES:</td>
-                      <td>{safeValue(formData.dcCharges)}</td>
+                      <td></td>
                     </tr>
                     <tr>
                       <td>DD CHARGES:</td>
-                      <td>{safeValue(formData.ddCharges)}</td>
+                      <td></td>
                     </tr>
                     <tr>
                       <td>HOLTING:</td>
-                      <td>{safeValue(formData.holting)}</td>
+                      <td></td>
                     </tr>
                     <tr>
                       <td>OTHER:</td>
-                      <td>{safeValue(formData.other)}</td>
+                      <td></td>
                     </tr>
              
               </tbody>
               <tfoot>
                 <tr>
                   <th>TOTAL</th>
-                  <td>{safeValue(formData.totalAmount)}</td>
+                  <td>______</td>
                 </tr>
               </tfoot>
             </table>
           </table>
 
           <div className="payment-details-rc">
-            <table>
-              <thead>
-                <tr>
-                  <td rowSpan={3}></td>
-                  <th colSpan="" rowSpan="">PAYMENT DETAILS:-</th>
-                  <td rowSpan={3}></td>
-                </tr>
-                <tr>
-                  
-                </tr>
-                <tr>
-                  <td>PHONEPAY/GPAY :- 9921296075</td>
-                </tr>
-                <tr>
-                  <th colSpan="" rowSpan="">Consignee's Signature & Stamp</th>
-                  <td>IFSC CODE:- ASFSAF</td>
-                  <th colSpan="" rowSpan="">TRANSFAST CORPORATION</th>
-                </tr>
-              </thead>
-            </table>
-          </div>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <td rowSpan={3}></td>
+                                        <th colSpan="" rowSpan="">PAYMENT DETAILS:-</th>
+                                        <td rowSpan={3}></td>
+                                    </tr>
+                                    <tr>
+                                        <td>A/C NO :- 331305000180, ICICI BANK, MIDC SHIROLI, KOLHAPUR.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>PHONEPAY/GPAY :- 9921296075</td>
+                                    </tr>
+                                    <tr>
+                                        <th colSpan="" rowSpan="">Consignee's Signature & Stamp</th>
+                                        <td>IFSC CODE:- ASFSAF</td>
+                                        <th colSpan="" rowSpan="">TRANSFAST CORPORATION</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
         </div>
       </div>
       <br />
       <br />
       <br />
-      {/* <PrintLrDup />
+      <PrintLrDup />
       <br />
       <br />
       <br />
@@ -212,7 +212,7 @@ const PrintLr = () => {
       <br />
       <br />
       <br />
-      <PrintLrHead /> */}
+      <PrintLrHead />
     </>
   );
 };

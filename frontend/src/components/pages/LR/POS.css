@@ -1,0 +1,65 @@
+/* Main container */
+.materialsDetails {
+    margin-bottom: 20px;
+  }
+  
+  .creatable-select {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+  
+  .part-rate {
+    margin-bottom: 15px;
+  }
+  
+  /* Buttons */
+  .add-btn, .edit-btn, .delete-btn {
+    margin-right: 10px;
+  }
+  
+  .custom-close-button {
+    background: transparent;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+  }
+  
+  /* Table */
+  .submitted-data {
+    margin-top: 30px;
+  }
+  
+  .table th, .table td {
+    text-align: center;
+    vertical-align: middle;
+  }
+  
+  .table-striped tbody tr:nth-of-type(odd) {
+    background-color: #f9f9f9;
+  }
+  
+  /* Modal */
+  .modal-body{
+    max-height: 70vh;
+    overflow: auto;
+  }
+  .modal-header h1 {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  button[type="submit"] {
+    width: 100%;
+  }
+  
+  /* Action buttons */
+  .edit-btn {
+    background-color: #ffc107;
+    color: white;
+  }
+  
+  .delete-btn {
+    background-color: #dc3545;
+    color: white;
+  }
+  

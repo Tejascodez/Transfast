@@ -1,0 +1,129 @@
+
+
+.invoice-container {
+    background-image: url(../../../assets/bg.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    max-width: 800px;
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    padding: 20px;
+}
+
+.invoice-header {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 2px solid #ddd;   
+    padding-bottom: 20px;
+}
+
+.company-logo  {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.company-logo img {
+    width: 250px;
+}
+
+.company-info h1 {
+    font-weight: bold;
+    text-align: center;
+    font-size: 2.1rem;
+    color: #007bff;
+}
+
+.invoice-details {
+    text-align: left;
+}
+
+.invoice-details h2 {
+    font-size: 1.3rem;
+    color: #007bff;
+}
+.invoice-details table {
+    border: none;
+   
+}
+
+.billing-info {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+}
+.billing-info input{
+    border: none;
+}
+
+.bill-from,
+.bill-to {
+    width: 48%;
+}
+
+.bill-from h3,
+.bill-to h3 {
+    font-size: 1.2rem;
+    color: #007bff;
+    margin-bottom: 10px;
+}
+
+.invoice-items table {
+    width: 100%;
+    border-collapse: colapse;
+    margin-top: 20px;
+}
+
+.invoice-items th,
+.invoice-items td {
+    text-align: left;
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+.invoice-items th {
+    background: #0c6de58f;
+    color: black;
+}
+
+.invoice-items td {
+    background: #fff;
+}
+
+.invoice-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 2px solid #ddd;
+}
+.invoice-details td {
+    border: none;
+  }
+
+.notes {
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+
+.payment {
+    text-align: justify;
+    margin-top: -70px;
+    padding-top: 0px;
+}
+
+.payment h3 {
+    font-size: 1rem;
+}
+
+.payment p {
+    font-size: 0.8rem;
+}
+
+.total {
+    font-size: 1rem;
+}

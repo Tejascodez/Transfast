@@ -1,221 +1,256 @@
+/* Overall Container Styling */
+.lorry-receipt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: #f4f6f7;
+}
 
+/* Header Styling */
+header {
+  width: 100%;
+  color: black;
+  padding: 20px 0;
+  text-align: center;
+  background-color: #ffffff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+header .logo {
+  width: 120px;
+  margin-bottom: 10px;
+}
+
+header .company-info {
+  margin-top: 10px;
+}
+
+header h2 {
+  font-size: 26px;
+  margin-bottom: 5px;
+  color: #2c3e50;
+}
+
+header address {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+header p {
+  font-size: 14px;
+  margin: 5px 0;
+  color: #34495e;
+}
+
+/* Container and Table Styling */
+.container-tlr {
+  width: 100%;
+  margin-top: 30px;
+  overflow-x: auto;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.export {
+  background-color: #27ae60;
+  color: white;
+  padding: 12px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: background-color 0.3s ease;
+}
+
+.export:hover {
+  background-color: #2ecc71;
+}
+
+.lorry-receipt-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  table-layout: auto; /* Make table columns adjustable */
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.lorry-receipt-table th,
+.lorry-receipt-table td {
+  padding: 15px 20px;
+  text-align: left;
+  font-size: 14px;
+  word-wrap: break-word;
+  color: #555;
+}
+
+.lorry-receipt-table th {
+  background-color: #34495e;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.lorry-receipt-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.lorry-receipt-table tr:hover {
+  background-color: #f1f1f1;
+}
+
+.lorry-receipt-table td {
+  color: #555;
+}
+
+/* Status Column Button */
+.status-btn {
+  padding: 8px 16px;
+  font-size: 14px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  color: white;
+  font-weight: bold;
+  text-transform: capitalize;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.status-btn.received {
+  background-color: #28a745; /* Green for "Received" */
+}
+
+.status-btn.other-status {
+  background-color: #007bff; /* Blue for other statuses */
+}
+
+.status-btn:hover {
+  opacity: 0.9;
+}
+
+.status-btn:focus {
+  outline: none;
+}
+
+/* Actions Buttons Styling */
+.actions button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  margin: 0 8px;
+  padding: 10px;
+  transition: background-color 0.3s ease;
+  border-radius: 50%;
+}
+
+.actions button:hover {
+  background-color: #ecf0f1;
+}
+
+.actions .edit {
+  color: #3498db;
+}
+
+.actions .view {
+  color: #8e44ad;
+}
+
+.actions .delete {
+  color: #e74c3c;
+}
+
+.actions .edit:hover {
+  background-color: #d0e9ff;
+}
+
+.actions .view:hover {
+  background-color: #e3d7f8;
+}
+
+.actions .delete:hover {
+  background-color: #fbd2d2;
+}
+
+/* TotalLR.css */
+.status-pending {
+  background-color: red;
+  color: white;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  margin: 0 8px;
+  padding: 10px;
+  transition: background-color 0.3s ease;
   
-  .lorry-receipt {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-  }
-  
-  /* Header Styling */
-  header {
-    width: 100%;
-    color: black;
-    padding: 20px 0;
-    text-align: center;
-  }
-  
-  header .logo {
-    width: 120px;
-    margin-bottom: 10px;
-  }
-  
-  header .company-info {
-    margin-top: 10px;
-  }
-  
-  header h2 {
-    font-size: 24px;
-    margin-bottom: 5px;
-  }
-  
-  header address {
-    font-size: 16px;
-    margin-bottom: 10px;
-  }
-  
-  header p {
-    font-size: 14px;
-    margin: 5px 0;
-  }
-  
-  /* Container and Table Styling */
-  .container-tlr {
-    width: 100%;
-    margin-top: 20px;
-    overflow-x: auto;
-  }
-  
-  .export {
-    background-color: #27ae60;
-    color: white;
-    padding: 10px 20px;
-    font-size: 16px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-bottom: 20px;
-    transition: background-color 0.3s ease;
-  }
-  
-  .export:hover {
-    background-color: #2ecc71;
-  }
-  
-  .lorry-receipt-table {
-    width: 100%;
-    border-collapse: collapse;
-    background-color: white;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    table-layout: fixed; /* Make table columns adjustable */
-  }
-  
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
   .lorry-receipt-table th, .lorry-receipt-table td {
-    padding: 12px 15px;
-    text-align: left;
+    font-size: 13px;
+    padding: 10px 15px;
+  }
+
+  .export {
     font-size: 14px;
-    word-wrap: break-word;
+    padding: 10px 18px;
   }
-  
-  .lorry-receipt-table th {
-    background-color: #34495e;
-    color: white;
+}
+
+@media (max-width: 768px) {
+  .container-tlr {
+    padding: 15px;
   }
-  
-  .lorry-receipt-table tr:nth-child(even) {
-    background-color: #f9f9f9;
+
+  .export {
+    font-size: 14px;
+    padding: 8px 15px;
   }
-  
-  .lorry-receipt-table tr:hover {
-    background-color: #f1f1f1;
+
+  .lorry-receipt-table th, .lorry-receipt-table td {
+    font-size: 12px;
   }
-  
-  .lorry-receipt-table td {
-    color: #555;
+
+  .lorry-receipt-table {
+    font-size: 12px;
   }
-  
-  /* Column Resizing */
-  .lorry-receipt-table th {
-    cursor: col-resize;
+
+  .logo {
+    width: 100px;
   }
-  
-  .lorry-receipt-table td {
-    position: relative;
+}
+
+@media (max-width: 480px) {
+  header h2 {
+    font-size: 20px;
   }
-  
-  /* Column Resize Handle */
-  .lorry-receipt-table td::after {
-    content: '';
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: 5px;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.1);
-    cursor: ew-resize;
+
+  header address,
+  header p {
+    font-size: 12px;
   }
-  
-  /* Actions Buttons Styling */
+
+  .lorry-receipt-table th, .lorry-receipt-table td {
+    padding: 6px 8px;
+    font-size: 10px;
+  }
+
+  .lorry-receipt-table {
+    font-size: 10px;
+  }
+
   .actions button {
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    margin: 0 5px;
-    padding: 8px;
-    transition: background-color 0.3s ease;
+    padding: 6px;
+    font-size: 12px;
   }
-  
-  .actions button:hover {
-    background-color: #ecf0f1;
-    border-radius: 5px;
-  }
-  
-  .actions .edit {
-    color: #3498db;
-  }
-  
-  .actions .view {
-    color: #8e44ad;
-  }
-  
-  .actions .delete {
-    color: #e74c3c;
-  }
-  
-  .actions .edit:hover {
-    background-color: #d0e9ff;
-  }
-  
-  .actions .view:hover {
-    background-color: #e3d7f8;
-  }
-  
-  .actions .delete:hover {
-    background-color: #fbd2d2;
-  }
-  
-  /* Status Button Styling */
-  .status {
+
+  .export {
+    font-size: 12px;
     padding: 6px 12px;
-    font-size: 14px;
-    border: none;
-    background-color: #27ae60;
-    color: white;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
   }
-  
-  .status:hover {
-    background-color: #2ecc71;
-  }
-  
-  /* Responsive Design */
-  @media (max-width: 768px) {
-    .container-tlr {
-      padding: 10px;
-    }
-  
-    .export {
-      font-size: 14px;
-      padding: 8px 15px;
-    }
-  
-    .lorry-receipt-table th, .lorry-receipt-table td {
-      padding: 8px 12px;
-      font-size: 12px;
-    }
-  
-    .lorry-receipt-table {
-      font-size: 12px;
-    }
-  
-    .logo {
-      width: 100px;
-    }
-  }
-  
-  @media (max-width: 480px) {
-    header h2 {
-      font-size: 20px;
-    }
-  
-    header address, header p {
-      font-size: 12px;
-    }
-  
-    .lorry-receipt-table th, .lorry-receipt-table td {
-      padding: 6px 8px;
-      font-size: 10px;
-    }
-  
-    .lorry-receipt-table {
-      font-size: 10px;
-    }
-  
-    .actions button {
-      padding: 6px;
-      font-size: 12px;
-    }
-  }
-  
+}

@@ -1,0 +1,107 @@
+.unbilled-lr-container {
+    padding: 20px;
+    margin: 0 auto;
+    max-width: 1000px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .unbilled-lr-container h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 24px;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 10px;
+  }
+  
+  .lorry-receipt-table-unbilled {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .lorry-receipt-table-unbilled th,
+  .lorry-receipt-table-unbilled td {
+    padding: 15px 20px;
+    border: 1px solid #ddd;
+    text-align: left;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .lorry-receipt-table-unbilled th {
+    background-color: #f7f7f7;
+    color: #555;
+    font-weight: bold;
+  }
+  
+  .lorry-receipt-table-unbilled tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .lorry-receipt-table-unbilled tr:hover {
+    background-color: #e9e9e9;
+  }
+  
+  .lorry-receipt-table-unbilled td {
+    color: #333;
+  }
+  
+  .status-button {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .status-pending {
+    background-color: #ff4d4d;
+    color: white;
+  }
+  
+  .status-pending:hover {
+    background-color: #e60000;
+  }
+  
+  .modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+  
+  .modal-content {
+    background-color: #fefefe;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  
