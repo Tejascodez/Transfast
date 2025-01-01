@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Creatable from 'react-select/creatable';
 import Modal from 'react-modal';
 import axios from 'axios';
+import Select from 'react-select'; // Import react-select
 import './Fuels.css'; // Ensure this import is present
 
 Modal.setAppElement('#root');
@@ -17,13 +18,17 @@ const Fuels = () => {
     const [fuelInLiters, setFuelInLiters] = useState('');
     const [fuelCost, setFuelCost] = useState('');
     const [fuelData, setFuelData] = useState([]);
+    const [filteredData, setFilteredData] = useState([]); // State to hold filtered data
     const [currentId, setCurrentId] = useState(null);
+    const [date, setDate] = useState('');
+    const [searchTerm, setSearchTerm] = useState(''); // State for search term
 
     useEffect(() => {
         const fetchFuelData = async () => {
             try {
                 const response = await axios.get('http://localhost:5000/api/fuels');
                 setFuelData(response.data);
+                setFilteredData(response.data); // Set filtered data initially to all data
             } catch (error) {
                 console.error('Error fetching fuel data:', error);
             }
@@ -42,6 +47,7 @@ const Fuels = () => {
     const resetForm = () => {
         setVehicleNumber('');
         setDriverName('');
+        setDate('');
         setFrom('');
         setTo('');
         setOldReading('');
@@ -50,12 +56,28 @@ const Fuels = () => {
         setFuelCost('');
     };
 
-    const calculateAvg = () => {
-        if (oldReading && newReading && fuelInLiters) {
-            const avg = (newReading - oldReading) / fuelInLiters;
-            return avg.toFixed(2);
+    // Format the date to dd-mm-yyyy
+    const formatDate = (date) => {
+        if (date) {
+            const d = new Date(date);
+            const day = d.getDate().toString().padStart(2, '0');
+            const month = (d.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-indexed
+            const year = d.getFullYear();
+            return `${day}-${month}-${year}`;
         }
         return '';
+    };
+
+    // Parse the inputted dd-mm-yyyy date into a standard date format
+    const parseDate = (dateStr) => {
+        const parts = dateStr.split('-');
+        if (parts.length === 3) {
+            const day = parts[0];
+            const month = parts[1] - 1; // Month is 0-indexed in JavaScript Date
+            const year = parts[2];
+            return new Date(year, month, day);
+        }
+        return null;
     };
 
     const handleAddOrUpdate = async () => {
@@ -64,6 +86,7 @@ const Fuels = () => {
         const newFuelData = {
             vehicleNumber,
             driverName,
+            date: parseDate(date), // Convert the date from dd-mm-yyyy format
             from,
             to,
             oldReading: parseFloat(oldReading),
@@ -86,6 +109,7 @@ const Fuels = () => {
                 try {
                     const response = await axios.get('http://localhost:5000/api/fuels');
                     setFuelData(response.data);
+                    setFilteredData(response.data); // Update filtered data after adding/updating
                 } catch (error) {
                     console.error("Error fetching data:", error);
                 }
@@ -101,9 +125,18 @@ const Fuels = () => {
         resetForm();
     };
 
+    const calculateAvg = () => {
+        if (oldReading && newReading && fuelInLiters) {
+            const avg = (newReading - oldReading) / fuelInLiters;
+            return avg.toFixed(2);
+        }
+        return '';
+    };
+
     const handleEdit = (fuel) => {
         setVehicleNumber(fuel.vehicleNumber);
         setDriverName(fuel.driverName);
+        setDate(formatDate(fuel.date));  // Format date to dd-mm-yyyy for editing
         setFrom(fuel.from);
         setTo(fuel.to);
         setOldReading(fuel.oldReading);
@@ -118,10 +151,31 @@ const Fuels = () => {
         try {
             await axios.delete(`http://localhost:5000/api/fuels/${id}`);
             setFuelData(fuelData.filter(fuel => fuel._id !== id));
+            setFilteredData(filteredData.filter(fuel => fuel._id !== id)); // Update filtered data after deletion
         } catch (error) {
             console.error('Error deleting fuel data:', error);
         }
     };
+
+    const handleSearchChange = (selectedOption) => {
+        setSearchTerm(selectedOption ? selectedOption.value : '');
+
+        if (selectedOption) {
+            const filtered = fuelData.filter(fuel => {
+                return Object.values(fuel).some(value =>
+                    String(value).toLowerCase().includes(selectedOption.value.toLowerCase())
+                );
+            });
+            setFilteredData(filtered);
+        } else {
+            setFilteredData(fuelData); // Reset to original data if search is cleared
+        }
+    };
+
+    const searchOptions = fuelData.map((fuel, index) => ({
+        label: `Vehicle: ${fuel.vehicleNumber}, Driver: ${fuel.driverName}, Date: ${formatDate(fuel.date)}`,
+        value: fuel.vehicleNumber
+    }));
 
     return (
         <div>
@@ -151,6 +205,16 @@ const Fuels = () => {
                         name="DriverName"
                         value={driverName}
                         onChange={e => setDriverName(e.target.value)}
+                        required
+                    />
+                    <label htmlFor="date">Date:</label>
+                    <input
+                        type="text"
+                        id='date'
+                        name='date'
+                        placeholder='dd-mm-yyyy'
+                        value={date || ''}
+                        onChange={e => setDate(e.target.value)} // Handle date input change
                         required
                     />
                     <label htmlFor="from">From:</label>
@@ -212,12 +276,19 @@ const Fuels = () => {
             </Modal>
             <div className='stored-info'>
                 <p className='txt'>Tabular Information</p>
+                <Select
+                    options={searchOptions}
+                    onChange={handleSearchChange}
+                    isClearable
+                    placeholder="Search..."
+                />
                 <table className='tabular-storation'>
                     <thead>
                         <tr>
                             <th>SrNo:</th>
                             <th>Vehicle Number</th>
                             <th>Driver Name</th>
+                            <th>Date</th>
                             <th>From</th>
                             <th>To</th>
                             <th>Old Readings</th>
@@ -229,11 +300,12 @@ const Fuels = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {fuelData.map((data, index) => (
+                        {filteredData.map((data, index) => (
                             <tr key={index}>
                                 <td>{index + 1}</td>
                                 <td>{data.vehicleNumber}</td>
                                 <td>{data.driverName}</td>
+                                <td>{formatDate(data.date)}</td>
                                 <td>{data.from}</td>
                                 <td>{data.to}</td>
                                 <td>{data.oldReading}</td>

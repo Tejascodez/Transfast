@@ -19,6 +19,7 @@ import POS from './components/pages/LR/POS'
 import UnbilledLR from './components/pages/LR/UnbilledLR'
 import BilledLR from './components/pages/LR/BilledLR'
 import CreateBill from './components/pages/Billing/CreateBill'
+import EmailSender from './components/pages/customers/EmailSender'
 
 function App() {
 
@@ -60,6 +61,8 @@ function App() {
           <Route path='/pos'  element={<POS/>}/>
           <Route path='/createbill'  element={<CreateBill/>}/>
           <Route path='/rt'  element={<RahulTransport/>}/>
+
+          <Route path='/email' element={<EmailSender/>} />
           
         </Routes> 
         

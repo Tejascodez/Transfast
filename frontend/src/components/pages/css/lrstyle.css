@@ -112,23 +112,6 @@ label {
     margin-bottom: 5px;
 }
 
-/* div {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  
-  input {
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 5px 10px;
-  }
-  
-  .fa-icon {
-    color: rgb(151, 6, 6);
-    cursor: pointer;
-  }
-   */
 
 input[type="text"], input[type="number"], input[type="tel"], input[type="date"], select, textarea {
     flex: 1;

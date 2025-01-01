@@ -5,7 +5,8 @@
     const {uploadProof}  = require('../controllers/lrController');
     // Routes for lorry receipts
     router.post('/lorryReceipts', lorryReceiptController.addLorryReceipt);
-    router.get('/lorryReceipts', lorryReceiptController.getLorryReceipts);
+    router.get('/lorryReceipts', lorryReceiptController.getLorryReceipts ,);
+    router.get('/lorryReceipts/lastLrNumber', lorryReceiptController.getLastLrNumber);
     router.delete('/lorryReceipts/:id', lorryReceiptController.deleteReceipt);
     router.get('/LorryReceipts/:id', lorryReceiptController.getLorryReceiptsById);
     router.put('/lorryReceipts/:lrNumber', lorryReceiptController.updateRecietStatus);

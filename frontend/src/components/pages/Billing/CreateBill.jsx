@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Modal, Button } from 'react-bootstrap';
 import Creatable from 'react-select/creatable';
+import { toWords } from 'number-to-words';
 import logo from '../../../assets/Logo1.png';
 import './CreateBill.css';
 
@@ -16,7 +17,7 @@ const CreateBill = () => {
   const [name, setName] = useState(''); // Store selected freight company name
   const [address, setAddress] = useState(''); // Store selected freight company address
   const [email, setEmail] = useState(''); // Store selected freight company email
-
+  const [displayedItems, setDisplayedItems] = useState([]); // Store items to display in the bill
 
   // Fetch the receipts and customers from the API when the component mounts
   useEffect(() => {
@@ -81,6 +82,19 @@ const CreateBill = () => {
     (selectedFreightCompany ? receipt.freightPayableCompany === selectedFreightCompany.value : true) // Add condition for freight company
   );
 
+  // Handle the "GO" button click
+  const handleGoClick = () => {
+    // Add selected items to displayed items (to be shown in the bill)
+    setDisplayedItems((prevItems) => [...prevItems, ...selectedItems]);
+
+    // Remove selected items from the list of receipts (uncheck the checkboxes)
+    setReceipts((prevReceipts) => prevReceipts.filter((receipt) => !selectedItems.includes(receipt)));
+
+    // Reset selected items (uncheck all checkboxes)
+    setSelectedItems([]);
+    setShowModal(false); // Close modal after selecting items
+  };
+
   if (loading) {
     return <p>Loading...</p>; // Show loading state while fetching data
   }
@@ -88,9 +102,32 @@ const CreateBill = () => {
   if (receipts.length === 0) {
     return <p>No Received or Unbilled receipts found.</p>; // Show message if no receipts are found
   }
-
+  const formatDate = (dateString) => {
+    const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+    return new Date(dateString).toLocaleDateString('en-GB', options); // en-GB formats as dd-mm-yyyy
+  };
+ 
+  const calculateTotalAmount = () => {
+    const total = displayedItems.reduce((total, item) => {
+      const amount = parseFloat(item.totalAmount.replace(/,/g, ''));
+      console.log(`Item total amount: ${item.totalAmount}, Parsed amount: ${amount}`); // Debug log
+      return total + (isNaN(amount) ? 0 : amount);
+    }, 0);
+    console.log(`Total: ${total}`); // Debug log
+    return total.toFixed(2);
+  };
+  
+  const formatAmountWithCommas = (amount) => {
+    return parseFloat(amount).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  };
+  
+  const convertTotalAmountToWords = (amount) => {
+    const amountInWords = toWords(parseInt(amount, 10));
+    return `${amountInWords.toUpperCase()} RUPEES ONLY`;
+  };
+  
   return (
-    <div>
+    <>
       <button onClick={handleShow} className="btn btn-primary">
         Create Bill
       </button>
@@ -115,11 +152,11 @@ const CreateBill = () => {
               <input
                 type="checkbox"
                 className="form-check-input"
-                id={`item-${receipt.lrNumber}`}
+                id={`item-${receipt.lrNumber}`} // Corrected the dynamic ID
                 checked={selectedItems.includes(receipt)}
                 onChange={() => handleCheckboxChange(receipt)}
               />
-              <label className="form-check-label" htmlFor={`item-${receipt.lrNumber}`}>
+              <label className="form-check-label" htmlFor={`item-${receipt.lrNumber}`}> {/* Corrected the label `htmlFor` */}
                 {receipt.lrNumber}
               </label>
             </div>
@@ -129,24 +166,23 @@ const CreateBill = () => {
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={() => console.log('Selected Items:', selectedItems, 'Selected Freight Company:', selectedFreightCompany)}>
-            Save Changes
+          <Button variant="primary" onClick={handleGoClick}>
+            GO
           </Button>
         </Modal.Footer>
       </Modal>
 
-      {/* Display selected items below the modal */}
       <div className="invoice-container">
         <header className="invoice-header">
           <div className="company-logo">
             <img src={logo} alt="Company Logo" />
           </div>
-          <div className="company-info">
+          <div className="company-logo1">
             <h1>TRANSFAST CORPORATION</h1>
             <p>448/B, NEAR MAHINDRA SHOWROOM, NH4 HIGHWAY, M.I.D.C., SHIROLI, KOLHAPUR, MAHARASHTRA. 416 122</p>
             <p>CONTACT NUMBER: 9923826075 / 7385119339 / 9960909651</p>
             <p>Email ID: transfast.corporation@gmail.com</p>
-            <h5>GST NUMBER: 27ANEPC0107H1Z0</h5>
+            <h4>GST NUMBER: 27ANEPC0107H1Z0</h4>
           </div>
         </header>
 
@@ -154,7 +190,6 @@ const CreateBill = () => {
           <div className="bill-to">
             <h3>Bill To</h3>
             <p><strong>{name}</strong></p>
-
             <p><strong>{address}</strong></p>
             <p><strong>{email}</strong></p>
           </div>
@@ -188,55 +223,72 @@ const CreateBill = () => {
               <tr>
                 <th>Sr.No.</th>
                 <th>Date</th>
-                <th>Lr.No.</th>
+                <th>LR Number</th>
                 <th>Consignor</th>
                 <th>Consignee</th>
-                <th>Vehicle No.</th>
-                <th>Weight</th>
+                <th>Vehicle Number</th>
+                {/* <th>Invoice Number</th> */}
                 <th>Amount</th>
               </tr>
-            </thead>
+            </thead>  
             <tbody>
-              {selectedItems.map((item, index) => (
+              {displayedItems.map((item, index) => (
                 <tr key={item.lrNumber}>
                   <td>{index + 1}</td>
-                  <td>{item.lrDate}</td>
+                  <td>{formatDate(item.lrDate)}</td>
                   <td>{item.lrNumber}</td>
                   <td>{item.consignor}</td>
                   <td>{item.consignee}</td>
                   <td>{item.vehicleNumber}</td>
-                  <td>{item.actualWeight}</td>
+                  {/* <td>
+                    {item.items && item.items.map((subItem, subIndex) => (
+                      subIndex === 0 ? subItem.invoiceNumber : `, ${subItem.invoiceNumber}`
+                    )).join('')}
+                  </td>  */}
                   <td>{item.totalAmount}</td>
                 </tr>
               ))}
             </tbody>
             <tfoot>
               <tr>
-                <th colSpan="6">TOTAL AMOUNT IN FIGURES:</th>
-                <td colSpan="2"></td>
+                <th colSpan="3">TOTAL AMOUNT IN FIGURES:</th>
+                <td colSpan="2">{convertTotalAmountToWords(calculateTotalAmount())}</td>
+                <th>TOTAL:</th>
+                <td>{formatAmountWithCommas(calculateTotalAmount())}</td>
               </tr>
             </tfoot>
           </table>
         </section>
 
         <footer className="invoice-footer">
-          <div className="notes">
-            <p>________</p>
-            <h3>RECEIVERS SIGNATURE</h3>
-          </div>
           <div className="payment">
             <h3>PAYMENT DETAILS</h3>
-            <p>A/C NO: 331305000180, ICICI BANK, MIDC SHIROLI, KOLHAPUR.</p>
-            <p>PHONEPAY/GPAY: 9921296075</p>
-            <p>IFSC CODE: ASFSAF</p>
+            <p>BANK NAME:- ICICI BANK</p>
+            <p>BRANCH NAME:- MIDC SHIROLI</p> 
+            <p>A/C NO :- 331305000180</p>
+            <p>IFSC CODE:- ICIC0003313</p>
+            <p>MICR CODE:- 416229011</p>
+            <p>PHONEPAY/GPAY :- 9921296075</p>
           </div>
+
           <div className="total">
-            <p>_________</p>
+            <br />
+            <br />
+            <br />
+            <p>________________________</p>
             <h3>TRANSFAST CORPORATION</h3>
+          </div>
+
+          <div className="notes">
+            <br />
+            <br />
+            <br />
+            <p>_____________________</p>
+            <h3>RECEIVERS SIGNATURE</h3>
           </div>
         </footer>
       </div>
-    </div>
+    </>
   );
 };
 

@@ -40,8 +40,9 @@ const POS = () => {
     setFormData({ ...formData, partsAndRates: newPartsAndRates });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
     const newData = [...submittedData];
     if (editingIndex !== null) {
       // Update the existing data when editing
@@ -51,9 +52,23 @@ const POS = () => {
       newData.push(formData);
     }
     setSubmittedData(newData);
-    setFormData({ customerName: '', partsAndRates: [{ part: '', rate: '' }] });
-    handleClose();
-    setEditingIndex(null); // Reset editing mode
+
+    // Send data to backend for storage
+    try {
+      const response = await axios.post('http://localhost:5000/api/customers/parts', {
+        customerName: formData.customerName,
+        partsAndRates: formData.partsAndRates
+      });
+
+      // Optionally handle the response if necessary
+      console.log('Parts and rates saved successfully:', response.data);
+
+      setFormData({ customerName: '', partsAndRates: [{ part: '', rate: '' }] });
+      handleClose();
+      setEditingIndex(null); // Reset editing mode
+    } catch (error) {
+      console.error('Error submitting parts and rates:', error);
+    }
   };
 
   // Edit Submission
@@ -81,11 +96,25 @@ const POS = () => {
         const customerOptions = customerNames.map(name => ({ value: name, label: name }));
         setCustomerName(customerOptions);
       } catch (error) {
-        console.log('Error fetching data', error);
+        console.log('Error fetching customer data', error);
       }
     };
 
     fetchData();
+  }, []);
+
+  // Fetch submitted data from the backend
+  useEffect(() => {
+    const fetchSubmittedData = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/customers');  // Assuming this endpoint returns all submitted parts and rates
+        setSubmittedData(response.data);
+      } catch (error) {
+        console.error('Error fetching submitted data', error);
+      }
+    };
+
+    fetchSubmittedData();
   }, []);
 
   return (
@@ -181,12 +210,12 @@ const POS = () => {
                   {data.partsAndRates.map((partRate, idx) => (
                     <tr key={idx}>
                       {idx === 0 ? (
-                        <td rowSpan={data.partsAndRates.length}>{data.customerName}</td>
+                        <td rowSpan={data.partsAndRates.length}>{data.name}</td>
                       ) : null}
                       <td>{partRate.part}</td>
                       <td>{partRate.rate}</td>
                       {idx === 0 && (
-                        <td rowSpan={5}>
+                        <td rowSpan={data.partsAndRates.length}>
                           <Button variant="warning" onClick={() => handleEdit(index)} className="edit-btn">Edit</Button>
                           <Button variant="danger" onClick={() => handleDelete(index)} className="delete-btn">Delete</Button>
                         </td>

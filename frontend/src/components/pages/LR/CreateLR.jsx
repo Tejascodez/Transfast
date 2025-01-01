@@ -7,7 +7,7 @@ import { toWords } from 'number-to-words';
 
 
 const CreateLR = () => {
-    const [lrNumber, setlrNumber] = useState('');
+    const [lrNumber, setLrNumber] = useState('');
     const [items, setItems] = useState([]);
     const [consignors, setConsignors] = useState([]);
     const [consignees, setConsignees] = useState([]);
@@ -19,7 +19,7 @@ const CreateLR = () => {
     const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
-        lrNumber: `${lrNumber}`,
+        lrNumber: '',
         lrDate: '',
         from: '',
         to: '',
@@ -59,67 +59,51 @@ const CreateLR = () => {
     });
 
 
-    const getFinancialYear = () => {
-        const currentDate = new Date();
-        const currentMonth = currentDate.getMonth() + 1; // getMonth() is 0-indexed
-        const currentYear = currentDate.getFullYear();
-        let startYear, endYear;
-
-        if (currentMonth >= 4) {
-            startYear = currentYear;
-            endYear = currentYear + 1;
-        } else {
-            startYear = currentYear - 1;
-            endYear = currentYear;
-        }
-
-        return `${startYear}${String(endYear).slice(-2)}`; // Format 2024-25
-    };
-
-    const generatelrNumber = () => {
-        const financialYear = getFinancialYear();
-        const prefix = `TC${financialYear}`;
-
-        // Retrieve the last invoice number from localStorage (or initialize to 0)
-        const lastlrNumber = localStorage.getItem('lrNumber')
-            ? parseInt(localStorage.getItem('lrNumber').replace(prefix, '')) || 0
-            : 0;
-
-        // Increment the invoice number
-        const newlrNumber = lastlrNumber + 1;
-
-        // Format the invoice number (pad with zeros to 4 digits)
-        const formattedlrNumber = prefix + String(newlrNumber).padStart(4, '0');
-
-        // Store the new invoice number in localStorage
-        localStorage.setItem('lrNumber', formattedlrNumber);
-
-        // Update the component's state
-        setlrNumber(formattedlrNumber);
-        setFormData(prevState => ({
-            ...prevState,
-            lrNumber: formattedlrNumber
-        }));
-    };
-    const currentDate = new Date();
-
-    // Format the date to dd/mm/yyyy
-    const formattedDate = currentDate.toLocaleDateString('en-GB');
-
-    // useEffect hook to load the last invoice number without incrementing it
+    
     useEffect(() => {
+        const fetchLastLrNumber = async () => {
+          try {
+            const response = await axios.get('http://localhost:5000/api/lorryReceipts/lastLrNumber');
+            const lastLrNumber = response.data.lastLrNumber;
+            console.log('Last LR Number:', lastLrNumber); // Debugging statement
+            generateLrNumber(lastLrNumber);
+          } catch (error) {
+            console.error('Error fetching last lrNumber:', error);
+          }
+        };
+    
+        fetchLastLrNumber();
+      }, []);
+    
+    
+      const getFinancialYear = () => {
+        const currentDate = new Date();
+        const currentYear = currentDate.getFullYear();
+        const currentMonth = currentDate.getMonth() + 1; // Months are zero-based
+        const startYear = currentMonth >= 4 ? currentYear : currentYear - 1;
+        const endYear = startYear + 1;
+    
+        return `${startYear}${String(endYear).slice(-2)}`; // Format 2024-25
+      };
+    
+      const generateLrNumber = (lastLrNumber) => {
         const financialYear = getFinancialYear();
         const prefix = `TC${financialYear}`;
-        const lastlrNumber = localStorage.getItem('lrNumber') || `${prefix}0000`;
-        setlrNumber(lastlrNumber);
-        setFormData(prevState => ({
-            ...prevState,
-            lrNumber: lastlrNumber,
-            lrDate: formattedDate
+    
+        // Increment the last lrNumber
+        const newLrNumber = lastLrNumber ? parseInt(lastLrNumber.replace(prefix, '')) + 1 : 1;
+    
+        // Format the new lrNumber (pad with zeros to 4 digits)
+        const formattedLrNumber = prefix + String(newLrNumber).padStart(4, '0');
+    
+        // Update the component's state
+        setLrNumber(formattedLrNumber);
+        setFormData((prev) => ({
+          ...prev,
+          lrNumber: formattedLrNumber,
         }));
-    }, []); // Empty dependency array ensures this runs only once/
-
-
+      };
+    
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -232,7 +216,7 @@ const CreateLR = () => {
     const buttonClick = (e) => {
         e.preventDefault();
         handleSubmit(e);
-        generatelrNumber();
+        // generateLrNumber();
     };
     const handleConsignorChange = (selectedOption) => {
         setFormData(prevState => ({

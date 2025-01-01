@@ -11,6 +11,16 @@ const addLorryReceipt = async (req, res) => {
     res.status(500).json({ message: 'Failed to add lorry receipt', error });
   }
 };
+const getLastLrNumber = async (req, res) => {
+  try {
+    const lastReceipt = await LorryReceipt.findOne().sort({ lrNumber: -1 });
+    const lastLrNumber = lastReceipt ? lastReceipt.lrNumber : null;
+    res.status(200).json({ lastLrNumber });
+  } catch (error) {
+    console.error('Error fetching last lrNumber:', error);
+    res.status(500).json({ message: 'Server error', error });
+  }
+};
 
 // Controller to handle fetching all lorry receipts
 const getLorryReceipts = async (req, res) => {
@@ -170,5 +180,6 @@ module.exports = {
   getItems,
   deleteReceipt,
   addMultipleItems,
-  getAuthentication // Ensure this function is completed and used as needed
+  getAuthentication,
+  getLastLrNumber// Ensure this function is completed and used as needed
 };
