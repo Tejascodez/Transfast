@@ -29,7 +29,7 @@ const Vehicles = () => {
 
     const fetchVehicles = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/api/vehicles');
+            const response = await axios.get('http://localhost:8080/api/vehicles');
             setVehicles(response.data);
         } catch (error) {
             console.error('Error fetching vehicles:', error);
@@ -59,7 +59,7 @@ const Vehicles = () => {
         if (puc) formData.append('puc', puc);
 
         try {
-            const response = await axios.post('http://localhost:5000/api/vehicles', formData, {
+            const response = await axios.post('http://localhost:8080/api/vehicles', formData, {
                 headers: { 'Content-Type': 'multipart/form-data' },
             });
             console.log(response.data);
@@ -93,7 +93,7 @@ const Vehicles = () => {
 
     const handleDeleteVehicle = async (id) => {
         try {
-            await axios.delete(`http://localhost:5000/api/vehicles/${id}`);
+            await axios.delete(`http://localhost:8080/api/vehicles/${id}`);
             fetchVehicles();
         } catch (error) {
             console.error('Error deleting vehicle:', error);
@@ -207,15 +207,15 @@ const Vehicles = () => {
                                         <td>{vehicle.ownerNumber}</td>
                                         <td>{vehicle.driverName}</td>
                                         <td>{vehicle.driverNumber}</td>
-                                        <td>{vehicle.rc && <a href={`http://localhost:5000/${vehicle.rc}`} target="_blank" rel="noopener noreferrer">RC</a>}</td>
+                                        <td>{vehicle.rc && <a href={`http://localhost:8080/${vehicle.rc}`} target="_blank" rel="noopener noreferrer">RC</a>}</td>
                                         <td>{formatDate(vehicle.rcExpiry)}</td>
-                                        <td>{vehicle.mutax && <a href={`http://localhost:5000/${vehicle.mutax}`} target="_blank" rel="noopener noreferrer">Mutax</a>}</td>
+                                        <td>{vehicle.mutax && <a href={`http://localhost:8080/${vehicle.mutax}`} target="_blank" rel="noopener noreferrer">Mutax</a>}</td>
                                         <td>{formatDate(vehicle.mutaxExpiry)}</td>
                                         <td>{formatDate(vehicle.roadTaxExpiry)}</td>
-                                        <td>{vehicle.roadTax && <a href={`http://localhost:5000/${vehicle.roadTax}`} target="_blank" rel="noopener noreferrer">Road Tax</a>}</td>
-                                        <td>{vehicle.insurance && <a href={`http://localhost:5000/${vehicle.insurance}`} target="_blank" rel="noopener noreferrer">Insurance</a>}</td>
+                                        <td>{vehicle.roadTax && <a href={`http://localhost:8080/${vehicle.roadTax}`} target="_blank" rel="noopener noreferrer">Road Tax</a>}</td>
+                                        <td>{vehicle.insurance && <a href={`http://localhost:8080/${vehicle.insurance}`} target="_blank" rel="noopener noreferrer">Insurance</a>}</td>
                                         <td>{formatDate(vehicle.insuranceExpiry)}</td>
-                                        <td>{vehicle.puc && <a href={`http://localhost:5000/${vehicle.puc}`} target="_blank" rel="noopener noreferrer">PUC</a>}</td>
+                                        <td>{vehicle.puc && <a href={`http://localhost:8080/${vehicle.puc}`} target="_blank" rel="noopener noreferrer">PUC</a>}</td>
                                         <td>{formatDate(vehicle.pucExpiry)}</td>
                                       
                                        

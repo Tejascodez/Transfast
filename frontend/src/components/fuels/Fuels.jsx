@@ -26,7 +26,7 @@ const Fuels = () => {
     useEffect(() => {
         const fetchFuelData = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/api/fuels');
+                const response = await axios.get('http://localhost:8080/api/fuels');
                 setFuelData(response.data);
                 setFilteredData(response.data); // Set filtered data initially to all data
             } catch (error) {
@@ -99,15 +99,15 @@ const Fuels = () => {
         try {
             let response;
             if (currentId) {
-                response = await axios.put(`http://localhost:5000/api/fuels/${currentId}`, newFuelData);
+                response = await axios.put(`http://localhost:8080/api/fuels/${currentId}`, newFuelData);
             } else {
-                response = await axios.post('http://localhost:5000/api/fuels', newFuelData);
+                response = await axios.post('http://localhost:8080/api/fuels', newFuelData);
             }
             console.log('Vehicle data posted successfully:', response);
 
             const fetchFuelData = async () => {
                 try {
-                    const response = await axios.get('http://localhost:5000/api/fuels');
+                    const response = await axios.get('http://localhost:8080/api/fuels');
                     setFuelData(response.data);
                     setFilteredData(response.data); // Update filtered data after adding/updating
                 } catch (error) {
@@ -149,7 +149,7 @@ const Fuels = () => {
 
     const handleDelete = async (id) => {
         try {
-            await axios.delete(`http://localhost:5000/api/fuels/${id}`);
+            await axios.delete(`http://localhost:8080/api/fuels/${id}`);
             setFuelData(fuelData.filter(fuel => fuel._id !== id));
             setFilteredData(filteredData.filter(fuel => fuel._id !== id)); // Update filtered data after deletion
         } catch (error) {
@@ -286,9 +286,9 @@ const Fuels = () => {
                     <thead>
                         <tr>
                             <th>SrNo:</th>
+                            <th>Date</th>
                             <th>Vehicle Number</th>
                             <th>Driver Name</th>
-                            <th>Date</th>
                             <th>From</th>
                             <th>To</th>
                             <th>Old Readings</th>
@@ -296,6 +296,7 @@ const Fuels = () => {
                             <th>Liters</th>
                             <th>Cost of Fuel</th>
                             <th>Avg</th>
+                            <th>Acknowledgement</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -303,9 +304,9 @@ const Fuels = () => {
                         {filteredData.map((data, index) => (
                             <tr key={index}>
                                 <td>{index + 1}</td>
+                                <td>{formatDate(data.date)}</td>
                                 <td>{data.vehicleNumber}</td>
                                 <td>{data.driverName}</td>
-                                <td>{formatDate(data.date)}</td>
                                 <td>{data.from}</td>
                                 <td>{data.to}</td>
                                 <td>{data.oldReading}</td>
@@ -313,6 +314,7 @@ const Fuels = () => {
                                 <td>{data.fuelInLiters}</td>
                                 <td>{data.fuelCost}</td>
                                 <td>{data.avg}</td>
+                                <td></td>
                                 <td>
                                     <button onClick={() => handleEdit(data)}>Edit</button>
                                     <button onClick={() => handleDelete(data._id)}>Delete</button>

@@ -26,7 +26,7 @@ const ReceiptDetail = () => {
     useEffect(() => {
         const fetchReceipt = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/api/LorryReceipts/${id}`);
+                const response = await axios.get(`http://localhost:8080/api/LorryReceipts/${id}`);
                 if (response.data) {
                     console.log('Fetched Receipt Data:', response.data); 
                     setReceipt(response.data);
@@ -63,7 +63,7 @@ const ReceiptDetail = () => {
                 <div className="receipt">
                     <i className="i">(Original For Consignee)</i>
                     <div className="all">
-                        <div className="header">
+                        <div className="header-lr">
                             <div className="logo-container">
                                 <img src={logo} alt="TFC LOGO" />
                             </div>
@@ -226,7 +226,7 @@ const ReceiptDetail = () => {
                                         <td rowSpan={3}></td>
                                     </tr>
                                     <tr>
-                                        <td>A/C NO :- 331305000180, ICICI BANK, MIDC SHIROLI, KOLHAPUR.</td>
+                                        <td>A/C NO :- 331308080180, ICICI BANK, MIDC SHIROLI, KOLHAPUR.</td>
                                     </tr>
                                     <tr>
                                         <td>PHONEPAY/GPAY :- 9921296075</td>

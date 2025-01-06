@@ -1,0 +1,156 @@
+/* General styles */
+.total-bills-container {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.logo {
+    width: 100px;
+    margin-right: 20px;
+}
+
+.company-info {
+    flex-grow: 1;
+}
+
+.company-info h2 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.company-info address, .company-info p {
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+/* Search and export container */
+.search-export-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 5px;
+    width: 100%;
+    max-width: 300px;
+}
+
+.search-bar input {
+    border: none;
+    outline: none;
+    padding: 5px;
+    flex-grow: 1;
+}
+
+.search-bar svg {
+    margin-right: 5px;
+}
+
+.export-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.export-buttons button {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.export-buttons button:hover {
+    background-color: #45a049;
+}
+
+/* Table styles */
+.table-container {
+    overflow-x: auto;
+}
+
+.total-bills-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.total-bills-table th, .total-bills-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+    font-size: 14px;
+}
+
+.total-bills-table th {
+    background-color: #f2f2f2;
+}
+
+.total-bills-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.total-bills-table tr:hover {
+    background-color: #ddd;
+}
+
+.total-bills-table td button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #007bff;
+    font-size: 18px;
+}
+
+/* Responsive styles */
+@media screen and (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .company-info h2 {
+        font-size: 20px;
+    }
+
+    .company-info address, .company-info p {
+        font-size: 12px;
+    }
+
+    .search-export-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .export-buttons {
+        justify-content: center;
+        gap: 5px;
+        margin-top: 10px;
+    }
+
+    .total-bills-table th, .total-bills-table td {
+        font-size: 12px;
+        padding: 6px;
+    }
+
+    .export-buttons button {
+        font-size: 12px;
+        padding: 8px 16px;
+    }
+}

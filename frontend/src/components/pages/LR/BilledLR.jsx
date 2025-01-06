@@ -13,7 +13,7 @@ const BilledLR = () => {
   useEffect(() => {
     const fetchReceipts = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/LorryReceipts');
+        const response = await axios.get('http://localhost:8080/api/LorryReceipts');
         // Filter the receipts by 'Pending' status
         const filteredReceipts = response.data.filter(receipt =>
           receipt.status === 'Pending'
@@ -49,14 +49,14 @@ const BilledLR = () => {
 
     try {
       // Upload the proof file
-      await axios.post(`http://localhost:5000/api/uploadProof/${currentLRNumber}`, formData, {
+      await axios.post(`http://localhost:8080/api/uploadProof/${currentLRNumber}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
 
       // Update the status to "Received"
-      await axios.put(`http://localhost:5000/api/LorryReceipts/${currentLRNumber}`, { status: 'Received' });
+      await axios.put(`http://localhost:8080/api/LorryReceipts/${currentLRNumber}`, { status: 'Received' });
 
       // Update the status locally (client-side) to reflect the change
       setReceipts(receipts.map(r => r.lrNumber === currentLRNumber ? { ...r, status: 'Received' } : r));

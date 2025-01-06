@@ -123,10 +123,10 @@ const formattedDate = currentDate.toLocaleDateString('en-GB');
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/api/customers');
+                const response = await axios.get('http://localhost:8080/api/customers');
                 const data = response.data;
 
-                const info = await axios.get('http://localhost:5000/api/vehicles');
+                const info = await axios.get('http://localhost:8080/api/vehicles');
                 
                 const vehicleData =info.data;
                 // Extracting unique consignors, consignees, and freight companies
@@ -212,7 +212,7 @@ const formattedDate = currentDate.toLocaleDateString('en-GB');
 
         try {
             console.log("Data to Submit:", dataToSubmit);
-            const postResponse = await axios.post('http://localhost:5000/api/lorryReceipts', dataToSubmit);
+            const postResponse = await axios.post('http://localhost:8080/api/lorryReceipts', dataToSubmit);
             if (postResponse.status === 201) {
                 console.log('Lorry Receipt data stored successfully.');
                 navigate('/printlr', { state: { formData, items } });

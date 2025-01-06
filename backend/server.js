@@ -10,17 +10,16 @@ const vechicleRoutes = require('./routes/vechicleRoutes');
 const fuelRoutes = require('./routes/fuelRoutes');
 const DriverRoutes = require('./routes/driver');
 const path = require('path');
-const nodemailer = require('nodemailer');
 const CustomerRoutes = require('./routes/CustomerRoutes');
-const upload = require('./utils/multerConfig');
+const locationRoute = require('./routes/vehiclelocationroutes');
+const http = require('http');
+const socketIO = require('socket.io');
 
 const app = express();
 app.use(cors());
 app.use('/uploads', express.static('uploads'));
 
-
 const { PORT, MONGO_URI } = process.env;
-// app.post('/api/auth/signup', signup);
 
 // MongoDB connection
 mongoose.connect(MONGO_URI, {
@@ -35,55 +34,50 @@ app.use(bodyParser.json());
 
 // Register routes
 app.use('/api/auth', authRoutes);
-
 app.use('/api', lrRoutes);
 app.use('/api/vehicles', vechicleRoutes);
 app.use('/api/fuels', fuelRoutes);
 app.use('/api', DriverRoutes);
 app.use('/api/customers', CustomerRoutes);
+app.use('/api', locationRoute);
 
+// Create HTTP server and integrate socket.io
+const server = http.createServer(app);
 
+const corsOptions = {
+  origin: ['http://localhost:3001', 'http://localhost:5173'], // Allow both frontend URLs
+  methods: ["GET", "POST"],
+};
 
-app.use('/uploads', express.static('uploads')); // Serve static files from "uploads" folder
+// Apply the CORS middleware to the app
+app.use(cors(corsOptions));
 
-// Send email route
-app.post('/send-email', upload.single('attachment'), async (req, res) => {
-    const { from, to, subject, message } = req.body;
-    const attachment = req.file;
-
-    const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-            user: 'tejastp834@gmail.com',
-            pass: 'naen erca ylwo gaoh', // For security reasons, consider using environment variables
-        },
-    });
-
-    const mailOptions = {
-        from,
-        to: JSON.parse(to), // Parse the recipients
-        subject,
-        text: message,
-        attachments: attachment ? [
-            {
-                filename: attachment.originalname,
-                path: attachment.path,
-            },
-        ] : [],
-    };
-
-    try {
-        const info = await transporter.sendMail(mailOptions);
-        res.status(200).send('Emails sent successfully!');
-    } catch (error) {
-        console.error('Error sending email:', error);
-        res.status(500).send('Failed to send email');
-    }
+// Or, if you are using socket.io with custom CORS config:
+const io = socketIO(server, {
+  cors: {
+    origin: ['http://localhost:3001', 'http://localhost:5173'], // Allow both frontend URLs
+    methods: ["GET", "POST"],
+  },
 });
 
+// Handle socket.io connections
+io.on('connection', (socket) => {
+  console.log('A user connected');
+
+  // Example of listening for vehicle location updates
+  socket.on('vehicleLocationUpdate', (data) => {
+    console.log('Received vehicle location:', data);
+    // Optionally broadcast to other clients
+    socket.broadcast.emit('vehicleLocation', data);
+  });
+
+  socket.on('disconnect', () => {
+    console.log('A user disconnected');
+  });
+});
 
 // Start the server
-const port = PORT || 5000; // Fallback to port 5000 if PORT is not defined
-app.listen(port, () => {
+const port = PORT || 8080; // Fallback to port 8080 if PORT is not defined
+server.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });

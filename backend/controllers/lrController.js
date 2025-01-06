@@ -35,25 +35,30 @@ const getLorryReceipts = async (req, res) => {
 // Controller to handle updating receipt status
 const updateRecietStatus = async (req, res) => {
   const { lrNumber } = req.params;
-  const { status } = req.body;
+  const { status, holting } = req.body;  // Added holting field
 
   try {
+    // Update both status and holting fields
     const receipt = await LorryReceipt.findOneAndUpdate(
       { lrNumber },
-      { status },
-      { new: true }
+      { status, holting },  // Update both fields
+      { new: true }  // Return the updated document
     );
 
+    // Check if receipt exists
     if (!receipt) {
       return res.status(404).json({ message: 'Receipt not found' });
     }
 
-    return res.status(200).json(receipt);
+    return res.status(200).json(receipt);  // Return the updated receipt
   } catch (error) {
     console.error('Error updating receipt status:', error);
     return res.status(500).json({ message: 'Server error' });
   }
 };
+
+
+
 
 // Controller to handle uploading proof and updating receipt status
 const uploadProof = async (req, res) => {

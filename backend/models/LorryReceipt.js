@@ -43,6 +43,7 @@ const LorryReceiptSchema = new Schema({
   dcCharges: { type: Number },
   ddCharges: { type: Number },
   holting: { type: Number },
+  holtingDays: { type: Number },
   other: { type: Number },
   totalAmountInWords: { type: String },
   status: { type: String, default: 'Pending' },  // Add status field

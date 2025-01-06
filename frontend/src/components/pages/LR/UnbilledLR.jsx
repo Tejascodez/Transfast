@@ -13,7 +13,7 @@ const UnbilledLR = () => {
   useEffect(() => {
     const fetchReceipts = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/LorryReceipts');
+        const response = await axios.get('http://localhost:8080/api/LorryReceipts');
         // Filter the receipts by 'Pending' status
         const filteredReceipts = response.data.filter(receipt =>
           receipt.status === 'Unbilled' || receipt.status === 'Received'

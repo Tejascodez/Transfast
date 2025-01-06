@@ -1,149 +1,335 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap');
 
-.navbar {
-    /* display: flex; */
-  left: 0px;
- flex-direction: column; 
-    
-    align-items: center;
-    font-family: 'Arial', sans-serif;
-    padding: -40px;
-    margin-left: auto;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
 
-    position: relative;
-    position: fixed;
-  }
-  
-  /* Navbar header (top bar) */
-  .navbar-header {
-    display: flex;
-    justify-content: space-between;
-    padding-left: -20px;
-    gap: 20px;
-    align-items: center;
-    background: linear-gradient(to right, #6a11cb, #2575fc); /* Attractive gradient */
-    padding: 10px 20px;
-    color: white;
-    box-shadow: 0 2px 10px rgba(183, 16, 16, 0.1);
-    position: fixed;
-    top: 0;
+:root {
+    --clr: #14161e;
+    --bg: #31a4ff; /* Define missing variable */
+}
+
+body {
+    max-width: auto;
+    min-height: 100vh;
+    background: var(--clr);
+}
+
+
+nav{
     width: 100%;
-    z-index: 10;
-  }
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 40px;  
+    background-color: #14161e;
   
-  /* Toggle button for sidebar */
-  .toggle-bar {
-    cursor: pointer;
-    font-size: 24px;
+}
 
+.navbar{
+    font-size: .80em;
+    font-weight: 800;
     color: white;
-    margin-left: 20px; /* Move the toggle bar slightly to the left */
-    transition: margin-left 0.3s ease; /* Smooth transition */
-  }
+    letter-spacing: 1px;
+}
+
+ol{
+    display: flex;
+    top: 10px;
+    left: 270px;
+    position:relative;
+    margin: auto 0;
+}
+
+ol label{
+    margin: 0 30px;
+    list-style: none;
+    z-index: 111;
+}
+
+.sidebar {
+    border-radius: 16px;
+    position: absolute;
+    width: 65px;
+    height: 100vh;
+    background: #fff;
+    transition: width 0.5s;
+    padding-left: 5px;
+    overflow: hidden;
+}
+
+.sidebar.active {
+    width: 230px;
+}
+
+.sidebar ul {
+    list-style: none;
+    height: 100%;
+    padding: 0;
+}
+
+.sidebar ul li {
+    position: relative;
+    margin: 5px 0;
+}
+
+.sidebar ul li.active {
+    background: var(--clr);
+    border-top-left-radius: 50px;
+    border-bottom-left-radius: 50px;
+}
+
+.sidebar ul li.active::before,
+.sidebar ul li.active::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: transparent;
+    right: 0;
+}
+
+.sidebar ul li.active::before {
+    top: -20px;
+    border-bottom-right-radius: 20px;
+    box-shadow: 5px 5px 0 5px var(--clr);
+}
+
+.sidebar ul li.active::after {
+    top: auto;
+    bottom: -20px;
+    border-top-right-radius: 20px;
+    box-shadow: 5px -5px 0 5px var(--clr);
+}
+
+.sidebar .logo {
+  margin-left: 20px;
   
-  /* Navbar options (top bar links) */
-  .navbar-options {
-    list-style-type: none;
+}
+
+
+
+.sidebar ul li a {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    width: 80%; /* Ensure the navbar options stretch across the width */
-    padding: 0 20px;
-  }
-  
-  .navbar-options li {
-    align-items: center;
-    color: white;
-    cursor: pointer;
-    font-weight: bold;
-    transition: color 0.3s ease, transform 0.3s ease;
-  }
-  
-  .navbar-options li:hover {
-    color: #f39c12; /* Hover color for links */
-    transform: scale(1.05); /* Slight scale effect on hover */
-  }
-  
-  /* Sidebar */
-  .sidebar {
-    position: fixed;
-    top: 0;
-    left: -200px;
-    width: 150px;
-    height: 100%;
-    background: linear-gradient(to right, #2c3e50, #34495e);
-    padding-top: 60px;
-    transition: left 0.3s ease;
-    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .sidebar.active {
-    left: 0;
-  }
-  
-  .sidebar-options {
-    list-style-type: none;
-    /* display: flex; */
+    text-decoration: none;
+    gap: 10px;
+    padding: 10px;
+    padding-left: 5px;
+    color: #333;
+    transition: color 0.3s;
+}
+
+.sidebar ul li a .icon {
+    position: relative;
+    display: flex;
     justify-content: center;
-    align-content: center;
-    align-items: center ;
-    padding: 24px;
-  }
-  
-  .sidebar-options li {
+    align-items: center;
+    min-width: 60px;
+    padding: 15px;
+    padding-left: 0px;
+    border-radius: 20px;
+    height: 25px;
+    font-size: 1.5rem;
+    color: #333;
+    transition: color 0.5s, transform 0.3s;
+}
+
+.sidebar ul li a .text
+{
+    position: relative;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    font-size: 1em;
+    color: #333;
+    padding-left: 15px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: 0.5s;
+}
+
+.sidebar ul li.active a .icon {
+    /* visibility: hidden; */
+    color: #fff;
+}
 
 
-    padding: 17px;
-    color: white;
-    cursor: pointer;
-    font-size: 18px;
-    font-weight: 500;
-    transition: background-color 0.3s ease, padding-left 0.3s ease;
-  }
-  
-  .sidebar-options li:hover {
-    background-color: #34495e;
-    padding-left: 30px; /* Add a slight indentation on hover */
-  }
-  
-  /* User logo */
-  .user-logo {
+/* .sidebar ul li a .lg {
+    position: relative;
+    height: 70px;
+    display: flex;
+    align-items: center;
     font-size: 1.5em;
-    font-weight: bold;
-    color: white;
+    color: #fff; 
+    background-color: #fff; 
+    padding-left: 15px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: 0.5s;
+    border-radius: 8px; 
+}
+
+.sidebar ul li a .lg:hover {
+    background-color: #f0f0f0; 
+} */
+
+
+.sidebar ul li a .lg
+{
+    position: relative;
+    height: 65px;
+    display: flex;
+    /* align-items: center; */
+    /* font-size: 1.5em; */
+    color: #fff;
+    background: #fff;
+    /* padding-left: 15px; */
+    text-transform: uppercase;
+    border-radius: 40px;
+    padding: 0px;
+    /* letter-spacing: 0.05em; */
+    transition: 0.5s;
+}
+
+.sidebar ul li.active a .lg::before
+{
+    visibility: hidden;
+    content: '';
+    position: absolute;
+    inset: 5px;
+    width: 60px;
+    background: var(--bg);
+    border-radius: 50%;
+    transition: 0.5s;
+}
+
+/* .sidebar ul li.active a .lg {
+    background: #fff;
+    border-top-left-radius: 50px;
+    border-bottom-left-radius: 50px;
+} */
+
+.sidebar ul li.active a .icon::before
+{
+    /* visibility: hidden; */
+    content: '';
+    position: absolute;
+    /* inset: 5px; */
+    height: 40px;
+    width: 40px;
+    background: var(--bg);
+    border-radius: 50%;
+    transition: 0.5s;
+}
+
+.sidebar ul li.hover.active a .icon::before
+{
+    /* visibility: hidden; */
+    background: #fff;
+}
+.sidebar ul li.active a:hover .icon {
+    /* visibility: hidden; */
+    transform: scale(1.1);
+}
+
+.sidebar ul li:hover a .icon,
+.sidebar ul li:hover a .text {
+    /* visibility: hidden; */
+    color: var(--bg);
+}
+
+.menuToggle {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    /* right: 0px; */
+    width: 220px;
+    height: 60px;
+    border-radius: 20px;
+    background-color: none;
+    z-index: 1000;
     cursor: pointer;
-    text-align: center;
-    margin-top: 30px;
-  }
-  
-  .user-logo:hover {
-    color: #f39c12;
-  }
-  
-  
-  /* Optional: Add some space at the bottom of the sidebar */
-  .sidebar-options li:last-child {
-    margin-top: auto;
-  }
-  
-  /* Responsive Styles for smaller screens */
-  @media (max-width: 768px) {
-    .navbar-options {
-      display: none; /* Hide navbar options on small screens */
-    }
-  
-    .toggle-bar {
-      display: block; /* Ensure the toggle button is visible */
-    }
-  }
-  
-  /* Container for the entire page */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s ease;
+}
+
+
+.menuToggle::before,
+.menuToggle::after {
+    /* content: ''; */
+    position: absolute;
+    width: 30px;
+    height: 3px;
+    background: #fff;
+    transition: transform 0.5s ease, background-color 0.3s ease;
+    box-shadow: 0 9px 0 #fff;
+}
+
+.menuToggle::before {
+    background-color: white;
+    transform: translateY(-9px);
+}
+
+.menuToggle::after {
+    transform: translateY(9px);
+}
+
+.menuToggle.active::before {
+    transform: rotate(45deg);
+}
+
+.menuToggle.active::after {
+    transform: rotate(-45deg);
+}
+
+.bottom{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+/* .bottom li.active::before {
+    top: -20px;
+    border-bottom-right-radius: 20px;
+    box-shadow: 5px 5px 0 5px var(--clr);
+}
+
+.bottom li.active::after {
+    top: auto;
+    bottom: -20px;
+    border-top-right-radius: 20px;
+    box-shadow: 5px -5px 0 5px var(--clr);
+} */
+
+.imgBx {
+    position: relative;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.imgBx img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+/* 
 .container {
     display: flex;
     flex-direction: column;
-    height: 100vh;
-
-    background: #f4f7fc; /* Light background color for the page */
-  }
+    height: 100vh; */
+/* Light background color for the page */
+    /* background: #f4f7fc;  */
+  /* } */
   
   /* Content section */
   .content {
@@ -151,9 +337,9 @@
     flex-grow: 1;
     padding: 20px;
     text-align: center;
-    background-color: #fff;
+    background-color: #14161e;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    margin-top: 60px; /* To prevent content from overlapping navbar */
+    /* To prevent content from overlapping navbar */
   }
   
   /* Header styling */
@@ -172,8 +358,11 @@
   .grid-container {
     
     display: grid;
+    margin-left: 300px;
+    /* width: 1200px; */
+    height: 720px;
     grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
+    gap: 20px;
     padding: 20px;/* Aligns the grid to the right */
 }
 
@@ -184,31 +373,29 @@
   flex-direction: column;
   justify-content: center;  
   align-items: center;
-  height: 60px;
+  height: 100px;
+    width: 270px;
   text-decoration: none;
-  color: white;
-  background-color: #007bff; /* Primary blue button color */
-  border-radius: 8px;
-
-margin: auto;
-
-  
-  padding: 50px; /* Reduce padding */
+  color: #14161e;
+  background-color: #eef0f2; /* Primary blue button color */
+  border-radius: 16px;
+  margin: auto;
+  padding: 70px; /* Reduce padding */
   transition: all 0.3s ease;
-  font-size: 0.9rem; /* Smaller text */
+  font-size: 1.1rem; /* Smaller text */
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
   aspect-ratio: 6/3;
 }
 
 .grid-item:hover {
-  background-color: #0056b3; /* Darker blue on hover */
+  background-color: #dac4e8b2; /* Darker blue on hover */
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
   transform: translateY(-3px); /* Reduce hover lift */
 }
 
 /* Icon Styling (Smaller) */
 .grid-item svg {
-  font-size: 1.5rem; /* Reduce icon size */
+  font-size: 1.2rem; /* Reduce icon size */
   margin-bottom: 8px; /* Adjust spacing */
 }
 
@@ -217,6 +404,25 @@ margin: auto;
   
   display: grid;
   grid-template-columns: repeat(3, 1fr); /* 3 fixed vertical columns */
-  gap: 15px; /* Reduce space between items */
+  gap: 40px; /* Reduce space between items */
   padding: 0 20px; /* Smaller padding around the grid */
+}
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 60px;
+    }
+
+    .sidebar.active {
+        width: 250px;
+    }
+
+    .menuToggle {
+        top: 15px;
+        right: 15px;
+        width: 40px;
+        height: 40px;
+    }
 }

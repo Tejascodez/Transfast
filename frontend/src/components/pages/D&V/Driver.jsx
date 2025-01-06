@@ -15,7 +15,7 @@ const Driver = () => {
   // Fetch drivers from the backend
   const fetchDrivers = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/drivers'); // Replace with your API endpoint
+      const response = await axios.get('http://localhost:8080/api/drivers'); // Replace with your API endpoint
       setDrivers(response.data);
     } catch (error) {
       console.error('Error fetching drivers:', error);
@@ -43,7 +43,7 @@ const Driver = () => {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/drivers', driverData); // Post request to add driver
+      await axios.post('http://localhost:8080/api/drivers', driverData); // Post request to add driver
       fetchDrivers(); // Re-fetch drivers to update the table
       setDriverData({ vehicleNumber: '', driverName: '', driverNumber: '', vehicleDocs: [{ docName: '', docURL: '' }] });
       setShowModal(false); // Close modal after submission

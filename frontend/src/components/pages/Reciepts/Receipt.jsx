@@ -9,7 +9,7 @@ const Receipt = () => {
     useEffect(() => {
         const fetchReceipts = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/api/LorryReceipts');
+                const response = await axios.get('http://localhost:8080/api/LorryReceipts');
                 setReceipts(response.data);
             } catch (error) {
                 console.error("Error fetching receipts", error);
@@ -20,7 +20,7 @@ const Receipt = () => {
 
     const saveReceipt = async (lrNumber) => {
         try {
-            await axios.put(`http://localhost:5000/api/LorryReceipts/${lrNumber}`, editedReceipt);
+            await axios.put(`http://localhost:8080/api/LorryReceipts/${lrNumber}`, editedReceipt);
             setReceipts(receipts.map(r => r.lrNumber === lrNumber ? editedReceipt : r));
             setEditRowIndex(null); // Exit edit mode
         } catch (error) {
@@ -159,7 +159,7 @@ const Receipt = () => {
                                     <td rowSpan={3}></td>
                                 </tr>
                                 <tr>
-                                    <td>A/C NO :- 331305000180,ICICI BANK,MIDC SHIROLI,KOLHAPUR.</td>
+                                    <td>A/C NO :- 331308080180,ICICI BANK,MIDC SHIROLI,KOLHAPUR.</td>
                                 </tr>
                                 <tr>
                                     <td>PHONEPAY/GPAY :- 9921296075</td>

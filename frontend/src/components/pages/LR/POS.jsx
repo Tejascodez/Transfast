@@ -55,7 +55,7 @@ const POS = () => {
 
     // Send data to backend for storage
     try {
-      const response = await axios.post('http://localhost:5000/api/customers/parts', {
+      const response = await axios.post('http://localhost:8080/api/customers/parts', {
         customerName: formData.customerName,
         partsAndRates: formData.partsAndRates
       });
@@ -88,7 +88,7 @@ const POS = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/customers');
+        const response = await axios.get('http://localhost:8080/api/customers');
         const data = response.data;
 
         // Extract customer names and set them as options
@@ -107,7 +107,7 @@ const POS = () => {
   useEffect(() => {
     const fetchSubmittedData = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/customers');  // Assuming this endpoint returns all submitted parts and rates
+        const response = await axios.get('http://localhost:8080/api/customers');  // Assuming this endpoint returns all submitted parts and rates
         setSubmittedData(response.data);
       } catch (error) {
         console.error('Error fetching submitted data', error);

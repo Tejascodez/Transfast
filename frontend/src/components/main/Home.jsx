@@ -1,83 +1,145 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FaFile, FaTruck, FaListAlt, FaCar, FaBox, FaClipboardList } from 'react-icons/fa';
-import Navbar from './Navbar';
-import CreateLR from '../pages/LR/CreateLR';
-import Modal from 'react-modal';
+import logo from '../../assets/Logo1.png';
 import './Home.css';
 
-// Set the app element for accessibility
-Modal.setAppElement('#root');
-
 const Home = () => {
-  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [menuActive, setMenuActive] = useState(false);
+  const [activeMenuIndex, setActiveMenuIndex] = useState(0);
 
-  const handleOpenModal = (e) => {
-    e.preventDefault();
-    setModalIsOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setModalIsOpen(false);
+  const toggleSidebar = () => {
+    setMenuActive(!menuActive);
   };
 
   return (
-    <div className="container">
-      <Navbar />
+    <div>
+      {/* Sidebar */}
+      <div className={`sidebar ${menuActive ? 'active' : ''}`}>
+        <ul className="menulist">
+          <li className="logo">
+            <a href="/home">
+              {menuActive && (
+                <div className="lg">
+                  <img src={logo} alt="Logo" />
+                </div>
+              )}
+              <div
+                className={`menuToggle ${menuActive ? 'active' : ''}`}
+                onClick={toggleSidebar}
+              ></div>
+            </a>
+          </li>
+
+          {/* Menu Items */}
+          {[
+            { text: 'HOME', icon: 'fa-home', bg: '#f44336', link: '/home' },
+            { text: 'LORRY RECEIPT', icon: 'fa-file-alt', bg: '#ffa117', link: '/lr' },
+            { text: 'ACCOUNTS', icon: 'fa-newspaper', bg: '#0fc70f', link: '/accounts' },
+            { text: 'CUSTOMERS', icon: 'fa-user-circle', bg: '#2196f3', link: '/customers' },
+            { text: 'DOCUMENTS', icon: 'fa-lock', bg: '#b145e9', link: '/documents' },
+            { text: 'VEHICLE', icon: 'fa-car', bg: '#e91e63', link: '/vehicle' },
+            { text: 'EMPLOYEES', icon: 'fa-users', bg: '#0ec68c', link: '/employees' },
+            { text: 'SETTINGS', icon: 'fa-cogs', bg: '#e6f704', link: '/settings' }
+          ].map((menuItem, index) => (
+            <li
+              key={index}
+              style={{ '--bg': menuItem.bg }}
+              className={activeMenuIndex === index ? 'active' : ''}
+              onClick={() => setActiveMenuIndex(index)}
+            >
+              <Link to={menuItem.link} onClick={toggleSidebar}>
+                <div className="icon">
+                  <i className={`fas ${menuItem.icon}`}></i>
+                </div>
+                <div className="text">{menuItem.text}</div>
+              </Link>
+            </li>
+          ))}
+
+          <div className="bottom">
+            <li style={{ '--bg': '#333' }}>
+              <a href="#">
+                <div className="icon">
+                  <div className="imgBx"></div>
+                </div>
+                <div className="text">Sanjeet</div>
+              </a>
+            </li>
+            <li style={{ '--bg': '#333' }}>
+              <a href="#">
+                <div className="icon">
+                  <ion-icon name="log-out-sharp"></ion-icon>
+                </div>
+                <div className="text">LOGOUT</div>
+              </a>
+            </li>
+          </div>
+        </ul>
+      </div>
+
+      {/* Navbar */}
+      <nav>
+        <div className="navbar">
+          <ol>
+            <Link to={'./email'}>
+              <label htmlFor="tap1">EMAIL</label>
+            </Link>
+            <Link to={'./tracking'}>
+              <label htmlFor="tap2">TRACKING</label>
+            </Link>
+            <label htmlFor="tap3">REPORTS</label>
+            <label htmlFor="tap4">REQUESTS</label>
+            <label htmlFor="tap5">MODIFICATIONS</label>
+          </ol>
+        </div>
+      </nav>
+
+      {/* Main Content */}
       <div className="content">
         <div className="grid-container">
-          <div className="grid-item" onClick={handleOpenModal}>
-            <FaFile /> Create LR
+          {/* Create LR */}
+          <div className="grid-item" onClick={() => alert('Opening modal to create LR...')}>
+            <i className="fas fa-file"></i> Create LR
           </div>
+
+          {/* Create Challan */}
           <Link to="/createchallan" className="grid-item">
-            <FaClipboardList /> Create Challan
+            <i className="fas fa-clipboard-list"></i> Create Challan
           </Link>
+
+          {/* Expiring Lorry Bills */}
           <Link to="/expiring" className="grid-item">
-            <FaListAlt /> Expiring Lorry Bills
+            <i className="fas fa-list-alt"></i> Expiring Lorry Bills
           </Link>
+
+          {/* Pending LR */}
           <Link to="/pendinglrs" className="grid-item">
-            <FaListAlt /> Pending LR
+            <i className="fas fa-list-alt"></i> Pending LR
           </Link>
+
+          {/* Total LR */}
           <Link to="/totallrs" className="grid-item">
-            <FaFile /> Total LR
+            <i className="fas fa-file"></i> Total LR
           </Link>
+
+          {/* Rahul Transport */}
           <Link to="/rt" className="grid-item">
-            <FaTruck /> Rahul Transport
+            <i className="fas fa-truck"></i> Rahul Transport
           </Link>
+
+          {/* Pallate */}
           <Link to="/pallate" className="grid-item">
-            <FaBox /> Pallate
+            <i className="fas fa-box"></i> Pallate
           </Link>
+
+          {/* Vehicle Docs */}
           <Link to="/vehicle" className="grid-item">
-            <FaCar /> Vehicles Docs
+            <i className="fas fa-car"></i> Vehicles Docs
           </Link>
         </div>
       </div>
 
-      <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={handleCloseModal}
-        style={{
-          content: {
-            width: '80%',
-            borderRadius: '20px',
-            height: '80%',
-            margin: 'auto',
-            padding: '20px',
-            overflow: 'auto' // Ensures that the content is scrollable
-          },
-          overlay: {
-            backgroundColor: 'rgba(0, 0, 0, 0.75)'
-          }
-        }}
-      >
-        <div className="modal-header-lr">
-          <h2>Create LR</h2>
-          <button className="close-button" onClick={handleCloseModal}>X</button>
-        </div>
-        <div className="modal-content-lr">
-          <CreateLR />
-        </div>
-      </Modal>
+      {/* Ionicons Scripts */}
     </div>
   );
 };

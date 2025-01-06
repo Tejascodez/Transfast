@@ -20,6 +20,8 @@ import UnbilledLR from './components/pages/LR/UnbilledLR'
 import BilledLR from './components/pages/LR/BilledLR'
 import CreateBill from './components/pages/Billing/CreateBill'
 import EmailSender from './components/pages/customers/EmailSender'
+import TotalBills from './components/pages/Billing/TotalBills'
+import Tracking from './components/fuels/Tracking'
 
 function App() {
 
@@ -62,7 +64,12 @@ function App() {
           <Route path='/createbill'  element={<CreateBill/>}/>
           <Route path='/rt'  element={<RahulTransport/>}/>
 
-          <Route path='/email' element={<EmailSender/>} />
+          <Route path='/home/email' element={<EmailSender/>} />
+          <Route path='/totalbills' element={<TotalBills/>} />
+
+
+          <Route path = '/home/tracking' element={<Tracking/>}/>
+          
           
         </Routes> 
         

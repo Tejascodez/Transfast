@@ -9,8 +9,7 @@ const PrintLrDup = () => {
      const { items , formData } = location.state || {};
    
      // Safe value function to prevent undefined or null rendering
-     const safeValue = (value) => (value !== undefined && value !== null ? value : 'N/A');
-   
+     const safeValue = (value) => (value !== null && value !== undefined ? value : '');   
      // Ensure that tableRows and formData are available
      if (!items || !formData) {
        return <div>No data available</div>;
@@ -20,7 +19,7 @@ const PrintLrDup = () => {
               <i className="i">(Original Copy For Consignee)</i>
       
               <div className="all">
-                <div className="header">
+                <div className="header-lr">
                   <div className="logo-container">
                     <img src={logo} alt="TFC LOGO" />
                   </div>
@@ -99,21 +98,30 @@ const PrintLrDup = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {items.map((_item, index) => (
-                        <tr key={index}>
-                          <td>{safeValue(index + 1)}</td>
-                          <td>{safeValue(_item.description)}</td>
-                          <td>{safeValue(_item.invoiceNumber)}</td>
-                          <td>{safeValue(_item.quantity)}</td>
-                          <td>{safeValue(_item.rate)}</td>
-                          <td>{safeValue(_item.actualWeight)}</td>
-                          <td>{safeValue(_item.chargeableWeight)}</td>
-                          <td>{safeValue(_item.EwayBillNo)}</td>
-                          <td>{safeValue(_item.expiryDate)}</td>
-                         
-                        </tr>
-                      ))}
-                    </tbody>
+        {Array.from({ length: 10 }).map((_, index) => {
+          const _item = items[index];
+          if(!_item) {
+            return(
+            <tr key={index}>
+              <td>{index+1}</td>
+</tr>
+            );
+          }
+          return (
+            <tr key={index}>
+               <td>{index+1}</td>
+              <td>{safeValue(_item?.description)}</td>
+              <td>{safeValue(_item?.invoiceNumber)}</td>
+              <td>{safeValue(_item?.quantity)}</td>
+              <td>{safeValue(_item?.rate)}</td>
+              <td>{safeValue(_item?.actualWeight)}</td>
+              <td>{safeValue(_item?.chargeableWeight)}</td>
+              <td>{safeValue(_item?.EwayBillNo)}</td>
+              <td>{safeValue(_item?.expiryDate)}</td>
+            </tr>
+          );
+        })}
+      </tbody>
                     <tfoot>
                       <tr>
                         <th colSpan="2">TOTAL AMOUNT IN FIGURES:</th>
@@ -182,7 +190,7 @@ const PrintLrDup = () => {
                                               <td rowSpan={3}></td>
                                           </tr>
                                           <tr>
-                                              <td>A/C NO :- 331305000180, ICICI BANK, MIDC SHIROLI, KOLHAPUR.</td>
+                                              <td>A/C NO :- 331308080180, ICICI BANK, MIDC SHIROLI, KOLHAPUR.</td>
                                           </tr>
                                           <tr>
                                               <td>PHONEPAY/GPAY :- 9921296075</td>

@@ -16,7 +16,7 @@ const TotalLR = () => {
     useEffect(() => {
         const fetchReceipts = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/api/LorryReceipts');
+                const response = await axios.get('http://localhost:8080/api/LorryReceipts');
                 const formattedData = response.data.map(receipt => ({
                     ...receipt,
                     lrDate: new Date(receipt.lrDate).toLocaleDateString('en-GB') // 'en-GB' locale formats date as dd/mm/yyyy
@@ -48,7 +48,7 @@ const TotalLR = () => {
 
     const saveReceipt = async (lrNumber) => {
         try {
-            await axios.put(`http://localhost:5000/api/LorryReceipts/${lrNumber}`, editedReceipt);
+            await axios.put(`http://localhost:8080/api/LorryReceipts/${lrNumber}`, editedReceipt);
             setReceipts(receipts.map(r => r.lrNumber === lrNumber ? editedReceipt : r));
             setEditRowIndex(null); // Exit edit mode
         } catch (error) {
@@ -80,7 +80,7 @@ const TotalLR = () => {
     const deleteReceipt = async (id) => {
         try {
             console.log("Deleting receipt with ID:", id);  // Log the ID to verify
-            await axios.delete(`http://localhost:5000/api/LorryReceipts/${id}`);
+            await axios.delete(`http://localhost:8080/api/LorryReceipts/${id}`);
             setReceipts(receipts.filter(r => r._id !== id));  // Remove the deleted receipt from state
         } catch (error) {
             console.error("Error deleting receipt", error);
@@ -160,7 +160,7 @@ const TotalLR = () => {
                                 <td>{receipt.deliveryType}</td> 
                                 <td>{receipt.totalAmount}</td>
                                 <td>{receipt.proofFilePath ? (
-                                    <a href={`http://localhost:5000/${receipt.proofFilePath}`} target="_blank" rel="noopener noreferrer">
+                                    <a href={`http://localhost:8080/${receipt.proofFilePath}`} target="_blank" rel="noopener noreferrer">
                                         View File
                                     </a>
                                 ) : (

@@ -27,7 +27,7 @@ const Customer = () => {
 
   const fetchCustomers = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/customers');
+      const response = await axios.get('http://localhost:8080/api/customers');
       setCustomers(response.data);
     } catch (err) {
       console.error('Error fetching customers:', err);
@@ -46,10 +46,10 @@ const Customer = () => {
     try {
       let response;
       if (isEdit) {
-        response = await axios.put(`http://localhost:5000/api/customers/${editId}`, customerData);
+        response = await axios.put(`http://localhost:8080/api/customers/${editId}`, customerData);
         setCustomers(customers.map(customer => customer._id === editId ? response.data : customer));
       } else {
-        response = await axios.post('http://localhost:5000/api/customers', customerData);
+        response = await axios.post('http://localhost:8080/api/customers', customerData);
         setCustomers([...customers, response.data]);
       }
       console.log('Customer submitted:', response.data);
@@ -60,7 +60,7 @@ const Customer = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/customers/${id}`);
+      await axios.delete(`http://localhost:8080/api/customers/${id}`);
       console.log("Deleted successfully");
       setCustomers(customers.filter(customer => customer._id !== id));
     } catch (error) {

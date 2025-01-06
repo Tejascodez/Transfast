@@ -10,7 +10,7 @@ const SignupPage = () => {
   const handleSignup = async (username, password, mobile) => {
     try {
       // Send OTP to mobile number
-      const otpResponse = await axios.post('http://localhost:5000/api/send-otp', { mobile });
+      const otpResponse = await axios.post('http://localhost:8080/api/send-otp', { mobile });
       console.log(otpResponse.data.message);
       setOtpSent(true); // OTP sent successfully
       // Proceed with the rest of the signup logic

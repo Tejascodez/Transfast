@@ -16,12 +16,7 @@ const vehicleSchema = new mongoose.Schema({
     roadTaxExpiry: { type: Date },
     insuranceExpiry: { type: Date },
     pucExpiry: { type: Date },
-    from: { type: String, required: true }, // Added "from"
-    to: { type: String, required: true }, // Added "to"
-    oldReading: { type: Number, required: true }, // Added "oldReading"
-    newReading: { type: Number, required: true }, // Added "newReading"
-    litres: { type: Number, required: true }, // Added "litres"
-    fuel: { type: String, required: true }, // Added "fuel"
+   // Added "fuel"
 }, { timestamps: true });
 
 const Vehicle = mongoose.model('Vehicle', vehicleSchema);

@@ -22,7 +22,7 @@ const EmailSender = () => {
     useEffect(() => {
         const fetchEmails = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/api/customers');
+                const response = await axios.get('http://localhost:8080/api/customers');
                 const emailOptions = [...new Set(response.data.map(item => item.email))]
                     .map(email => ({ label: email, value: email }));
                 setCustomerEmails(emailOptions);
@@ -88,7 +88,7 @@ const EmailSender = () => {
         }
 
         try {
-            const response = await axios.post('http://localhost:5000/send-email', formData, {
+            const response = await axios.post('http://localhost:8080/send-email', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },

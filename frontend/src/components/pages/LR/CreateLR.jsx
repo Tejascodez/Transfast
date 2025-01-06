@@ -63,7 +63,7 @@ const CreateLR = () => {
     useEffect(() => {
         const fetchLastLrNumber = async () => {
           try {
-            const response = await axios.get('http://localhost:5000/api/lorryReceipts/lastLrNumber');
+            const response = await axios.get('http://localhost:8080/api/lorryReceipts/lastLrNumber');
             const lastLrNumber = response.data.lastLrNumber;
             console.log('Last LR Number:', lastLrNumber); // Debugging statement
             generateLrNumber(lastLrNumber);
@@ -107,10 +107,10 @@ const CreateLR = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/api/customers');
+                const response = await axios.get('http://localhost:8080/api/customers');
                 const data = response.data;
 
-                const info = await axios.get('http://localhost:5000/api/vehicles');
+                const info = await axios.get('http://localhost:8080/api/vehicles');
 
                 const vehicleData = info.data;
                 // Extracting unique consignors, consignees, and freight companies
@@ -196,7 +196,7 @@ const CreateLR = () => {
 
         try {
             console.log("Data to Submit:", dataToSubmit);
-            const postResponse = await axios.post('http://localhost:5000/api/lorryReceipts', dataToSubmit);
+            const postResponse = await axios.post('http://localhost:8080/api/lorryReceipts', dataToSubmit);
             if (postResponse.status === 201) {
                 console.log('Lorry Receipt data stored successfully.');
                 navigate('/printlr', { state: { formData, items } });
@@ -572,35 +572,39 @@ const CreateLR = () => {
                 </div>
 
                 <table className="tbl">
-                    <thead>
-                        <tr>
-                            <th>DESCRIPTION</th>
-                            <th>INVOICE NUMBER</th>
-                            <th>QUANTITY</th>
-                            <th>UNIT</th>
-                            <th>EWAYBILL NUMBER</th>
-                            <th>EXP. DATE</th>
-                            <th>RATE</th>
-                            <th>ACTUAL WEIGHT</th>
-                            <th>CHARGEBAL WEIGHT</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {items.map((item, index) => (
-                            <tr key={index}>
-                                <td>{item.description}</td>
-                                <td>{item.invoiceNumber}</td>
-                                <td>{item.quantity}</td>
-                                <td>{item.unit}</td>
-                                <td>{item.EwayBillNo}</td>
-                                <td>{item.expiryDate}</td>
-                                <td>{item.rate}</td>
-                                <td>{item.actualWeight}</td>
-                                <td>{item.chargeableWeight}</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+  <thead>
+    <tr>
+      <th>DESCRIPTION</th>
+      <th>INVOICE NUMBER</th>
+      <th>QUANTITY</th>
+      <th>UNIT</th>
+      <th>EWAYBILL NUMBER</th>
+      <th>EXP. DATE</th>
+      <th>RATE</th>
+      <th>ACTUAL WEIGHT</th>
+      <th>CHARGEBAL WEIGHT</th>
+    </tr>
+  </thead>
+  <tbody>
+    {Array.from({ length: 10 }).map((_, index) => {
+      const item = items[index]; // Get the item if it exists
+      return (
+        <tr key={index}>
+          <td>{item?.description || ''}</td>
+          <td>{item?.invoiceNumber || ''}</td>
+          <td>{item?.quantity || ''}</td>
+          <td>{item?.unit || ''}</td>
+          <td>{item?.EwayBillNo || ''}</td>
+          <td>{item?.expiryDate || ''}</td>
+          <td>{item?.rate || ''}</td>
+          <td>{item?.actualWeight || ''}</td>
+          <td>{item?.chargeableWeight || ''}</td>
+        </tr>
+      );
+    })}
+  </tbody>
+</table>
+
 
                 <div className="actions">
                     <input type="button" value="Clear" onClick={() => setFormData({ ...formData, ...initialState })} />
