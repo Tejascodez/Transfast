@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Modal, Button, Form } from 'react-bootstrap';
-import CreatableSelect from 'react-select/creatable';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperclip } from '@fortawesome/free-solid-svg-icons';
 import './EmailSender.css';
@@ -9,7 +8,6 @@ import './EmailSender.css';
 const EmailSender = () => {
     const [modal, showModal] = useState(false);
     const [from, setFrom] = useState('tejastp834@gmail.com');
-    const [to, setTo] = useState([]);
     const [emailList, setEmailList] = useState([]);
     const [subject, setSubject] = useState('');
     const [message, setMessage] = useState('');
@@ -23,8 +21,10 @@ const EmailSender = () => {
         const fetchEmails = async () => {
             try {
                 const response = await axios.get('http://localhost:8080/api/customers');
-                const emailOptions = [...new Set(response.data.map(item => item.email))]
-                    .map(email => ({ label: email, value: email }));
+                const emailOptions = response.data.map(customer => ({
+                    label: customer.email, // Using customer's email as the label
+                    value: customer.email,
+                }));
                 setCustomerEmails(emailOptions);
             } catch (error) {
                 console.error('Error fetching emails:', error);
@@ -35,17 +35,15 @@ const EmailSender = () => {
     }, []);
 
     const handleAddEmail = () => {
-        const emails = selectedEmails.map(email => email.value).filter(email => email !== '');
-        setEmailList([...new Set([...emailList, ...emails])]);
+        const emails = selectedEmails.map(email => email.value);
+        setEmailList(prevList => [...new Set([...prevList, ...emails])]); // Avoid duplicates
         setSelectedEmails([]);
         setSelectAll(false);
         showModal(false);
     };
 
     const handleRemoveEmail = (index) => {
-        const updatedList = [...emailList];
-        updatedList.splice(index, 1);
-        setEmailList(updatedList);
+        setEmailList(prevList => prevList.filter((_, i) => i !== index));
     };
 
     const handleFileChange = (e) => {
@@ -53,45 +51,38 @@ const EmailSender = () => {
     };
 
     const handleSelectAllChange = () => {
-        if (selectAll) {
-            setSelectedEmails([]);
-        } else {
-            setSelectedEmails(customerEmails);
-        }
+        setSelectedEmails(selectAll ? [] : customerEmails);
         setSelectAll(!selectAll);
     };
 
     const handleCheckboxChange = (email) => {
-        if (selectedEmails.some(selected => selected.value === email.value)) {
-            setSelectedEmails(selectedEmails.filter(selected => selected.value !== email.value));
-        } else {
-            setSelectedEmails([...selectedEmails, email]);
-        }
+        setSelectedEmails(prevSelected =>
+            prevSelected.some(selected => selected.value === email.value)
+                ? prevSelected.filter(selected => selected.value !== email.value)
+                : [...prevSelected, email]
+        );
     };
 
     const sendEmail = async (e) => {
         e.preventDefault();
 
         if (emailList.length === 0) {
-            setStatus({ type: 'error', message: 'Please add at least one recipient.' });
+            setStatus({ type: 'error', message: 'No recipients selected.' });
             return;
         }
 
         const formData = new FormData();
         formData.append('from', from);
-        formData.append('to', JSON.stringify(emailList));
+        formData.append('to', JSON.stringify(emailList)); // Send selected emails as JSON string
         formData.append('subject', subject);
         formData.append('message', message);
-
         if (attachment) {
             formData.append('attachment', attachment);
         }
 
         try {
             const response = await axios.post('http://localhost:8080/send-email', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
+                headers: { 'Content-Type': 'multipart/form-data' },
             });
 
             if (response.status === 200) {
@@ -103,67 +94,52 @@ const EmailSender = () => {
             }
         } catch (error) {
             console.error('Error sending emails:', error);
-            setStatus({ type: 'error', message: 'Failed to send emails. Please try again.' });
+            setStatus({
+                type: 'error',
+                message: error.response?.data?.message || 'Failed to send emails.',
+            });
         }
     };
 
     return (
         <>
-            <div>
-                <Modal show={modal} onHide={() => showModal(false)}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Add Recipients</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
+            <Modal show={modal} onHide={() => showModal(false)}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Add Recipients</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form.Check
+                        type="checkbox"
+                        label="Select All"
+                        checked={selectAll}
+                        onChange={handleSelectAllChange}
+                    />
+                    {customerEmails.map((email, index) => (
                         <Form.Check
+                            key={index}
                             type="checkbox"
-                            label="Select All"
-                            checked={selectAll}
-                            onChange={handleSelectAllChange}
+                            label={email.label}  // Ensure to render only the email label
+                            checked={selectedEmails.some(selected => selected.value === email.value)}
+                            onChange={() => handleCheckboxChange(email)}
                         />
-                        {customerEmails.map((email, index) => (
-                            <Form.Check
-                                key={index}
-                                type="checkbox"
-                                label={email.label}
-                                checked={selectedEmails.some(selected => selected.value === email.value)}
-                                onChange={() => handleCheckboxChange(email)}
-                            />
-                        ))}
-                        <CreatableSelect
-                            isMulti
-                            type="checkbox"
-                            value={to}
-                            onChange={setTo}
-                            options={customerEmails}
-                            placeholder="Add or create email addresses..."
-                            className="creatable-select"
-                            styles={{
-                                menu: (base) => ({ ...base, zIndex: 9999 }),
-                            }}
-                        />
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={() => showModal(false)}>
-                            Cancel
-                        </Button>
-                        <Button variant="primary" onClick={handleAddEmail}>
-                            Add Emails
-                        </Button>
-                    </Modal.Footer>
-                </Modal>
-            </div>
+                    ))}
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={() => showModal(false)}>
+                        Cancel
+                    </Button>
+                    <Button variant="primary" onClick={handleAddEmail}>
+                        Add Emails
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+
             <div className="email-container">
                 <h2 className="email-header">Professional Email Sender</h2>
                 <form onSubmit={sendEmail} className="email-form">
                     <div className="email-form-group">
                         <label className="email-label">From:</label>
-                        <input
-                            type="email"
-                            value={from}
-                            readOnly
-                            className="email-input email-input-readonly"
-                        />
+                        <input type="email" value={from} readOnly className="email-input email-input-readonly" />
                     </div>
                     <div className="email-form-group">
                         <label className="email-label">Recipients:</label>
@@ -226,9 +202,7 @@ const EmailSender = () => {
                             <label htmlFor="file-input" className="file-input-label">
                                 <FontAwesomeIcon icon={faPaperclip} className="attachment-icon" />
                             </label>
-                            {attachment && (
-                                <span className="attachment-name">{attachment.name}</span>
-                            )}
+                            {attachment && <span className="attachment-name">{attachment.name}</span>}
                         </div>
                     </div>
                     <button type="submit" className="email-button">Send Email</button>

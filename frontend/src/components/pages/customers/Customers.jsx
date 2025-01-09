@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import './customer.css';
 import Modal from 'react-modal';
 import axios from 'axios';
+import { DataGrid } from '@mui/x-data-grid'; // Import DataGrid component
+import { Button } from '@mui/material'; // Import Material-UI Button component
 
 Modal.setAppElement('#root');
 
@@ -118,9 +120,39 @@ const Customer = () => {
     });
   };
 
+  // Columns configuration for the DataGrid
+  const columns = [
+    { field: 'name', headerName: 'Company Name', width: 180 },
+    { field: 'address', headerName: 'Address', width: 230 },
+    { field: 'gstin', headerName: 'GSTIN', width: 180 },
+    { field: 'contact', headerName: 'Contact No.', width: 150 },
+    { field: 'agentContact', headerName: 'Agent Contact No.', width: 180 },
+    { field: 'email', headerName: 'Company Email', width: 220 },
+    { field: 'agentEmail', headerName: 'Agent Email', width: 220 },
+    {
+      field: 'actions', headerName: 'Actions', width: 180, renderCell: (params) => (
+        <div>
+          <Button onClick={() => handleEdit(params.row)} variant="contained" color="primary" size="small" style={{ marginRight: '8px' }}>Edit</Button>
+          <Button onClick={() => handleDelete(params.row._id)} variant="contained" color="secondary" size="small">Delete</Button>
+        </div>
+      ),
+    },
+  ];
+
+  // Prepare rows for DataGrid
+  const rows = customers.map((customer, index) => ({
+    id: customer._id,
+    name: customer.name,
+    address: customer.address,
+    gstin: customer.gstin,
+    contact: customer.contact,
+    agentContact: customer.agentContact,
+    email: customer.email,
+    agentEmail: customer.agentEmail,
+  }));
+
   return (
     <div className="customer-box">
-      <button onClick={openModal} className="button">Add Customer</button>
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
@@ -128,106 +160,102 @@ const Customer = () => {
         className="modal-content"
         overlayClassName="overlay"
       >
+      <div className="customerbox">  
+        <h2>Add Customer Details</h2>
         <button onClick={closeModal} className="button close-button">x</button>
-        <h1 className="customer">{isEdit ? 'Edit Customer Details' : 'Add Customer Details'}</h1>
-
+      </div>
         <form onSubmit={handleSubmit} className="customer-form">
-          <div className="customer-info">
-            <label>Customer Name:</label>
-            <input
-              type="text"
-              name="name"
-              placeholder="Enter company name"
-              value={customerDetails.name}
-              onChange={handleCustomerChange}
-            />
-            <label>Customer Address:</label>
-            <input
-              type="text"
-              name="address"
-              placeholder="Enter company address"
-              value={customerDetails.address}
-              onChange={handleCustomerChange}
-            />
-            <label>Customer GSTIN:</label>
-            <input
-              type="text"
-              name="gstin"
-              placeholder="Enter GSTIN"
-              value={customerDetails.gstin}
-              onChange={handleCustomerChange}
-            />
-            <label>Contact No:</label>
-            <input
-              type="text"
-              name="contact"
-              placeholder="Company Contact Number"
-              value={customerDetails.contact}
-              onChange={handleCustomerChange}
-            />
-            <label>Contact of Agent:</label>
-            <input
-              type="text"
-              name="agentContact"
-              placeholder="Agent's Contact Number"
-              value={customerDetails.agentContact}
-              onChange={handleCustomerChange}
-            />
-            <label>Email of Company:</label>
-            <input
-              type="email"
-              name="email"
-              placeholder="Enter the customer's email"
-              value={customerDetails.email}
-              onChange={handleCustomerChange}
-            />
-            <label>Email of Agent:</label>
-            <input
-              type="email"
-              name="agentEmail"
-              placeholder="Enter the contact person's email"
-              value={customerDetails.agentEmail}
-              onChange={handleCustomerChange}
-            />
+  <div className="customer-info">
+    <div className="form-row">
+      <label>Customer Name:</label>
+      <input
+        type="text"
+        name="name"
+        placeholder="Enter company name"
+        value={customerDetails.name}
+        onChange={handleCustomerChange}
+      />
+    </div>
+    <div className="form-row">
+      <label>Customer Address:</label>
+      <input
+        type="text"
+        name="address"
+        placeholder="Enter company address"
+        value={customerDetails.address}
+        onChange={handleCustomerChange}
+      />
+    </div>
+    <div className="form-row">
+      <label>Customer GSTIN:</label>
+      <input
+        type="text"
+        name="gstin"
+        placeholder="Enter GSTIN"
+        value={customerDetails.gstin}
+        onChange={handleCustomerChange}
+      />
+    </div>
+    <div className="form-row">
+      <label>Contact No:</label>
+      <input
+        type="text"
+        name="contact"
+        placeholder="Company Contact Number"
+        value={customerDetails.contact}
+        onChange={handleCustomerChange}
+      />
+    </div>
+    <div className="form-row">
+      <label>Contact of Agent:</label>
+      <input
+        type="text"
+        name="agentContact"
+        placeholder="Agent's Contact Number"
+        value={customerDetails.agentContact}
+        onChange={handleCustomerChange}
+      />
+    </div>
+    <div className="form-row">
+      <label>Email of Company:</label>
+      <input
+        type="email"
+        name="email"
+        placeholder="Enter the customer's email"
+        value={customerDetails.email}
+        onChange={handleCustomerChange}
+      />
+    </div>
+    <div className="form-row">
+      <label>Email of Agent:</label>
+      <input
+        type="email"
+        name="agentEmail"
+        placeholder="Enter the contact person's email"
+        value={customerDetails.agentEmail}
+        onChange={handleCustomerChange}
+      />
+    </div>
+    <Button type="submit" variant="contained" color="primary" className="submit-button">{isEdit ? 'Update' : 'Add'}</Button>
+  </div>
+</form>
 
-            <button type="submit" className="button submit-button">{isEdit ? 'Update' : 'Add'}</button>
-          </div>
-        </form>
       </Modal>
 
       <div className="data">
-        <h2>Customer Details</h2>
-        <table className="tabular-information">
-          <thead>
-            <tr>
-              <th>Srno.</th>
-              <th>Company Name</th>
-              <th>Address</th>
-              <th>GSTIN</th>
-              <th>Agent Name and Number</th>
-              <th>Agent's Email</th>
-              <th>Company's Emails</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {customers.map((customer, index) => (
-              <tr key={index}>
-                <td>{index + 1}</td>
-                <td>{customer.name}</td>
-                <td>{customer.address}</td>
-                <td>{customer.gstin}</td>
-                <td>{customer.agentContact}</td>
-                <td>{customer.agentEmail}</td>
-                <td>{customer.email}</td>
-                <td>
-                  <button onClick={() => handleEdit(customer)} className="button">Edit</button>
-                  <button onClick={() => handleDelete(customer._id)} className="button">Delete</button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+          <h2>Customer Details</h2>
+          <Button onClick={openModal} variant="contained" color="primary" className="button">Add Customer</Button>
+          <br />
+        <div style={{ height: 400, width: '100%' }}>
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            pageSize={5}
+            checkboxSelection
+            disableSelectionOnClick
+            sx={{ border: 0 }}
+          />
+        </div>
       </div>
     </div>
   );

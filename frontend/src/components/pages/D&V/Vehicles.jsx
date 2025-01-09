@@ -5,6 +5,8 @@ import '../css/Vehicle.css';
 const Vehicles = () => {
     const [vehicles, setVehicles] = useState([]);
     const [vehicleNo, setVehicleNo] = useState('');
+    const [vehicleType, setVehicleType] = useState('');
+    const [payload, setPayload] = useState('');
     const [ownerName, setOwnerName] = useState('');
     const [ownerNumber, setOwnerNumber] = useState('');
     const [driverName, setDriverName] = useState('');
@@ -38,7 +40,7 @@ const Vehicles = () => {
 
     const handleCreateOrUpdateVehicle = async (event) => {
         event.preventDefault();
-
+    
         const formData = new FormData();
         formData.append('vehicleNo', vehicleNo);
         formData.append('ownerName', ownerName);
@@ -50,28 +52,42 @@ const Vehicles = () => {
         formData.append('roadTaxExpiry', convertToInputDateFormat(roadTaxExpiry));
         formData.append('insuranceExpiry', convertToInputDateFormat(insuranceExpiry));
         formData.append('pucExpiry', convertToInputDateFormat(pucExpiry));
-
+    
         // Add files if they exist
         if (rc) formData.append('rc', rc);
         if (mutax) formData.append('mutax', mutax);
         if (roadTax) formData.append('roadTax', roadTax);
         if (insurance) formData.append('insurance', insurance);
         if (puc) formData.append('puc', puc);
-
+    
         try {
-            const response = await axios.post('http://localhost:8080/api/vehicles', formData, {
+            const url = selectedVehicle 
+                ? `http://localhost:8080/api/vehicles/${selectedVehicle._id}` 
+                : 'http://localhost:8080/api/vehicles';
+            const method = selectedVehicle ? 'put' : 'post';
+    
+            const response = await axios({
+                method,
+                url,
+                data: formData,
                 headers: { 'Content-Type': 'multipart/form-data' },
             });
-            console.log(response.data);
+    
+            console.log('Response:', response.data);
             fetchVehicles();
             resetForm();
         } catch (error) {
-            console.error(error.response?.data || error.message);
+            console.error('Error:', error.response?.data || error.message);
+            alert('An error occurred. Please try again.');
         }
     };
+    
+    
 
     const resetForm = () => {
         setVehicleNo('');
+        setVehicleType('');
+        setPayload('');
         setOwnerName('');
         setOwnerNumber('');
         setDriverName('');
@@ -106,6 +122,8 @@ const Vehicles = () => {
 
     const handleEditVehicle = (vehicle) => {
         setVehicleNo(vehicle.vehicleNo);
+        setVehicleType(vehicle.vehicleType);
+        setPayload(vehicle.payload);
         setOwnerName(vehicle.ownerName);
         setOwnerNumber(vehicle.ownerNumber);
         setDriverName(vehicle.driverName);
@@ -158,44 +176,35 @@ const Vehicles = () => {
 
     return (
         <div className="vehicles-container">
-            <h2 className="vehicles-title">Vehicles</h2>
-            <button className="vehicles-add-btn" onClick={() => setShowModal(true)}>Add Vehicle</button>
-
+            <div className="title">
+                <div className='vehicles-form-row'>
+                    <h3>Vehicle List</h3>
+                    <button className="vehicles-add-btn" onClick={() => setShowModal(true)}>Add Vehicle</button>
+                </div>
+            </div>
             <div className="vehicles-list">
-                <h3 className="vehicles-list-title">Vehicle List</h3>
                 {vehicles.length > 0 ? (
                     <div className="vehicles-table-container">
                         <table className="vehicles-table">
                             <thead>
                                 <tr>
                                     <th>Vehicle No</th>
+                                    <th>Vehicle Type</th>
+                                    <th>Payload</th>
                                     <th>Owner Name</th>
                                     <th>Owner Number</th>
                                     <th>Driver Name</th>
                                     <th>Driver Number</th>
-                                    <th colSpan={2}>RC
-                                        
-                                            <th>Docs</th>
-                                            <th>Expiry Date</th>
-                                       
-                                    </th>
-                                    <th  colSpan={2}>Mutax
-                                    <th>Docs</th>
-                                    <th>Expiry Date</th>
-                                    </th>
-                                    <th colSpan={2}>Road Tax
-                                    <th>Docs</th>
-                                    <th>Expiry Date</th>
-                                    </th>
-                                    <th  colSpan={2}>Insurance
-                                    <th>Docs</th>
-                                    <th>Expiry Date</th>
-                                    </th>
-                                    <th colSpan={2}>PUC
-                                    <th>Docs</th>
-                                    <th>Expiry Date</th>
-                                    </th>
-                                   
+                                    <th>RC</th>
+                                    <th>RC Expiry</th>
+                                    <th>Mutax</th>
+                                    <th>Mutax Expiry</th>
+                                    <th>Road Tax</th>
+                                    <th>Road Tax Expiry</th>
+                                    <th>Insurance</th>
+                                    <th>Insurance Expiry</th>
+                                    <th>PUC</th>
+                                    <th>PUC Expiry</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -203,24 +212,22 @@ const Vehicles = () => {
                                 {vehicles.map((vehicle) => (
                                     <tr key={vehicle.vehicleNo}>
                                         <td>{vehicle.vehicleNo}</td>
+                                        <td>{vehicle.vehicleType}</td>
+                                        <td>{vehicle.payload}</td>
                                         <td>{vehicle.ownerName}</td>
                                         <td>{vehicle.ownerNumber}</td>
                                         <td>{vehicle.driverName}</td>
                                         <td>{vehicle.driverNumber}</td>
-                                        <td>{vehicle.rc && <a href={`http://localhost:8080/${vehicle.rc}`} target="_blank" rel="noopener noreferrer">RC</a>}</td>
+                                        <td>{vehicle.rc && <a href={`http://localhost:8080/${vehicle.rc}`} target="_blank" rel="noopener noreferrer">View</a>}</td>
                                         <td>{formatDate(vehicle.rcExpiry)}</td>
-                                        <td>{vehicle.mutax && <a href={`http://localhost:8080/${vehicle.mutax}`} target="_blank" rel="noopener noreferrer">Mutax</a>}</td>
+                                        <td>{vehicle.mutax && <a href={`http://localhost:8080/${vehicle.mutax}`} target="_blank" rel="noopener noreferrer">View</a>}</td>
                                         <td>{formatDate(vehicle.mutaxExpiry)}</td>
+                                        <td>{vehicle.roadTax && <a href={`http://localhost:8080/${vehicle.roadTax}`} target="_blank" rel="noopener noreferrer">View</a>}</td>
                                         <td>{formatDate(vehicle.roadTaxExpiry)}</td>
-                                        <td>{vehicle.roadTax && <a href={`http://localhost:8080/${vehicle.roadTax}`} target="_blank" rel="noopener noreferrer">Road Tax</a>}</td>
-                                        <td>{vehicle.insurance && <a href={`http://localhost:8080/${vehicle.insurance}`} target="_blank" rel="noopener noreferrer">Insurance</a>}</td>
+                                        <td>{vehicle.insurance && <a href={`http://localhost:8080/${vehicle.insurance}`} target="_blank" rel="noopener noreferrer">View</a>}</td>
                                         <td>{formatDate(vehicle.insuranceExpiry)}</td>
-                                        <td>{vehicle.puc && <a href={`http://localhost:8080/${vehicle.puc}`} target="_blank" rel="noopener noreferrer">PUC</a>}</td>
+                                        <td>{vehicle.puc && <a href={`http://localhost:8080/${vehicle.puc}`} target="_blank" rel="noopener noreferrer">View</a>}</td>
                                         <td>{formatDate(vehicle.pucExpiry)}</td>
-                                      
-                                       
-                                        
-                                       
                                         <td>
                                             <button className="vehicles-edit-btn" onClick={() => handleEditVehicle(vehicle)}>Edit</button>
                                             <button className="vehicles-delete-btn" onClick={() => handleDeleteVehicle(vehicle._id)}>Delete</button>
@@ -238,9 +245,12 @@ const Vehicles = () => {
             {showModal && (
                 <div className={`vehicles-modal ${closingModal ? 'closing' : ''}`} onAnimationEnd={handleAnimationEnd}>
                     <div className="vehicles-modal-content">
-                        <button className="vehicles-modal-close-btn" onClick={handleModalClose}>Close</button>
+                        <h2>Input Form</h2>
+                        <div className="vehicles-form-row">
+                            <button className="vehicles-modal-close-btn" onClick={handleModalClose}>X</button>
+                        </div>
                         <form className="vehicles-form" onSubmit={handleCreateOrUpdateVehicle}>
-                            <div className="vehicles-form-group">
+                            <div className="vehicles-form-row">
                                 <label htmlFor="vehicleNo">Vehicle No:</label>
                                 <input
                                     type="text"
@@ -250,7 +260,27 @@ const Vehicles = () => {
                                     required
                                 />
                             </div>
-                            <div className="vehicles-form-group">
+                            <div className="vehicles-form-row">
+                                <label htmlFor="vehicleType">Vehicle Type:</label>
+                                <input
+                                    type="text"
+                                    id="vehicleType"
+                                    value={vehicleType}
+                                    onChange={(e) => setVehicleType(e.target.value)}
+                                    required
+                                />
+                            </div>
+                            <div className="vehicles-form-row">
+                                <label htmlFor="payload">Payload Capacity:</label>
+                                <input
+                                    type="text"
+                                    id="payload"
+                                    value={payload}
+                                    onChange={(e) => setPayload(e.target.value)}
+                                    required
+                                />
+                            </div>
+                            <div className="vehicles-form-row">
                                 <label htmlFor="ownerName">Owner Name:</label>
                                 <input
                                     type="text"
@@ -260,8 +290,8 @@ const Vehicles = () => {
                                     required
                                 />
                             </div>
-                            <div className="vehicles-form-group">
-                                <label htmlFor="ownerNumber">Owner Number:</label>
+                            <div className="vehicles-form-row">
+                                <label htmlFor="ownerNumber">Owner Contact:</label>
                                 <input
                                     type="text"
                                     id="ownerNumber"
@@ -270,7 +300,7 @@ const Vehicles = () => {
                                     required
                                 />
                             </div>
-                            <div className="vehicles-form-group">
+                            <div className="vehicles-form-row">
                                 <label htmlFor="driverName">Driver Name:</label>
                                 <input
                                     type="text"
@@ -280,8 +310,8 @@ const Vehicles = () => {
                                     required
                                 />
                             </div>
-                            <div className="vehicles-form-group">
-                            <label htmlFor="driverNumber">Driver Number:</label>
+                            <div className="vehicles-form-row">
+                                <label htmlFor="driverNumber">Driver Contact:</label>
                                 <input
                                     type="text"
                                     id="driverNumber"
@@ -290,18 +320,15 @@ const Vehicles = () => {
                                     required
                                 />
                             </div>
-                            <div className="vehicles-form-group">
-                                <label htmlFor="rcExpiry">RC Expiry:</label>
+                            {/* Additional fields for file uploads and date pickers */}
+                            <div className="vehicles-form-row">
+                                <label htmlFor="mutax">MVtax:</label>
                                 <input
-                                    type="date"
-                                    id="rcExpiry"
-                                    value={convertToInputDateFormat(rcExpiry)}
-                                    onChange={(e) => handleDateChange(e, setRcExpiry)}
-                                    required
+                                    type="file"
+                                    id="mutax"
+                                    onChange={(e) => handleFileChange(e, setMutax)}
                                 />
-                            </div>
-                            <div className="vehicles-form-group">
-                                <label htmlFor="mutaxExpiry">Mutax Expiry:</label>
+                                {/* <label htmlFor="mutaxExpiry">MVtax Expiry:</label> */}
                                 <input
                                     type="date"
                                     id="mutaxExpiry"
@@ -310,8 +337,14 @@ const Vehicles = () => {
                                     required
                                 />
                             </div>
-                            <div className="vehicles-form-group">
-                                <label htmlFor="roadTaxExpiry">Road Tax Expiry:</label>
+                            <div className="vehicles-form-row">
+                                <label htmlFor="roadTax">Road Tax:</label>
+                                <input
+                                    type="file"
+                                    id="roadTax"
+                                    onChange={(e) => handleFileChange(e, setRoadTax)}
+                                />
+                                {/* <label htmlFor="roadTaxExpiry">Road Tax Expiry:</label> */}
                                 <input
                                     type="date"
                                     id="roadTaxExpiry"
@@ -320,8 +353,14 @@ const Vehicles = () => {
                                     required
                                 />
                             </div>
-                            <div className="vehicles-form-group">
-                                <label htmlFor="insuranceExpiry">Insurance Expiry:</label>
+                            <div className="vehicles-form-row">
+                                <label htmlFor="insurance">Insurance:</label>
+                                <input
+                                    type="file"
+                                    id="insurance"
+                                    onChange={(e) => handleFileChange(e, setInsurance)}
+                                />
+                                {/* <label htmlFor="insuranceExpiry">Insurance Expiry:</label> */}
                                 <input
                                     type="date"
                                     id="insuranceExpiry"
@@ -330,8 +369,14 @@ const Vehicles = () => {
                                     required
                                 />
                             </div>
-                            <div className="vehicles-form-group">
-                                <label htmlFor="pucExpiry">PUC Expiry:</label>
+                            <div className="vehicles-form-row">
+                                <label htmlFor="puc">PUC:</label>
+                                <input
+                                    type="file"
+                                    id="puc"
+                                    onChange={(e) => handleFileChange(e, setPuc)}
+                                />
+                                {/* <label htmlFor="pucExpiry">PUC Expiry:</label> */}
                                 <input
                                     type="date"
                                     id="pucExpiry"
@@ -340,49 +385,18 @@ const Vehicles = () => {
                                     required
                                 />
                             </div>
-                            <div className="vehicles-form-group">
-                                <label htmlFor="rc">RC File:</label>
+                            <div className="vehicles-form-row">
+                                <label htmlFor="rc">RC:</label>
                                 <input
                                     type="file"
                                     id="rc"
                                     onChange={(e) => handleFileChange(e, setRc)}
                                 />
+               
                             </div>
-                            <div className="vehicles-form-group">
-                                <label htmlFor="mutax">Mutax File:</label>
-                                <input
-                                    type="file"
-                                    id="mutax"
-                                    onChange={(e) => handleFileChange(e, setMutax)}
-                                />
+                            <div className="vehicles-form-row">
+                                <button type="submit">Submit</button>
                             </div>
-                            <div className="vehicles-form-group">
-                                <label htmlFor="roadTax">Road Tax File:</label>
-                                <input
-                                    type="file"
-                                    id="roadTax"
-                                    onChange={(e) => handleFileChange(e, setRoadTax)}
-                                />
-                            </div>
-                            <div className="vehicles-form-group">
-                                <label htmlFor="insurance">Insurance File:</label>
-                                <input
-                                    type="file"
-                                    id="insurance"
-                                    onChange={(e) => handleFileChange(e, setInsurance)}
-                                />
-                            </div>
-                            <div className="vehicles-form-group">
-                                <label htmlFor="puc">PUC File:</label>
-                                <input
-                                    type="file"
-                                    id="puc"
-                                    onChange={(e) => handleFileChange(e, setPuc)}
-                                />
-                            </div>
-                            <button type="submit" className="vehicles-form-submit-btn">
-                                {selectedVehicle ? 'Update Vehicle' : 'Add Vehicle'}
-                            </button>
                         </form>
                     </div>
                 </div>
@@ -392,4 +406,3 @@ const Vehicles = () => {
 };
 
 export default Vehicles;
-

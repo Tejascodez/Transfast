@@ -4,23 +4,59 @@
   flex-direction: column;
   align-items: center;
   padding: 20px;
-  background-color: #f4f6f7;
+  background-color: #14161e;
 }
 
 /* Header Styling */
 header {
   width: 100%;
   color: black;
+  display: flex;
+  justify-content: space-evenly;
   padding: 20px 0;
   text-align: center;
+  margin-bottom: 20px;
+  border-radius: 16px;
   background-color: #ffffff;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 header .logo {
-  width: 120px;
+  width: 400px;
   margin-bottom: 10px;
 }
+
+/* Styling for the Export to Excel Button */
+.export-excel {
+  background-color: #ffffff;
+  color: black;
+  padding: 12px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 30px;
+  transition: background-color 0.3s ease;
+}
+
+.export-excel:hover {
+  background-color: #e0e0e0;
+}
+
+/* Styling for the Search Bar */
+.search-bar {
+  width: 300px;
+  margin-left: auto;
+  margin-bottom: 10px;
+}
+
+/* Flex Container for Search and Export Buttons */
+.actions-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
 
 header .company-info {
   margin-top: 10px;
@@ -29,7 +65,7 @@ header .company-info {
 header h2 {
   font-size: 26px;
   margin-bottom: 5px;
-  color: #2c3e50;
+  color: #0936ff;
 }
 
 header address {
@@ -40,23 +76,23 @@ header address {
 header p {
   font-size: 14px;
   margin: 5px 0;
-  color: #34495e;
+  color: white;
 }
 
-/* Container and Table Styling */
+/* Container and DataGrid Styling */
 .container-tlr {
   width: 100%;
   margin-top: 30px;
   overflow-x: auto;
-  background-color: #ffffff;
-  border-radius: 10px;
+  background-color: #14161e;
+  border-radius: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 20px;
 }
 
 .export {
-  background-color: #27ae60;
-  color: white;
+  background-color: #ffffff;
+  color: black;
   padding: 12px 20px;
   font-size: 16px;
   border: none;
@@ -67,83 +103,127 @@ header p {
 }
 
 .export:hover {
-  background-color: #2ecc71;
+  background-color: #e0e0e0;
 }
 
-.lorry-receipt-table {
-  width: 100%;
-  border-collapse: collapse;
-  background-color: white;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  table-layout: auto; /* Make table columns adjustable */
+.MuiDataGrid-root {
+  background-color: black;
+  border: none;
   border-radius: 8px;
-  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.lorry-receipt-table th,
-.lorry-receipt-table td {
-  padding: 15px 20px;
-  text-align: left;
-  font-size: 14px;
-  word-wrap: break-word;
-  color: #555;
-}
-
-.lorry-receipt-table th {
-  background-color: #34495e;
+.MuiDataGrid-columnHeader {
+  background-color: black;  
   color: white;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.lorry-receipt-table tr:nth-child(even) {
-  background-color: #f9f9f9;
-}
-
-.lorry-receipt-table tr:hover {
-  background-color: #f1f1f1;
-}
-
-.lorry-receipt-table td {
-  color: #555;
-}
-
-/* Status Column Button */
-.status-btn {
-  padding: 8px 16px;
   font-size: 14px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  color: white;
-  font-weight: bold;
-  text-transform: capitalize;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.status-btn.received {
-  background-color: #28a745; /* Green for "Received" */
-}
-
-.status-btn.other-status {
-  background-color: #007bff; /* Blue for other statuses */
-}
-
-.status-btn:hover {
-  opacity: 0.9;
-}
-
-.status-btn:focus {
+.MuiDataGrid-columnHeader:focus, 
+.MuiDataGrid-columnHeader:focus-within {
   outline: none;
 }
 
-/* Actions Buttons Styling */
+/* Toggle Button Styling */
+.MuiSwitch-root {
+  color: white;
+}
+
+.MuiSwitch-thumb {
+  background-color: white;
+}
+
+.MuiSwitch-track {
+  background-color: white;
+  opacity: 0.5;
+}
+
+.MuiSwitch-checked .MuiSwitch-thumb {
+  background-color: white;
+}
+
+.MuiSwitch-checked .MuiSwitch-track {
+  background-color: white;
+  opacity: 0.7;
+}
+
+.MuiToggleButton-root {
+  color: white;
+  border-color: white;
+}
+
+.MuiToggleButton-root:hover {
+  background-color: #e0e0e0;
+}
+
+.MuiToggleButton-root.Mui-selected {
+  background-color: white;
+  color: black;
+}
+
+.lorry-receipt-table tbody{
+  color: white;
+}
+
+/* Ensuring consistent button appearance on focus */
+.MuiToggleButton-root:focus {
+  outline: none;
+  border: 1px solid white;
+}
+
+
+/* Menu Styling */
+.MuiMenu-paper {
+  background-color: white;
+  color: black;
+}
+
+/* Pagination Controls Styling */
+.MuiTablePagination-root {
+  color: white;
+}
+
+.MuiTablePagination-actions .MuiButtonBase-root {
+  color: white;
+}
+
+.MuiSelect-icon {
+  color: white;
+}
+
+.MuiDataGrid-root .MuiTablePagination-toolbar {
+  background-color: black;
+  color: white;
+}
+
+/* Table Rows Styling */
+.MuiDataGrid-row {
+  background-color: black;
+  color: white;
+}
+
+.MuiDataGrid-row:nth-of-type(even) {
+  background-color: #1a1a1a;
+}
+
+.MuiDataGrid-row:hover {
+  background-color: #333333;
+}
+
+/* Specific cell styling for black background */
+.MuiDataGrid-cell {
+  color: white;
+}
+
+/* Actions Column Styling */
 .actions button {
   background-color: transparent;
   border: none;
   cursor: pointer;
   margin: 0 8px;
   padding: 10px;
+  color: white;
   transition: background-color 0.3s ease;
   border-radius: 50%;
 }
@@ -176,29 +256,19 @@ header p {
   background-color: #fbd2d2;
 }
 
-/* TotalLR.css */
-.status-pending {
-  background-color: red;
-  color: white;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  margin: 0 8px;
-  padding: 10px;
-  transition: background-color 0.3s ease;
-  
-}
-
 /* Responsive Design */
 @media (max-width: 1024px) {
-  .lorry-receipt-table th, .lorry-receipt-table td {
-    font-size: 13px;
-    padding: 10px 15px;
+  .container-tlr {
+    padding: 15px;
   }
 
   .export {
     font-size: 14px;
     padding: 10px 18px;
+  }
+
+  .logo {
+    width: 100px;
   }
 }
 
@@ -212,16 +282,9 @@ header p {
     padding: 8px 15px;
   }
 
-  .lorry-receipt-table th, .lorry-receipt-table td {
-    font-size: 12px;
-  }
-
-  .lorry-receipt-table {
-    font-size: 12px;
-  }
-
-  .logo {
-    width: 100px;
+  .MuiDataGrid-columnHeader, .MuiDataGrid-cell {
+    font-size: 13px;
+    padding: 10px;
   }
 }
 
@@ -233,15 +296,6 @@ header p {
   header address,
   header p {
     font-size: 12px;
-  }
-
-  .lorry-receipt-table th, .lorry-receipt-table td {
-    padding: 6px 8px;
-    font-size: 10px;
-  }
-
-  .lorry-receipt-table {
-    font-size: 10px;
   }
 
   .actions button {

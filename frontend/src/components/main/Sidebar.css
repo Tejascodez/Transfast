@@ -1,0 +1,153 @@
+/* Sidebar styles */
+.sidebar {
+    border-radius: 16px;
+    position: fixed; /* Fixed to the left */
+    width: 65px;
+    height: 100vh;
+    background: #fff;
+    transition: width 0.5s ease; /* Smooth transition for width change */
+    padding-left: 10px;
+    overflow: hidden;
+    z-index: 1000; /* Ensure it's above other content */
+  }
+  
+  .sidebar.active {
+    width: 230px; /* Expanded sidebar width */
+  }
+  
+  .sidebar ul {
+    list-style: none;
+    height: 100%;
+    padding: 0;
+    margin-top: 60px; /* Adds space below the logo */
+  }
+  
+  .sidebar ul li {
+    position: relative;
+    margin: 10px 0;
+  }
+  
+  .sidebar ul li.active {
+    background: var(--clr); /* Active item background */
+    border-top-left-radius: 50px;
+    border-bottom-left-radius: 50px;
+  }
+  
+  .sidebar ul li a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    gap: 10px;
+    padding: 15px;
+    color: #333;
+    transition: color 0.3s;
+  }
+  
+  .sidebar ul li a .icon {
+    min-width: 60px;
+    font-size: 1.5rem;
+    transition: color 0.3s;
+  }
+  
+  .sidebar ul li a .text {
+    font-size: 1em;
+    color: #333;
+    padding-left: 15px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    opacity: 0; /* Hide text initially */
+    transition: opacity 0.5s ease; /* Smooth text fade-in */
+  }
+  
+  .sidebar.active ul li a .text {
+    opacity: 1; /* Show text when sidebar is active */
+  }
+  
+  .sidebar ul li:hover a .icon,
+  .sidebar ul li:hover a .text {
+    color: var(--bg); /* Change color on hover */
+  }
+  
+  .menuToggle {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    background-color: transparent;
+    z-index: 1001;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s ease;
+  }
+  
+  .menuToggle::before,
+  .menuToggle::after {
+    position: absolute;
+    width: 30px;
+    height: 3px;
+    background: #fff;
+    transition: transform 0.5s ease, background-color 0.3s ease;
+    box-shadow: 0 9px 0 #fff;
+  }
+  
+  .menuToggle::before {
+    transform: translateY(-9px);
+  }
+  
+  .menuToggle::after {
+    transform: translateY(9px);
+  }
+  
+  .menuToggle.active::before {
+    transform: rotate(45deg);
+  }
+  
+  .menuToggle.active::after {
+    transform: rotate(-45deg);
+  }
+  
+  .bottom {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    padding: 10px;
+  }
+  
+  .imgBx {
+    position: relative;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+  
+  .imgBx img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  @media (max-width: 768px) {
+    .sidebar {
+      width: 60px;
+    }
+  
+    .sidebar.active {
+      width: 250px;
+    }
+  
+    .menuToggle {
+      top: 15px;
+      right: 15px;
+      width: 40px;
+      height: 40px;
+    }
+  }
+  

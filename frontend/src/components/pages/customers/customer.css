@@ -1,14 +1,40 @@
-.customer-box {
-  padding: 20px;
-  background-color: #f9f9f9;
+body{
+  background-color: #14161e;
+
 }
 
-.button {
+.customer-box {
+  max-width: auto;
+  height: 1080px;
+  padding: 20px;
+  /* background-color: #14161e; */
+}
+
+.customerbox{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.customerbox h2{
+  color: black;
+}
+
+.data h2{
+  /* size: 1.3rem; */
+  color: black;
+  margin-bottom: 30px;
+}
+
+
+.data button {
   background-color: #007bff;
   color: white;
-  border: none;
+  /* border: none; */
   padding: 10px 20px;
   cursor: pointer;
+  margin-right: -700px;
+  margin-bottom: 40px;
   margin: 5px;
   transition: background-color 0.3s;
 }
@@ -37,10 +63,13 @@
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
+  text-transform: uppercase;
+
 }
 
 .tabular-information th,
 .tabular-information td {
+  text-transform: uppercase;
   border: 1px solid #ddd;
   padding: 8px;
 }
@@ -55,8 +84,9 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: white;
-  padding: 20px;
+  background-color: black;
+  color: white;
+  /* padding: 40px; */
   box-shadow: 0 5px 15px rgba(0,0,0,0.3);
   border-radius: 10px;
   max-width: 500px;
@@ -130,6 +160,25 @@
   }
 
   .customer-box {
-    padding: 10px;
+    /* margin-right: 200px; */
+    padding: 40px;
   }
+}
+
+.form-row {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 10px;
+}
+
+.form-row label {
+  color: black;
+  margin-bottom: 5px;
+}
+
+.form-row input {
+  min-width: 320px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }

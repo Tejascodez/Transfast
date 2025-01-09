@@ -18,7 +18,7 @@ const LR = () => {
       <div className={`sidebar ${menuActive ? 'active' : ''}`}>
         <ul className="menulist">
           <li className="logo">
-            <a href="home">
+            <a href="/home">
               {menuActive && (
                 <div className="lg">
                   <img src={logo} alt="Logo" />

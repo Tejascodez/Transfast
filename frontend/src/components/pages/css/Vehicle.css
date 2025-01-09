@@ -1,28 +1,46 @@
-
+/* General Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+}
 
 /* Container for Vehicles Component */
 .vehicles-container {
-    max-width: 1200px;
-    margin: 20px auto;
+    /* max-width: 1200px; */
+    height: 1080px;
+    /* margin: 20px auto; */
     padding: 20px;
-    background-color: #fff;
+    /* background-color: #14161e;    */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+    /* border-radius: 8px; */
 }
 
+.title{
+    display: grid;
+    justify-content: center;
+    align-items: center;
+}
 /* Title */
-.vehicles-title {
+.title h3{
     font-size: 2em;
+    margin-left: 500px;
+    margin-right: 500px;
     margin-bottom: 20px;
     text-align: center;
+    align-items: center;
     color: #333;
 }
 
+
 /* Add Button */
 .vehicles-add-btn {
-    display: block;
+    display: grid;
     width: 200px;
     margin: 10px auto 30px;
+    /* margin-right: -700px; */
+    /* margin-left: 600px; */
     padding: 10px;
     background-color: #4caf50;
     color: white;
@@ -40,7 +58,7 @@
 .vehicles-list-title {
     font-size: 1.5em;
     margin-bottom: 20px;
-    color: #555;
+   color: white;
 }
 
 /* Vehicle Table */
@@ -82,7 +100,8 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.7);
+    /* background-color: blur; */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -129,6 +148,7 @@ vehicles-form table {
 }
 
 .vehicles-modal-content {
+    /* display: flex; */
     background: white;
     padding: 20px;
     border-radius: 8px;
@@ -139,11 +159,20 @@ vehicles-form table {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+.vehicles-modal-content h2{
+    align-items: center;
+    color: black;
+    font-size: 1.3rem;
+}
+
 .vehicles-modal-close-btn {
+    width: 50px;
     background: #f44336;
     color: white;
     border: none;
     padding: 10px;
+    margin-top: -40px;
+    margin-left: 410px;
     border-radius: 5px;
     cursor: pointer;
     float: right;
@@ -154,23 +183,25 @@ vehicles-form table {
 }
 
 /* Form Styles */
-.vehicles-form {
+.vehicles-form-row {
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
+    flex-direction: row;
 }
 
-.vehicles-form-group {
+.vehicles-form-row {
     margin-bottom: 15px;
 }
 
-.vehicles-form-group label {
+.vehicles-form-row label {
     margin-bottom: 5px;
+    color: black;
     font-weight: bold;
 }
 
-.vehicles-form-group input[type="text"],
-.vehicles-form-group input[type="date"],
-.vehicles-form-group input[type="file"] {
+.vehicles-form-row input[type="text"],
+.vehicles-form-row input[type="date"],
+.vehicles-form-row input[type="file"] {
     width: 100%;
     padding: 10px;
     border: 1px solid #ddd;
@@ -214,4 +245,41 @@ vehicles-form table {
 
 .vehicles-delete-btn:hover {
     background: #e31e1e;
+}
+.vehicles-grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.vehicles-card {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.vehicle-info p {
+    margin: 5px 0;
+}
+
+.vehicle-actions {
+    margin-top: 10px;
+}
+
+.vehicles-edit-btn, .vehicles-delete-btn {
+    padding: 8px 15px;
+    margin: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+.vehicles-edit-btn {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.vehicles-delete-btn {
+    background-color: #f44336;
+    color: white;
 }
