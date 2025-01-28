@@ -1,0 +1,201 @@
+.icici-cheque {
+    width: 202mm; /* Total width of cheque */
+    height: 92mm; /* Total height of cheque */
+    /* border: 1px solid #000; */
+    font-family: Arial, sans-serif;
+    /* background: url('../../../../assets/cancelledcheque.jpeg') no-repeat center center; */
+    background-color: white;
+    background-size: cover;
+    position: relative;
+    box-sizing: border-box;
+}
+
+
+.date {
+    position: absolute;
+    top: 7mm; /* Top margin for date */
+    left: 160mm; /* Left margin for date */
+    font-size: 0.15in;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.a-c-payee {
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    padding: 5px;
+    border-top: 3px solid black;
+    border-bottom: 3px solid black;
+    /* border: 1px solid #000; */
+    margin-top: 15px;
+    display: inline-block;
+    position: fixed;
+    /* top: 130px; */
+    /* top: 120px; */
+    /* left: 420px; */
+    /* right: 1300px; */
+    transform: rotate(-15deg);
+    background-color: none;
+}
+
+.signature {
+    position: relative;
+    text-align: right;
+    top: 200px;
+    right: 50px;
+    /* margin-top: 20px; */
+  }
+  
+  .signature img {
+    width: 200px;
+    height: auto;
+  }
+
+.payee-name {
+    position: absolute;
+    top: 20mm; /* Top margin for name */
+    left: 25mm; /* Left margin for name */
+    width: 135mm; /* Width for name */
+    font-size: 0.15in;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.amount-words {
+    position: absolute;
+    top: 27mm; /* Top margin for amount in words */
+    left: 35mm; /* Left margin for amount in words */
+    width: 120mm; /* Width for amount in words */
+    font-size: 0.15in;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.amount-numbers {
+    position: absolute;
+    top: 34mm; /* Top margin for amount in numbers */
+    left: 165mm; /* Left margin for amount in numbers */
+    width: 38mm; /* Width for amount in numbers */
+    font-size: 0.15in;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.date-spacing {
+    position: absolute;
+    top: 11.5mm; /* Top margin for date spacing */
+    left: 160mm;
+    font-size: 0.15in;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.rupees-line {
+    position: absolute;
+    top: 27mm; /* Align with amount words */
+    left: 35mm; /* Align with amount words */
+    width: calc(120mm - 8mm); /* Adjusted width for rupees line */
+    font-size: 0.15in;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    width: 400px;
+    text-align: left;
+}
+
+.modal-content h2 {
+    color: black;
+    margin-top: 0;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.form-row {
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.form-row label {
+    flex: 1;
+    margin-right: 10px;
+}
+
+.form-row input {
+    flex: 2;
+    padding: 8px;
+    width: 100%;
+}
+
+.form-row button {
+    padding: 10px 20px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.form-column{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+}
+
+
+label {
+    color: black;
+    margin-left: 15px;
+    font-size: 16px;
+  }
+  
+  input[type="radio"] {
+    margin-right: 5px;
+  }
+  
+
+/* .btn2 {
+    display: none;
+} */
+
+@media print {
+    button {
+        display: none;
+    }
+    table {
+        display: none;
+
+    }
+    /* Optionally, hide other elements like headers, footers, etc. */
+    h1 {
+        display: none;
+    }
+
+    .modal {
+        display: none; /* Ensure the modal is not printed */
+    }
+
+    .modal:active{
+        display: none;
+    }
+}

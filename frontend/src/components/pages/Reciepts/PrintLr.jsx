@@ -203,17 +203,17 @@ const PrintLr = () => {
                         </div>
         </div>
       </div>
-      <br />
+      {/* <br /> */}
       {/* <br />
       <br />
       <br /> */}
       <PrintLrDup />
-      <br />
+      {/* <br /> */}
       {/* <br />
       <br />
       <br /> */}
       <PrintLrBill />
-      <br />
+      {/* <br /> */}
       {/* <br />
       <br />
       <br /> */}

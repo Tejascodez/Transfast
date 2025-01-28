@@ -22,6 +22,10 @@ import CreateBill from './components/pages/Billing/CreateBill'
 import EmailSender from './components/pages/customers/EmailSender'
 import TotalBills from './components/pages/Billing/TotalBills'
 import Tracking from './components/fuels/Tracking'
+import DailyEntries from './components/pages/accounts/DailyEntries'
+import DashboardLayout from './components/main/DashboardLayoutBranding'
+import 'semantic-ui-css/semantic.min.css';
+
 
 function App() {
 
@@ -30,47 +34,59 @@ function App() {
     <>
    
 
-   
+
     <BrowserRouter>
+    <DashboardLayout/>  
         <Routes>
 
+
+           {/* Login */}
           <Route path="/" element={<Login/>}/>
-          
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path='/home' element={ <Home/>} />
-          <Route path='/dashboard' element={ <Home/>} />
-          <Route path='/createLR' element={ <CreateLR/>} />
-         
-          <Route path='/totallrs' element={<TotalLR/>}/>
-          <Route path='/customers' element={<Customer/>}/>
-          <Route path='/pendinglrs' element={<Pending/>}/>
-          <Route path='/lr' element={<LR/>}/>
+
+
+          {/* Home */}
+          <Route path='/dashboard' element={ <DashboardLayout/>} />
+
+
+          {/* LR */}
+      
+      
+   
+
           <Route path='/unbilled' element={<UnbilledLR/>}/>
           <Route path='/billdedlrs' element={<BilledLR/>}/>
 
-          <Route path='/accounts' element={<Accounts/>}/>
-          <Route path='/vehicle' element={<Vehicles/>}/>
+
+          {/* Accounts */}
+      
+          <Route path='/pos'  element={<POS/>}/>
+          <Route path = '/dailyentries'  element={<DailyEntries/>}/>
+
          
 
           <Route path='/printlr' element={ <PrintLr/>} />
  
           <Route path='/drivers' element={<Driver/>}/>
           <Route path='/receipt' element={<Receipt/>}/>
-          <Route path="/receipt-detail/:id" element={<ReceiptDetail />} />
-          <Route path="/fuels" element={<Fuels />} />
+    
 
           <Route path='/CreateChallan' element={<CreateChallan/>}/>
 
-          <Route path='/pos'  element={<POS/>}/>
+    
           <Route path='/createbill'  element={<CreateBill/>}/>
+       
+
+
+
+
           <Route path='/rt'  element={<RahulTransport/>}/>
 
-          <Route path='/home/email' element={<EmailSender/>} />
           <Route path='/totalbills' element={<TotalBills/>} />
 
 
-          <Route path = '/home/tracking' element={<Tracking/>}/>
+       
           
           
         </Routes> 

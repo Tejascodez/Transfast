@@ -1,7 +1,7 @@
     const express = require('express');
     const router = express.Router();
     const lorryReceiptController = require('../controllers/lrController');
-    const upload = require('../utils/multerConfig');
+    const upload = require('../middleware/multerConfig');
     const {uploadProof}  = require('../controllers/lrController');
     // Routes for lorry receipts
     router.post('/lorryReceipts', lorryReceiptController.addLorryReceipt);

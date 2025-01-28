@@ -1,67 +1,62 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import logo from '../../assets/Logo1.png';
+import DashboardLayout from './DashboardLayoutBranding';
 import './Home.css';
-import Sidebar from './Sidebar';
+
+// Reusable Grid Item Component
+const GridItem = ({ to, iconClass, label, onClick }) => {
+  const content = (
+    <>
+      <i className={iconClass}></i> {label}
+    </>
+  );
+
+  return to ? (
+    <Link to={to} className="grid-item">
+      {content}
+    </Link>
+  ) : (
+    <div className="grid-item" onClick={onClick}>
+      {content}
+    </div>
+  );
+};
 
 const Home = () => {
-  const [menuActive, setMenuActive] = useState(false);
-  const [activeMenuIndex, setActiveMenuIndex] = useState(0);
+  const [open, setOpen] = useState(false); // Sidebar state
 
-  const toggleSidebar = () => {
-    setMenuActive(!menuActive);
+  // Handle Create LR click
+  const handleCreateLR = () => {
+    alert('Opening modal to create LR...');
   };
+
+  // Grid items data
+  const gridItems = [
+    { to: null, iconClass: 'fas fa-file', label: 'Create LR', onClick: handleCreateLR },
+    { to: '/createchallan', iconClass: 'fas fa-clipboard-list', label: 'Create Challan' },
+    { to: '/expiring', iconClass: 'fas fa-list-alt', label: 'Expiring Lorry Bills' },
+    { to: '/pendinglrs', iconClass: 'fas fa-list-alt', label: 'Pending LR' },
+    { to: '/totallrs', iconClass: 'fas fa-file', label: 'Total LR' },
+    { to: '/rt', iconClass: 'fas fa-truck', label: 'Rahul Transport' },
+    { to: '/pallate', iconClass: 'fas fa-box', label: 'Pallate' },
+    { to: '/vehicle', iconClass: 'fas fa-car', label: 'Vehicles Docs' },
+  ];
 
   return (
     <div>
-  <Sidebar/>
-   
-      {/* Main Content */}
       <div className="content">
         <div className="grid-container">
-          {/* Create LR */}
-          <div className="grid-item" onClick={() => alert('Opening modal to create LR...')}>
-            <i className="fas fa-file"></i> Create LR
-          </div>
-
-          {/* Create Challan */}
-          <Link to="/createchallan" className="grid-item">
-            <i className="fas fa-clipboard-list"></i> Create Challan
-          </Link>
-
-          {/* Expiring Lorry Bills */}
-          <Link to="/expiring" className="grid-item">
-            <i className="fas fa-list-alt"></i> Expiring Lorry Bills
-          </Link>
-
-          {/* Pending LR */}
-          <Link to="/pendinglrs" className="grid-item">
-            <i className="fas fa-list-alt"></i> Pending LR
-          </Link>
-
-          {/* Total LR */}
-          <Link to="/totallrs" className="grid-item">
-            <i className="fas fa-file"></i> Total LR
-          </Link>
-
-          {/* Rahul Transport */}
-          <Link to="/rt" className="grid-item">
-            <i className="fas fa-truck"></i> Rahul Transport
-          </Link>
-
-          {/* Pallate */}
-          <Link to="/pallate" className="grid-item">
-            <i className="fas fa-box"></i> Pallate
-          </Link>
-
-          {/* Vehicle Docs */}
-          <Link to="/vehicle" className="grid-item">
-            <i className="fas fa-car"></i> Vehicles Docs
-          </Link>
+          {gridItems.map((item, index) => (
+            <GridItem
+              key={index}
+              to={item.to}
+              iconClass={item.iconClass}
+              label={item.label}
+              onClick={item.onClick}
+            />
+          ))}
         </div>
       </div>
-
-      {/* Ionicons Scripts */}
     </div>
   );
 };

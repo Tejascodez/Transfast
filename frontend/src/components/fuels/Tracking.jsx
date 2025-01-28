@@ -8,7 +8,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 // Set your Mapbox access token
 mapboxgl.accessToken = 'pk.eyJ1IjoidGVqYXNwYXRpbDk4NzM0IiwiYSI6ImNtNWw3N3JpejE1bTAycnF3NG8wNGxsaGIifQ.Ul9_BiaFULtYbfpzUPt5mw '; // Replace with your Mapbox access token
 
-const socket = io('http://localhost:8080'); // Backend server URL
+// const socket = io('http://localhost:8080'); // Backend server URL
 
 const Tracking = () => {
   const [locationInfo, setLocationInfo] = useState({

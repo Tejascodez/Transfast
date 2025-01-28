@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import Creatable from 'react-select/creatable';
 import Modal from 'react-modal';
 import axios from 'axios';
-import Select from 'react-select'; // Import react-select
-import './Fuels.css'; // Ensure this import is present
+import { Dropdown } from 'semantic-ui-react'; // Import Semantic UI Dropdown
+import './Fuels.css'; // Custom CSS
 
 Modal.setAppElement('#root');
 
@@ -18,17 +17,17 @@ const Fuels = () => {
     const [fuelInLiters, setFuelInLiters] = useState('');
     const [fuelCost, setFuelCost] = useState('');
     const [fuelData, setFuelData] = useState([]);
-    const [filteredData, setFilteredData] = useState([]); // State to hold filtered data
+    const [filteredData, setFilteredData] = useState([]);
     const [currentId, setCurrentId] = useState(null);
     const [date, setDate] = useState('');
-    const [searchTerm, setSearchTerm] = useState(''); // State for search term
+    const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
         const fetchFuelData = async () => {
             try {
                 const response = await axios.get('http://localhost:8080/api/fuels');
                 setFuelData(response.data);
-                setFilteredData(response.data); // Set filtered data initially to all data
+                setFilteredData(response.data);
             } catch (error) {
                 console.error('Error fetching fuel data:', error);
             }
@@ -56,24 +55,22 @@ const Fuels = () => {
         setFuelCost('');
     };
 
-    // Format the date to dd-mm-yyyy
     const formatDate = (date) => {
         if (date) {
             const d = new Date(date);
             const day = d.getDate().toString().padStart(2, '0');
-            const month = (d.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-indexed
+            const month = (d.getMonth() + 1).toString().padStart(2, '0');
             const year = d.getFullYear();
             return `${day}-${month}-${year}`;
         }
         return '';
     };
 
-    // Parse the inputted dd-mm-yyyy date into a standard date format
     const parseDate = (dateStr) => {
         const parts = dateStr.split('-');
         if (parts.length === 3) {
             const day = parts[0];
-            const month = parts[1] - 1; // Month is 0-indexed in JavaScript Date
+            const month = parts[1] - 1;
             const year = parts[2];
             return new Date(year, month, day);
         }
@@ -86,7 +83,7 @@ const Fuels = () => {
         const newFuelData = {
             vehicleNumber,
             driverName,
-            date: parseDate(date), // Convert the date from dd-mm-yyyy format
+            date: parseDate(date),
             from,
             to,
             oldReading: parseFloat(oldReading),
@@ -103,13 +100,14 @@ const Fuels = () => {
             } else {
                 response = await axios.post('http://localhost:8080/api/fuels', newFuelData);
             }
+
             console.log('Vehicle data posted successfully:', response);
 
             const fetchFuelData = async () => {
                 try {
                     const response = await axios.get('http://localhost:8080/api/fuels');
                     setFuelData(response.data);
-                    setFilteredData(response.data); // Update filtered data after adding/updating
+                    setFilteredData(response.data);
                 } catch (error) {
                     console.error("Error fetching data:", error);
                 }
@@ -136,7 +134,7 @@ const Fuels = () => {
     const handleEdit = (fuel) => {
         setVehicleNumber(fuel.vehicleNumber);
         setDriverName(fuel.driverName);
-        setDate(formatDate(fuel.date));  // Format date to dd-mm-yyyy for editing
+        setDate(formatDate(fuel.date));
         setFrom(fuel.from);
         setTo(fuel.to);
         setOldReading(fuel.oldReading);
@@ -151,7 +149,7 @@ const Fuels = () => {
         try {
             await axios.delete(`http://localhost:8080/api/fuels/${id}`);
             setFuelData(fuelData.filter(fuel => fuel._id !== id));
-            setFilteredData(filteredData.filter(fuel => fuel._id !== id)); // Update filtered data after deletion
+            setFilteredData(filteredData.filter(fuel => fuel._id !== id));
         } catch (error) {
             console.error('Error deleting fuel data:', error);
         }
@@ -168,12 +166,13 @@ const Fuels = () => {
             });
             setFilteredData(filtered);
         } else {
-            setFilteredData(fuelData); // Reset to original data if search is cleared
+            setFilteredData(fuelData);
         }
     };
 
     const searchOptions = fuelData.map((fuel, index) => ({
-        label: `Vehicle: ${fuel.vehicleNumber}, Driver: ${fuel.driverName}, Date: ${formatDate(fuel.date)}`,
+        key: index,
+        text: `Vehicle: ${fuel.vehicleNumber}, Driver: ${fuel.driverName}, Date: ${formatDate(fuel.date)}`,
         value: fuel.vehicleNumber
     }));
 
@@ -189,13 +188,14 @@ const Fuels = () => {
                 <button onClick={closeModal}>Close</button>
                 <div>
                     <label htmlFor="VehicleNo">Vehicle Number: </label>
-                    <Creatable
+                    <Dropdown
                         id="VehicleNo"
-                        name="VehicleNumber"
-                        value={{ label: vehicleNumber, value: vehicleNumber }}
-                        onChange={e => setVehicleNumber(e.value)}
-                        isClearable
-                        required
+                        placeholder="Select Vehicle"
+                        fluid
+                        selection
+                        value={vehicleNumber}
+                        options={searchOptions}
+                        onChange={(e, { value }) => setVehicleNumber(value)}
                     /><br />
 
                     <label htmlFor="DriverName">Driver Name:</label>
@@ -214,7 +214,7 @@ const Fuels = () => {
                         name='date'
                         placeholder='dd-mm-yyyy'
                         value={date || ''}
-                        onChange={e => setDate(e.target.value)} // Handle date input change
+                        onChange={e => setDate(e.target.value)}
                         required
                     />
                     <label htmlFor="from">From:</label>
@@ -276,11 +276,14 @@ const Fuels = () => {
             </Modal>
             <div className='stored-info'>
                 <p className='txt'>Tabular Information</p>
-                <Select
+                <Dropdown
+                    placeholder="Search..."
+                    fluid
+                    selection
                     options={searchOptions}
                     onChange={handleSearchChange}
-                    isClearable
-                    placeholder="Search..."
+                    value={searchTerm}
+                    clearable
                 />
                 <table className='tabular-storation'>
                     <thead>
@@ -326,6 +329,6 @@ const Fuels = () => {
             </div>
         </div>
     );
-}
+};
 
 export default Fuels;

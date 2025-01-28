@@ -1,0 +1,101 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+}
+
+.hed{
+    /* display: flex; */
+    /* justify-content: space-between; */
+    align-items: center;
+}
+
+.hed h2{
+    margin-left: 50%;
+    color: black;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+table th, table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+table th {
+    color: black;
+    background-color: #be19e3;
+    font-weight: bold;
+}
+
+table td{
+    /* background-color: black; */
+    color: black;
+}
+
+table tr:nth-child(even) {
+    background-color: #2b2a2a;
+}
+
+table tr:hover {
+    /* background-color: #605e5e; */
+}
+
+/* Modal Styles */
+.Modal {
+    position: fixed;
+    /* top: 50%;  */
+    /* left: 50%; */
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    width: 400px;
+    z-index: 1000;
+}
+
+.Modal .form-row {
+    margin-bottom: 15px;
+}
+
+.Modal label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.Modal input, .Modal select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.Modal button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.Modal button:hover {
+    background-color: #45a049;
+}
+
+/* Overlay Style */
+.Overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}

@@ -1,47 +1,53 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import logo from '../../assets/Logo1.png';
 import './login.css';
 
 function Login() {
-  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
-    e.preventDefault(); // Prevent form from refreshing the page
-    if (!name || !password) {
-      console.log("Please enter both name and password");
+    e.preventDefault();
+    setError('');
+    setLoading(true);
+  
+    if (!email || !password) {
+      setError('Please enter both email and password');
+      setLoading(false);
       return;
     }
-
-    // You can replace the URL below with your login API endpoint
+  
     try {
       const response = await fetch('http://localhost:8080/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          name,
-          password,
-        }),
+        body: JSON.stringify({ email, password }),
+        credentials: 'include', // Ensure the session cookie is sent
       });
-
+  
+      setLoading(false);
+  
       if (response.ok) {
-        const data = await response.json();
-        console.log("Login successful", data);
-        // Redirect or handle login success
-        localStorage.setItem('token', data.token);
+        console.log('Login successful');
+        navigate('/dashboard'); // Redirect to dashboard on successful login
       } else {
-        const errorData = await response.json();
-        console.log('Login error:', errorData);
-        // Handle error (show error message to the user)
+        const errorData = await response.text(); // Get response as text instead of JSON
+        console.error(errorData); // Log the actual response for debugging
+        setError(errorData || 'Login failed');
       }
     } catch (error) {
-      console.log("Error during login:", error);
+      console.error('Error during login:', error);
+      setError('Server error. Please try again later.');
+      setLoading(false);
     }
   };
-
+  
   return (
     <div className="gradient-form">
       <div className="container-login">
@@ -53,12 +59,13 @@ function Login() {
           <p>Please login to your account</p>
           <form onSubmit={handleLogin}>
             <div className="input-group">
-              <label htmlFor="name">Name</label>
+              <label htmlFor="email">Email</label>
               <input
-                id="name"
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
               />
             </div>
             <div className="input-group">
@@ -68,15 +75,17 @@ function Login() {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                required
               />
             </div>
+            {error && <p className="error-message">{error}</p>}
             <div className="actions">
-              <button className="btn" type="submit">
-                LOG IN
+              <button className="btn" type="submit" disabled={loading}>
+                {loading ? 'Logging In...' : 'LOG IN'}
               </button>
-              <a className="link" href="#!">
+              <Link to="/forgot-password" className="link">
                 Forgot password?
-              </a>
+              </Link>
             </div>
           </form>
           <div className="signup">

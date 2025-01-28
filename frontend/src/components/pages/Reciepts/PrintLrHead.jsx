@@ -14,7 +14,7 @@ const location = useLocation();
      return <div>No data available</div>;
    }
   return (
-  <div className="receipt">
+    <div className="receipt">
         <i className="i">(HeadOffice Copy)</i>
 
         <div className="all">
@@ -97,7 +97,7 @@ const location = useLocation();
                 </tr>
               </thead>
               <tbody>
-        {Array.from({ length: 7 }).map((_, index) => {
+        {Array.from({ length: 10 }).map((_, index) => {
           const _item = items[index]; // Check if item exists at this index
           return (
             <tr key={index}>
@@ -117,7 +117,7 @@ const location = useLocation();
               <tfoot>
                 <tr>
                   <th colSpan="2">TOTAL AMOUNT IN FIGURES:</th>
-                  <td colSpan="7">{formData.totalAmountInWords}</td>
+                  <td colSpan="7"></td>
                 </tr>
               </tfoot>
             </table>
@@ -132,42 +132,42 @@ const location = useLocation();
               
                     <tr>
                       <td>FREIGHT:</td>
-                      <td>{safeValue(formData.freight)}</td>
+                      <td></td>
                     </tr>
                     <tr>
                       <td>SUR CHARGES</td>
-                      <td>{safeValue(formData.surCharges)}</td>
+                      <td></td>
                     </tr>
                     <tr>
                       <td>STATISTICAL CHARGES</td>
-                      <td>{safeValue(formData.stasticalCharges)}</td>
+                      <td></td>
                     </tr>
                     <tr>
                       <td>HAMALI:</td>
-                      <td>{safeValue(formData.hamali)}</td>
+                      <td></td>
                     </tr>
                     <tr>
                       <td>DC CHARGES:</td>
-                      <td>{safeValue(formData.dcCharges)}</td>
+                      <td></td>
                     </tr>
                     <tr>
                       <td>DD CHARGES:</td>
-                      <td>{safeValue(formData.ddCharges)}</td>
+                      <td></td>
                     </tr>
                     <tr>
                       <td>HOLTING:</td>
-                      <td>{safeValue(formData.holting)}</td>
+                      <td></td>
                     </tr>
                     <tr>
                       <td>OTHER:</td>
-                      <td>{safeValue(formData.other)}</td>
+                      <td></td>
                     </tr>
              
               </tbody>
               <tfoot>
                 <tr>
                   <th>TOTAL</th>
-                  <td>{safeValue(formData.totalAmount)}</td>
+                  <td>______</td>
                 </tr>
               </tfoot>
             </table>

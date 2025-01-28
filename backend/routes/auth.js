@@ -1,30 +1,33 @@
 const express = require('express');
-const { signup } = require('../controllers/authControllers');
-const {login} = require('../controllers/authControllers');
-const {validateSignup}  =  require('../middleware/validation');
-const bcrypt = require('bcrypt');
+const User =  require('../models/User');
+const  {signup , login} = require('../controllers/authControllers');
+const passport  = require('passport')
 
 
 const router = express.Router();
 
-router.post('/login', login);
+router.post('/signup', signup);
+
+router.post('/login', (req, res, next) => {
+    passport.authenticate('local', (err, user, info) => {
+      if (err) {
+        return res.status(500).json({ message: 'Error during login', error: err });
+      }
+  
+      if (!user) {
+        return res.status(400).json({ message: info.message || 'Invalid credentials' });
+      }
+  
+      req.logIn(user, (err) => {
+        if (err) {
+          return res.status(500).json({ message: 'Error during login' });
+        }
+  
+        return res.status(200).json({ message: 'Login successful' });
+      });
+    })(req, res, next);
+  });
+  
 
 
-// // Route for getting all Lorry Receipts
-// router.get('/', lrrController.getLorryReceipts);
-
-// // Route for getting a Lorry Receipt by ID
-// router.get('/:id', lrrController.getLorryReceiptById);
-
-// // Route for updating a Lorry Receipt
-// router.put('/:id', lrrController.updateLorryReceipt);
-
-// // Route for deleting a Lorry Receipt
-// router.delete('/:id', lrrController.deleteLorryReceipt);
-
-
-
-// POST route for signup
-router.post('/signup', validateSignup, signup);
-
-module.exports = router;
+module.exports =  router;

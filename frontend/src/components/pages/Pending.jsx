@@ -132,18 +132,20 @@ const Pending = () => {
   return (
     <div className="lorry-receipt-pending">
       <header>
-        <img className='logo' src={logo} alt="Logo" />
+        {/* <img className='logo' src={logo} alt="Logo" /> */}
         <section className="company-info">
-          <h2>TRANSFAST CORPORATION</h2>
+        <h2>Pendinglrs</h2>
+          {/* <h2>TRANSFAST CORPORATION</h2>
           <address>
             448/B, NEAR MAHINDRA SHOWROOM, NH4 HIGHWAY, M.I.D.C. SHIROLI, KOLHAPUR, MAHARASHTRA, 416 122
-          </address>
-          <p>Contact Numbers: 9921296075 / 7385119339 / 9960909651</p>
+          </address> */}
+          {/* <p>Contact Numbers: 9921296075 / 7385119339 / 9960909651</p>
           <p>GST NUMBER: 27ANEPC0107H1ZO</p>
-          <p>Email: transfast.corporation@gmail.com</p>
+          <p>Email: transfast.corporation@gmail.com</p> */}
         </section>
       </header>
       <div className="pending-container">
+
         <div className="search-box-container">
           <img src={search_icon} className="search-icon" alt="Search" />
           <ReactSearchBox
@@ -187,4 +189,4 @@ const Pending = () => {
   );
 };
 
-export default Pending;
+export default Pending; 

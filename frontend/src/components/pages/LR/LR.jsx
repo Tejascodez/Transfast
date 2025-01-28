@@ -1,129 +1,89 @@
-import React, { useState } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import logo from '../../../assets/Logo1.png'
-import { FaFile, FaClipboardList, FaClock, FaListAlt, FaLifeRing, FaListUl, FaUserAstronaut, FaCar, FaMoneyBill } from 'react-icons/fa';
+import { 
+  FaClipboardList, 
+  FaFile,
+  FaListAlt,
+  FaBox,
+  FaUserAstronaut,
+  FaCar,
+  FaMoneyBill,
+  FaPlusSquare,
+  FaClipboardCheck,
+  FaTruckMoving
+} from 'react-icons/fa';
 import './LR.css';
 
-const LR = () => {
-  const [menuActive, setMenuActive] = useState(false);
-  const [activeMenuIndex, setActiveMenuIndex] = useState(0);
+const GridItem = ({ to, icon: Icon, label, onClick }) => {
+  const ariaLabel = `${label} navigation`;
+  const content = (
+    <div className="grid-content">
+      <div className="icon-container" aria-hidden="true">
+        <Icon className="grid-icon" />
+      </div>
+      <span className="grid-label">{label}</span>
+    </div>
+  );
 
-  const toggleSidebar = () => {
-    setMenuActive(!menuActive);
-  };
+  return to ? (
+    <Link
+      to={to}
+      className="grid-item"
+      aria-label={ariaLabel}
+      role="button"
+      tabIndex={0}
+    >
+      {content}
+    </Link>
+  ) : (
+    <div
+      className="grid-item"
+      onClick={onClick}
+      role="button"
+      aria-label={ariaLabel}
+      tabIndex={0}
+      onKeyPress={(e) => e.key === 'Enter' && onClick?.()}
+    >
+      {content}
+    </div>
+  );
+};
+
+GridItem.propTypes = {
+  to: PropTypes.string,
+  icon: PropTypes.elementType.isRequired,
+  label: PropTypes.string.isRequired,
+  onClick: PropTypes.func,
+};
+
+const LR = () => {
+  const gridItems = [
+    { id: 1, to: '/CreateLR', icon: FaPlusSquare, label: 'Create New LR' },
+    { id: 2, to: '/totallrs', icon: FaClipboardCheck, label: 'All LR' },
+    { id: 3, to: '/pendinglrs', icon: FaClipboardList, label: 'Pending LR' },
+    { id: 4, to: '/totallrs', icon: FaFile, label: 'Total LR' },
+    { id: 5, to: '/billdedlrs', icon: FaTruckMoving, label: 'Rahul Transport' },
+    { id: 6, to: '/unbilledlrs', icon: FaBox, label: 'Unbilled LR' },
+    { id: 7, to: '/pos', icon: FaListAlt, label: 'POS' },
+    { id: 8, to: '/customers', icon: FaUserAstronaut, label: 'Customers' },
+    { id: 9, to: '/vehicle', icon: FaCar, label: 'Vehicles and Drivers' },
+    { id: 10, to: '/eway', icon: FaMoneyBill, label: 'Eway Bills' },
+  ];
 
   return (
-    <div>
-      {/* Sidebar */}
-      <div className={`sidebar ${menuActive ? 'active' : ''}`}>
-        <ul className="menulist">
-          <li className="logo">
-            <a href="/home">
-              {menuActive && (
-                <div className="lg">
-                  <img src={logo} alt="Logo" />
-                </div>
-              )}
-              <div
-                className={`menuToggle ${menuActive ? 'active' : ''}`}
-                onClick={toggleSidebar}
-              ></div>
-            </a>
-          </li>
-
-          {/* Menu Items */}
-          {[
-            { text: 'HOME', icon: 'fa-home', bg: '#f44336', link: '/home' },
-            { text: 'LORRY RECEIPT', icon: 'fa-file-alt', bg: '#ffa117', link: '/lr' },
-            { text: 'ACCOUNTS', icon: 'fa-newspaper', bg: '#0fc70f', link: '/accounts' },
-            { text: 'CUSTOMERS', icon: 'fa-user-circle', bg: '#2196f3', link: '/customers' },
-            { text: 'DOCUMENTS', icon: 'fa-lock', bg: '#b145e9', link: '/documents' },
-            { text: 'VEHICLE', icon: 'fa-car', bg: '#e91e63', link: '/vehicle' },
-            { text: 'EMPLOYEES', icon: 'fa-users', bg: '#0ec68c', link: '/employees' },
-            { text: 'SETTINGS', icon: 'fa-cogs', bg: '#e6f704', link: '/settings' }
-          ].map((menuItem, index) => (
-            <li
-              key={index}
-              style={{ '--bg': menuItem.bg }}
-              className={activeMenuIndex === index ? 'active' : ''}
-              onClick={() => setActiveMenuIndex(index)}
-            >
-              <Link to={menuItem.link} onClick={toggleSidebar}>
-                <div className="icon">
-                  <i className={`fas ${menuItem.icon}`}></i>
-                </div>
-                <div className="text">{menuItem.text}</div>
-              </Link>
-            </li>
-          ))}
-
-          <div className="bottom">
-            <li style={{ '--bg': '#333' }}>
-              <a href="#">
-                <div className="icon">
-                  <div className="imgBx"></div>
-                </div>
-                <div className="text">Sanjeet</div>
-              </a>
-            </li>
-            <li style={{ '--bg': '#333' }}>
-              <a href="#">
-                <div className="icon">
-                  <ion-icon name="log-out-sharp"></ion-icon>
-                </div>
-                <div className="text">LOGOUT</div>
-              </a>
-            </li>
-          </div>
-        </ul>
-      </div>
- <nav>
-        <div className="navbar">
-          <ol>
-            <Link to={'./email'}>
-              <label htmlFor="tap1">EMAIL</label>
-            </Link>
-            <Link to={'./tracking'}>
-              <label htmlFor="tap2">TRACKING</label>
-            </Link>
-            <label htmlFor="tap3">REPORTS</label>
-            <label htmlFor="tap4">REQUESTS</label>
-            <label htmlFor="tap5">MODIFICATIONS</label>
-          </ol>
-        </div>
-      </nav>
-      {/* Main Content */}
+    <div className="lr-container">
       <div className="content">
-        <div className="grid-container-lr">
-          <div className="grid-item-lr">
-            <Link to="/CreateLR">
-              <FaFile /> Create New LR
-            </Link>
-          </div>
-          <Link to="/totallrs" className="grid-item-lr">
-            <FaClipboardList /> All LR's
-          </Link>
-          <Link to="/pendinglrs" className="grid-item-lr">
-            <FaClock /> Pending LR's
-          </Link>
-          <Link to="/billdedlrs" className="grid-item-lr">
-            <FaListAlt /> Billed LR's
-          </Link>
-          <Link to="/unbilled" className="grid-item-lr">
-            <FaLifeRing /> Unbilled LR's
-          </Link>
-          <Link to="/pos" className="grid-item-lr">
-            <FaListAlt /> POS
-          </Link>
-          <Link to="/customers" className="grid-item-lr">
-            <FaUserAstronaut /> Customers
-          </Link>
-          <Link to="/vehicle" className="grid-item-lr">
-            <FaCar /> Vehicles & Drivers
-          </Link>
-          <Link to="/" className="grid-item-lr">
-            <FaMoneyBill /> Eway Bills
-          </Link>
+        <div className="grid-container">
+          {gridItems.map((item) => (
+            <GridItem
+              key={item.id}
+              to={item.to}
+              icon={item.icon}
+              label={item.label}
+              onClick={item.onClick}
+            />
+          ))}
         </div>
       </div>
     </div>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate from react-router-dom
+import { useNavigate } from 'react-router-dom';
 import logo from '../../assets/Logo1.png';
 import './login.css';
 
@@ -7,55 +7,41 @@ function Signup() {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
-  const [mobile, setMobile] = useState('');
-  
-  // Initialize navigate hook
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+
   const navigate = useNavigate();
 
-  // Handle signup logic
   const handleSignup = async (e) => {
-    e.preventDefault();  // Prevent form submission
-  
-    // Validate all fields
-    if (!email || !name || !password || !mobile) {
-      console.log('Please fill all fields');
+    e.preventDefault();
+    setError('');
+    setSuccess('');
+
+    if (!email || !name || !password) {
+      setError('All fields are required');
       return;
     }
-  
-    // Mobile number validation (example for Indian mobile number)
-    const mobileRegex = /^[6-9]\d{9}$/; // Validates Indian mobile numbers starting with 6-9
-    if (!mobileRegex.test(mobile)) {
-      console.log('Please provide a valid mobile number');
-      return;
-    }
-  
+
     try {
       const response = await fetch('http://localhost:8080/api/auth/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          
-          email,
-          name,
-          password,
-          mobile,
-        }),
+        body: JSON.stringify({ email, name, password }),
       });
-  
+
       if (response.ok) {
-        console.log('Signup successful');
+        setSuccess('Signup successful! Redirecting to login...');
+        setTimeout(() => navigate('/login'), 2000);
       } else {
         const errorData = await response.json();
-        console.log('Signup error:', errorData);
+        setError(errorData.message || 'Signup failed. Please try again.');
       }
     } catch (error) {
-      console.log('Error during signup:', error);
+      setError('Error during signup. Please try again later.');
     }
   };
-  
-  
 
   return (
     <div className="gradient-form">
@@ -66,6 +52,8 @@ function Signup() {
             <h4> Welcome to TransFast!</h4>
           </div>
           <p>Create a new account</p>
+          {error && <p className="error">{error}</p>}
+          {success && <p className="success">{success}</p>}
           <div className="input-group">
             <label htmlFor="email">Email</label>
             <input
@@ -91,15 +79,6 @@ function Signup() {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-          <div className="input-group">
-            <label htmlFor="mobile">Mobile Number</label>
-            <input
-              id="mobile"
-              type="tel"
-              value={mobile}
-              onChange={(e) => setMobile(e.target.value)}
             />
           </div>
           <div className="actions">

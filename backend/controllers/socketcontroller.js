@@ -1,13 +1,13 @@
-const socketIO = require('socket.io');
+// const socketIO = require('socket.io');
 
-let io;
+// let io;
 
-const initSocket = (server) => {
-  io = socketIO(server);
-};
+// const initSocket = (server) => {
+//   io = socketIO(server);
+// };
 
-const sendLocationToFrontend = (vehicleId, locationData) => {
-  io.emit('locationUpdate', { vehicleId, locationData });
-};
+// const sendLocationToFrontend = (vehicleId, locationData) => {
+//   io.emit('locationUpdate', { vehicleId, locationData });
+// };
 
-module.exports = { initSocket, sendLocationToFrontend };
+// module.exports = { initSocket, sendLocationToFrontend };

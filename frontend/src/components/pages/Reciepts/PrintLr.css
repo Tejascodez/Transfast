@@ -1,179 +1,158 @@
+body {
+  background-color: none;
+}
 
-  
-  .all {
-    border: 1px solid black;
-  }
-  
-  .receipt {
-    width: 240mm;
-    height: 160mm;
-    max-width: 100%;
-    min-height: 100%;
-    margin: auto;
-    padding: 10px 15px;
-    background: #fff;
-    border: 1px solid #b7b5b5;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-  }
-  
-  .i {
-    display: flex;
-    justify-content: end;
-  }
-  
-  .header-lr {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 5px 10px;
-    border: 1px solid black;
-  }
-  
-  .logo-container {
-    flex: 1;
-  }
-  
-  .address {
-    flex: 3;
-    text-align: center;
-  }
-  
-  .logo-container img {
-    width: 100%;
-    height: 30%;
-  }
-  
-  .address h1 {
-    font-size: 28px;
-    margin: 0;
-  }
-  
-  .address p {
-    margin: 2px 0;
-    font-size: 10px;
-  }
-  
- .section-content{
-    margin: 0;
-    /* margin-top: -10px; */
-    padding: 0;
- }
-  
-  .lorry-info {
-    border: 1px solid black;
-    display: flex;
-    justify-content: space-between;
-    padding: 8px;
-    margin-top: 10px;
-  }
-  
-  .lorry-info p {
-    margin: 2px 0;
-    font-size: 12px;
-  }
-  
-  /* .invoice-details {
-    border: 1px solid black;
-    margin-top: 10px;
-    padding: 8px;
-  }
-  
-  .invoice-details p {
-    margin: 5px 0;
-    font-size: 12px;
-  } */
-  
-  table {
-   
-    width: 100%;
-    border: 1px solid black;
-    border-collapse: collapse;
-    margin-top: 0px;
-  }
-  
-.combine
-{
+.all {
+  border: 1px solid black;
+}
+
+.receipt {
+  width: 210mm; /* A5 landscape width */
+  height: 148mm; /* A5 landscape height */
+  max-width: 100%;
+  min-height: 100%;
+  margin: auto;
+  padding: 5px 10px;
+  background: #fff;
+  border: 1px solid #b7b5b5;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.i {
+  margin-top: -5px; 
+  font-size: 10px;
   display: flex;
+  justify-content: end;
 }
 
-.table-3{
+.header-lr {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid black;
+}
 
-  margin-top: 0px;
+.logo-container {
+  flex: 1;
+}
+
+.address {
+  flex: 3;
+  text-align: center;
+}
+
+.logo-container img {
   width: 100%;
+  height: auto;
+}
+
+.address h1 {
+  font-size: 20px; /* Adjusted font size for A5 */
+  margin: 0; 
+}
+
+.address p {
+  margin: 1px 0;
+  font-size: 8px;
+}
+
+.section-content{
+margin-top: -20px;
+
+}
+
+
+table {
+  width: 100%;
+
   border: 1px solid black;
   border-collapse: collapse;
-  margin-top: 0px;
-  padding: 0px;
 }
 
-.table-4
-{
+.combine {
+  display: flex;
+  margin-top: -21px;
+}
+
+.table-3, .table-4 {
+  border: 1px solid black;
+  border-collapse: collapse;
+  padding: 0px;
+  margin-top: 0px;
+  font-size: 10px; /* Reduced font size for A5 */
+}
+
+.table-4{
   flex: 2;
-  padding: 0px;
-  margin-top: -7px;
-  width: 100%;
-  border: 1px solid black;
-  border-collapse: collapse;
-  margin-top: 0px;
+}
+.table-4 th{
+padding:13px;
 }
 
-  table td,
-  table th {
-    border: 1px solid black;
-    text-align: center;
-    content: wrap;
-    padding:0px;
-    font-size: 14px;
-    justify-content: left;
+table td,
+table th {
+  background-color: #b7b5b5;
+  border: 1px solid black;
+  text-align: center;
+  padding: 2px; /* Reduced padding for A5 */
+  font-size: 10px; /* Reduced font size for A5 */
+  line-height: 1; /* Reduced line height */
+}
+
+table th {
+  color: black;
+  background-color: #f2f2f2;
+}
+
+table td {
+  color: black;
+  background-color: white;
+}
+
+.payment-details-rc {
+  /* margin-top: -42px; */
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid black;
+  font-size: 8px; /* Reduced font size for payment details */
+}
+
+.payment-details-rc p {
+  margin: 0;
+}
+
+@media print {
+
+  .address h1 {
+    visibility: visible !important;
+    display: block !important;
   }
-  
-  table th {
-    background-color: #f2f2f2;
-  }
-  
+
   .payment-details-rc {
-    margin-top: -1px;
-    display: flex;
-    justify-content: space-between;
-    border: 1px solid black;
-    /* padding:-10px; */
+    display: block !important;
+    visibility: visible !important;
   }
-  
-  .payment-details-rc p {
-    
+
+  body {
+    visibility: visible !important;
     margin: 0;
-    font-size: 12px;
+    padding: 10px;
   }
-  
-  @media print {
-    /* Ensure the payment-details-rc is included */
-    .payment-details-rc {
-        display: block !important;  /* Force payment-details-rc visibility */
-        visibility: visible !important;
-    }
 
-    /* Ensure no hidden content in the body */
-    body {
-        visibility: visible !important;
-        margin: 0;
-        padding: 10px;
-    }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    page-break-inside: avoid;
+  }
 
-    /* Fix for table and layout during print */
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        page-break-inside: avoid; /* Prevent page break inside tables */
-    }
+  th, td {
+    padding: 2px;
+    border: 1px solid #ddd;
+    text-align: left;
+  }
 
-    th, td {
-        padding: 8px;
-        border: 1px solid #ddd;
-        text-align: left;
-    }
-
-    .print-button {
-        display: none;
-    }
+  .print-button {
+    display: none;
+  }
 }

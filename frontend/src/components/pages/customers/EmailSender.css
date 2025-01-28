@@ -1,123 +1,43 @@
-/* EmailSender.css */
-
+/* Adjust the email container */
 .email-container {
-    max-width: 600px;
-    margin: 0 auto;
+    max-width: 600px; /* Reduced width */
+    margin: 0 auto; /* Center the container horizontally */
     padding: 20px;
-    background-color: #f8f9fa;
+    background-color: #f9f9f9;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    font-family: 'Arial', sans-serif;
+    margin-left: 10px;
 }
 
-.email-header {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #007bff;
-    font-size: 24px;
-    font-weight: bold;
+/* Modal custom styles */
+.modal-dialog {
+    max-width: 500px; /* Reduced size */
+    margin: 10% auto; /* Center the modal vertically */
 }
 
-.email-form {
-    display: flex;
-    flex-direction: column;
-}
-
-.email-form-group {
-    margin-bottom: 15px;
-}
-
-.email-label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-    color: #495057;
-}
-
+/* Style the button and input elements to make them consistent */
 .email-input,
 .email-textarea,
-.email-file-input {
+.email-button {
     width: 100%;
     padding: 10px;
-    border: 1px solid #ced4da;
-    border-radius: 4px;
-    box-sizing: border-box;
-    font-size: 16px;
-    color: #495057;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ddd;
 }
 
-.email-input-readonly {
-    background-color: #e9ecef;
-    cursor: not-allowed;
-}
-
-.email-textarea {
-    height: 150px;
-    resize: vertical;
-}
-
-.email-add-button,
 .email-button {
     background-color: #007bff;
-    color: #fff;
-    border: none;
-    padding: 10px 15px;
-    font-size: 16px;
-    border-radius: 4px;
+    color: white;
     cursor: pointer;
-    transition: background-color 0.3s;
 }
 
-.email-add-button:hover,
 .email-button:hover {
     background-color: #0056b3;
 }
 
-.email-list {
-    margin-bottom: 15px;
-}
-
-.email-list h4 {
+/* Additional styles */
+.select-all-checkbox,
+.email-checkbox {
     margin-bottom: 10px;
-    color: #007bff;
-}
-
-.email-list ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-.email-list li {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 5px 10px;
-    background-color: #e9ecef;
-    margin-bottom: 5px;
-    border-radius: 4px;
-}
-
-.email-remove-button {
-    background: none;
-    border: none;
-    color: #dc3545;
-    font-size: 18px;
-    cursor: pointer;
-    padding: 0;
-}
-
-.email-success {
-    color: #28a745;
-    text-align: center;
-    font-weight: bold;
-}
-
-.email-error {
-    color: #dc3545;
-    text-align: center;
-    font-weight: bold;
-}
-
-.creatable-select {
-    width: 100%;
 }

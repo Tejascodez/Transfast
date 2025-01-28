@@ -101,15 +101,10 @@ const TotalLR = () => {
     return (
         <div className="lorry-receipt">
             <header>
-                <img className='logo' src={logo} alt="Logo" />
+    
                 <section className="company-info">
-                    <h2>TRANSFAST CORPORATION</h2>
-                    <address>
-                        448/B, NEAR MAHINDRA SHOWROOM, NH4 HIGHWAY, M.I.D.C. SHIROLI, KOLHAPUR, MAHARASHTRA, 416 122
-                    </address>
-                    <p>Contact Numbers: 9921296075 / 7385119339 / 9960909651</p>
-                    <p>GST NUMBER: 27ANEPC0107H1ZO</p>
-                    <p>Email: transfast.corporation@gmail.com</p>
+                    <h2>Total LORRYS</h2>
+                
                 </section>
             </header>
             <div className="container-tlr">

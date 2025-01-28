@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const Vehicle = require('../controllers/vechicleController');
-const upload = require('../utils/multerConfig');
+const upload = require('../middleware/multerConfig');
 
 // Routes
 router.get('/', Vehicle.getAllVehicles);
